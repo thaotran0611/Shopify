@@ -1,0 +1,206 @@
+.product_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product_wrapper {
+  width: 80%;
+  margin-top: 160px;
+  margin-bottom: 40px;
+}
+
+.product_breadcrumbs {
+  padding: 32px 0;
+}
+
+.product_breadcrumbs .MuiLink-root {
+  color: #aaaab2;
+  text-decoration: none;
+}
+
+.product_content {
+  display: flex;
+}
+
+.product_sidebar {
+  width: 300px;
+  flex-shrink: 0;
+}
+
+.product_sidebar .MuiAccordion-root:before {
+  height: 0;
+}
+
+.product_sidebar .MuiAccordionSummary-root {
+  padding: 0;
+}
+
+.product_sidebar .MuiAccordionSummary-root .MuiTypography-root {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.product_sidebar .MuiAccordionDetails-root {
+  padding: 0;
+}
+
+.product_sidebar .MuiAccordion-root:nth-child(1) .MuiAccordionDetails-root .MuiFormControlLabel-root  {
+  font-size: 20px;
+  display: block;
+}
+
+.product_sidebar .MuiAccordion-root:nth-child(3) .MuiAccordionDetails-root .MuiFormControlLabel-root  {
+  font-size: 20px;
+  display: block;
+}
+
+.product_sidebar .MuiAccordion-root:nth-child(5) .MuiAccordionDetails-root .MuiToggleButton-root  {
+  font-weight: 700;
+  border: 1px solid #a8abb2;
+  border-radius: 0;
+  padding: 10px 15px;
+}
+
+.product_sidebar .MuiAccordion-root:nth-child(9) .MuiAccordionDetails-root > .MuiTypography-root  {
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.product_sidebar .MuiAccordion-root:nth-child(9) .MuiAccordionDetails-root > .MuiSlider-root  {
+  color: #0f172a;
+}
+
+.product_sidebar .MuiAccordion-root:nth-child(9) .MuiAccordionDetails-root > .MuiSlider-root .MuiSlider-valueLabel  {
+  display: none;
+}
+
+.product_display {
+  flex-grow: 1;
+  padding: 16px 32px;
+}
+
+.product_display > .MuiStack-root:nth-child(1) {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  margin-right: 8px;
+}
+
+.product_display > .MuiStack-root:nth-child(1) .MuiTypography-root {
+  font-weight: 600;
+}
+
+.product_display > .MuiStack-root:nth-child(1) .MuiTextField-root {
+  padding-left: 8px;
+  font-weight: 700;
+}
+
+.product_display > .MuiStack-root:nth-child(1) .MuiInputAdornment-root {
+  padding-left: 8px;
+}
+
+.product_display > .MuiStack-root:nth-child(1) .MuiInputAdornment-root .MuiTypography-root {
+  font-weight: 700;
+}
+
+.product_display > .MuiStack-root:nth-child(1) .MuiAutocomplete-root {
+  width: 350px;
+}
+
+.product_display > .MuiBox-root:nth-child(2) {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.product_display > .MuiBox-root:nth-child(2) {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.product_item {
+  width: 280px;
+  height: 350px;
+  margin-top: 16px;
+}
+
+.product_item > .MuiBox-root {
+  position: absolute;
+  margin-left: 4px;
+  margin-top: 4px;
+}
+
+.product_item > .MuiBox-root .MuiTypography-root:nth-child(1) {
+  color: #fff;
+  background-color: #000;
+  margin-bottom: 8px;
+  text-align: center;
+  font-size: 15px;
+  padding: 0 8px;
+}
+
+.product_item > .MuiBox-root .MuiTypography-root:nth-child(2) {
+  color: #fff;
+  background-color: #f33e5d;
+  text-align: center;
+  font-size: 15px;
+}
+
+.product_item > .MuiCardMedia-root {
+  width: 100%;
+  height: 280px;
+}
+
+.product_item > .MuiCardContent-root {
+  padding-top: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.product_item > .MuiCardContent-root .MuiTypography-root:nth-child(1) {
+  font-weight: 600;
+  font-size: 18px;
+  padding-top: 8px;
+}
+
+.product_item > .MuiCardContent-root .MuiStack-root:nth-child(2) {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+.product_item > .MuiCardContent-root .MuiStack-root:nth-child(2) .MuiTypography-root:nth-child(1) {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 0.8;
+}
+
+.product_item > .MuiCardContent-root .MuiStack-root:nth-child(2) .MuiTypography-root:nth-child(2) {
+  text-decoration: line-through;
+  color: #f5647d;
+  font-size: 16px;
+  line-height: 1.8;
+  vertical-align: middle;
+  padding-top: 1px;
+  margin-left: -32px;
+}
+
+.product_item > .MuiCardContent-root .MuiStack-root:nth-child(2) .MuiRating-root:nth-child(3) {
+  padding-top: 4px;
+}
+
+.product_display > .MuiStack-root:nth-child(3) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 32px;
+}

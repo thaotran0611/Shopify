@@ -1,0 +1,218 @@
+.homepage_main-img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.homepage_main-img .MuiBox-root {
+  width: 80%;
+  margin-top: 176px;
+}
+
+.homepage_main-img .MuiCardMedia-root {
+  height: 70vh
+}
+
+.homepage_best-seller {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 120px;
+  flex-direction: row;
+}
+
+.homepage_best-seller_ctn {
+  width: 80%;
+}
+
+.homepage_best-seller_ctn > .MuiTypography-root {
+  font-size: 40px;
+  font-weight: 700;
+}
+
+.homepage_best-seller_ctn > .MuiStack-root {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: row;
+} 
+
+.homepage_item {
+  width: 280px;
+  height: 350px;
+  margin-top: 16px;
+}
+
+.homepage_item > .MuiBox-root:nth-child(1) {
+  position: absolute;
+  margin-left: 4px;
+  margin-top: 4px;
+}
+
+.homepage_item > .MuiBox-root:nth-child(1) .MuiTypography-root:nth-child(1) {
+  color: #fff;
+  background-color: #000;
+  margin-bottom: 8px;
+  text-align: center;
+  font-size: 15px;
+  padding: 0 8px;
+}
+
+.homepage_item > .MuiBox-root:nth-child(1) .MuiTypography-root:nth-child(2) {
+  color: #fff;
+  background-color: #f33e5d;
+  text-align: center;
+  font-size: 15px;
+}
+
+.homepage_item > .MuiCardMedia-root:nth-child(2) {
+  width: 100%;
+  height: 280px;
+}
+
+.homepage_item > .MuiCardContent-root:nth-child(3) {
+  padding-top: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.homepage_item > .MuiCardContent-root:nth-child(3) .MuiTypography-root:nth-child(1) {
+  padding-top: 8px;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.homepage_item > .MuiCardContent-root:nth-child(3) .MuiStack-root:nth-child(2) {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+.homepage_item > .MuiCardContent-root:nth-child(3) .MuiStack-root:nth-child(2) .MuiTypography-root:nth-child(1) {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 0.8;
+}
+
+.homepage_item > .MuiCardContent-root:nth-child(3) .MuiStack-root:nth-child(2) .MuiTypography-root:nth-child(2) {
+  text-decoration: line-through;
+  color: #f5647d;
+  font-size: 16px;
+  line-height: 1.8;
+  vertical-align: middle;
+  padding-top: 1px;
+  margin-left: -32px;
+}
+
+.homepage_item > .MuiCardContent-root:nth-child(3) .MuiStack-root:nth-child(2) .MuiRating-root:nth-child(3) {
+  padding-top: 4px;
+}
+
+.homepage_middle-img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.homepage_middle-img .MuiBox-root {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  width: 80%;
+  margin-top: 80px;
+}
+
+.homepage_middle-img .MuiBox-root .MuiCard-root {
+  width: 49%;
+}
+
+.homepage_middle-img .MuiBox-root .MuiCard-root .MuiCardMedia-root {
+  height: 40vh;
+}
+
+.homepage_newly-added {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 120px;
+}
+
+.homepage_newly-added_ctn {
+  width: 80%;
+}
+
+.homepage_newly-added_ctn > .MuiTypography-root:nth-child(1) {
+  font-size: 40px;
+  font-weight: 700;
+}
+
+.homepage_newly-added_ctn > .MuiStack-root:nth-child(2) {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.homepage_explore {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 120px;
+}
+
+.homepage_explore_ctn {
+  width: 80%;
+}
+
+.homepage_explore_ctn > .MuiTypography-root:nth-child(1) {
+  font-size: 40px;
+  font-weight: 700;
+}
+
+.homepage_explore_ctn > .MuiGrid-root:nth-child(2) .MuiCardMedia-root {
+  border: 1px solid #f3f4f6;
+  height: 20vh;
+}
+
+.homepage_banner {
+  width: 100%;
+  margin-top: 80px;
+}
+
+.homepage_banner .MuiCardMedia-root {
+  height: 100vh;
+  border: 1px solid #f3f4f6;
+}
+
+.homepage_follow {
+  margin: 80px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.homepage_follow {
+  margin: 80px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.media_btn {
+  background-color: inherit;
+  color: #000;
+  font-weight: 600;
+  font-size: 30px;
+  text-transform: none;
+}
+
+.media_btn:hover {
+  color: #fff;
+}

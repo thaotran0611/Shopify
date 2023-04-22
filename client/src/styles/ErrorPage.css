@@ -1,0 +1,28 @@
+.error_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.error_grid .MuiGrid-root .MuiTypography-root:nth-child(2) {
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.error_grid .MuiGrid-root .MuiTypography-root:nth-child(3) {
+  margin-top: 16px;
+}
+
+.error_btn {
+  color: #fff;
+  background-color: #000;
+  width: 100%;
+  padding: 12px;
+  margin-top: 32px;
+}
+
+.error_img {
+  width: 500px;
+  height: 250px;
+}
