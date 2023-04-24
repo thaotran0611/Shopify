@@ -20,7 +20,27 @@ if ($url['3'] == 'all' and $method == 'GET') {
         echo json_encode(['msg' => $e->getMessage()]);
         http_response_code($e->getStatusCode());
     }
-} //api/products/detail?code=
+} // api/products/categories
+elseif ($url['3'] == 'categories' and $method == 'GET') {
+    try {
+        echo ProductController::getAllCategories();
+        http_response_code(200);
+    } catch (CustomError $e) {
+        echo json_encode(['msg' => $e->getMessage()]);
+        http_response_code($e->getStatusCode());
+    }
+}
+// api/products/collections
+elseif ($url['3'] == 'collections' and $method == 'GET') {
+    try {
+        echo ProductController::getAllCollection();
+        http_response_code(200);
+    } catch (CustomError $e) {
+        echo json_encode(['msg' => $e->getMessage()]);
+        http_response_code($e->getStatusCode());
+    }
+}
+//api/products/detail?code=
 elseif ($url['3'] == 'detail' and $method == 'GET') {
     try {
         echo ProductController::getProduct($params['code']);
@@ -51,7 +71,8 @@ elseif ($url['3'] == 'filter_pro' and $method == 'GET') {
         echo json_encode(['msg' => $e->getMessage()]);
         http_response_code($e->getStatusCode());
     }
-} elseif ($url['3'] == 'filter_categories' and $method == 'GET') {
+} //api/products/filter_categories?id=1
+elseif ($url['3'] == 'filter_categories' and $method == 'GET') {
     try {
         echo ProductController::filter_categories($params['id']);
         http_response_code(200);
@@ -59,7 +80,8 @@ elseif ($url['3'] == 'filter_pro' and $method == 'GET') {
         echo json_encode(['msg' => $e->getMessage()]);
         http_response_code($e->getStatusCode());
     }
-} elseif ($url['3'] == 'filter_collection' and $method == 'GET') {
+} //api/products/filter_collection?id=1
+elseif ($url['3'] == 'filter_collection' and $method == 'GET') {
     try {
         echo ProductController::filter_collection($params['id']);
         http_response_code(200);

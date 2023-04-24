@@ -1,6 +1,6 @@
 <?php
-    include_once(dirname(__FILE__) . '/../config/db.php');
-    include_once(dirname(__FILE__) . '/../middleware/error.php');
+include_once(dirname(__FILE__) . '/../config/db.php');
+include_once(dirname(__FILE__) . '/../middleware/error.php');
 
 
 class Product
@@ -13,7 +13,8 @@ class Product
         $this->conn = $db->connect();
     }
 
-    public function getAllProduct(){
+    public function getAllProduct()
+    {
         try {
             $query = "SELECT distinct(CODE), NAME, PRICE, SALEOFF,IMG1,IMG2,IMG3,IMG4 FROM product;";
             $stmt = $this->conn->prepare($query);
@@ -23,7 +24,8 @@ class Product
             throw new InternalServerError('Server Error !');
         }
     }
-    public function getProduct($id){
+    public function getProduct($id)
+    {
         try {
             $query = "SELECT CODE, NAME, MATERIAL, DESCRIPTION,PRICE, SALEOFF,IMG1,IMG2,IMG3,IMG4, GROUP_CONCAT(distinct(SIZE)) AS SIZE, GROUP_CONCAT(distinct(COLOR)) AS COLOR 
             FROM ltw.product 
@@ -36,41 +38,41 @@ class Product
             throw new InternalServerError('Server Error !');
         }
     }
-    public function filter_pro($info){
+    public function filter_pro($info)
+    {
         try {
             $first = True;
             $query = "SELECT distinct(CODE), NAME, PRICE, SALEOFF,IMG1,IMG2,IMG3,IMG4 FROM Product WHERE";
-            if($info['size']!=''){
+            if ($info['size'] != '') {
                 $size = $info['size'];
-                if($first == False){
-                    $query = $query." AND";
+                if ($first == False) {
+                    $query = $query . " AND";
                 }
-                $query = $query." SIZE='$size'";
+                $query = $query . " SIZE='$size'";
                 $first = False;
             }
-            if($info['color']!=''){
+            if ($info['color'] != '') {
                 $color = $info['color'];
-                if($first == False){
-                    $query = $query.' AND';
+                if ($first == False) {
+                    $query = $query . ' AND';
                 }
-                $query = $query." COLOR ='$color'";
+                $query = $query . " COLOR ='$color'";
                 $first = False;
-                
             }
             // 1: < 300 000 , 2: 300 000 -> 500 000, 3: >500 000
-            if($info['price']!=''){
+            if ($info['price'] != '') {
                 $price = $info['price'];
-                if($first == False){
-                    $query = $query." AND";
+                if ($first == False) {
+                    $query = $query . " AND";
                 }
-                if($price == '1'){
-                    $query = $query." PRICE<300000";
+                if ($price == '0') {
+                    $query = $query . " PRICE<300000";
                 }
-                if($price == '2'){
-                    $query = $query." PRICE>=300000 AND PRICE <= 500000";
+                if ($price == '1') {
+                    $query = $query . " PRICE>=300000 AND PRICE <= 500000";
                 }
-                if($price == '3'){
-                    $query = $query." PRICE>500000";
+                if ($price == '2') {
+                    $query = $query . " PRICE>500000";
                 }
                 $first = False;
             }
@@ -82,7 +84,8 @@ class Product
         }
     }
 
-    public function filter_categories($id){
+    public function filter_categories($id)
+    {
         try {
             $query = "SELECT distinct(CODE), NAME, PRICE, SALEOFF,IMG1,IMG2,IMG3,IMG4 FROM product
             WHERE CATEGORY_ID = '$id';";
@@ -94,7 +97,8 @@ class Product
         }
     }
 
-    public function filter_collection($id){
+    public function filter_collection($id)
+    {
         try {
             $query = "SELECT distinct(CODE), NAME, PRICE, SALEOFF,IMG1,IMG2,IMG3,IMG4 
             FROM product join in_collection on code=ProductCode
@@ -107,8 +111,9 @@ class Product
         }
     }
 
-    
-    public function delete($id){
+
+    public function delete($id)
+    {
         try {
             $query = "DELTE FROM Product WHERE CODE='$id'";
             $stmt = $this->conn->prepare($query);
@@ -118,8 +123,26 @@ class Product
         }
     }
 
-
-    public function edit(){}
-
-
+    public function getAllCategories()
+    {
+        try {
+            $query = "SELECT ID, NAME from categories";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            return $stmt->get_result();
+        } catch (mysqli_sql_exception $e) {
+            throw new InternalServerError('Server Error !');
+        }
+    }
+    public function getAllCollection()
+    {
+        try {
+            $query = "SELECT ID, NAME from `collection`";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            return $stmt->get_result();
+        } catch (mysqli_sql_exception $e) {
+            throw new InternalServerError('Server Error !');
+        }
+    }
 }

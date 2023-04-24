@@ -1,6 +1,7 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
+  Button,
   Box,
   Stack,
   Breadcrumbs,
@@ -28,81 +29,140 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import axios from 'axios';
 import '../../styles/ProductPage.css';
-
-const marks = [
-  {
-    value: 0,
-    label: '5$',
-  },
-  {
-    value: 100,
-    label: '499$',
-  },
-];
-
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 export const ProductPage = () => {
-  const [price, setPrice] = useState(300);
-  const [size, setSize] = useState('S');
+  const [price, setPrice] = useState(0);
+  const [size, setSize] = useState('');
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [collections, setCollections] = useState([]);
+  const [open, setOpen] = useState(false);
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
+  useEffect(() => {
+    getProducts().then((data) => setProducts(data));
+    getCategories().then((data) => setCategories(data));
+    getCollections().then((data) => setCollections(data));
+  }, []);
+  const getProducts = async () => {
+    return axios
+      .get('http://localhost:8080/api/products/all')
+      .then((res) => res.data);
+  };
+  const getCategories = async () => {
+    return axios
+      .get('http://localhost:8080/api/products/categories')
+      .then((res) => res.data);
+  };
+  const getCollections = async () => {
+    return axios
+      .get('http://localhost:8080/api/products/collections')
+      .then((res) => res.data);
+  };
+  const getCategoriesId = async (id) => {
+    return axios
+      .get(`http://localhost:8080/api/products/filter_categories?id=${id}`)
+      .then((res) => res.data);
+  };
+  const getCollectionId = async (id) => {
+    return axios
+      .get(`http://localhost:8080/api/products/filter_collection?id=${id}`)
+      .then((res) => res.data);
+  };
+  const handleCategories = (id) => {
+    getCategoriesId(id)
+      .then((data) => setProducts(data))
+      .catch((err) => {
+        setProducts([]);
+        setOpen(true);
+      });
+  };
+  const handleCollection = (id) => {
+    getCollectionId(id)
+      .then((data) => setProducts(data))
+      .catch((err) => {
+        setProducts([]);
+        setOpen(true);
+      });
+  };
+  const handleFilter = () => {
+    if (price == 0 && size != '') {
+      axios
+        .get(`http://localhost:8080/api/products/filter_pro?size=${size}`)
+        .then((res) => res.data)
+        .then((data) => setProducts(data))
+        .catch((err) => {
+          setProducts([]);
+          setOpen(true);
+        });
+    } else if (size == '' && price != 0) {
+      axios
+        .get(`http://localhost:8080/api/products/filter_pro?price=${price}}`)
+        .then((res) => res.data)
+        .then((data) => setProducts(data))
+        .catch((err) => {
+          setProducts([]);
+          setOpen(true);
+        });
+    } else {
+      axios
+        .get(
+          `http://localhost:8080/api/products/filter_pro?size=${size}&&price=${price}`
+        )
+        .then((res) => res.data)
+        .then((data) => setProducts(data))
+        .catch((err) => {
+          setProducts([]);
+          setOpen(true);
+        });
+    }
+  };
   const navigate = useNavigate();
   const handleSize = (e) => {
     setSize(e.target.value);
   };
 
-  function handlePrice(value) {
-    if (value === 0) {
-      setPrice(5);
-      return;
-    }
-    if (value === 100) {
-      setPrice(499);
-      return;
-    }
-    setPrice(value * 4);
-  }
-
-  function handleColor(value) {
-    if (value === 'Blue') return 'secondary';
-    if (value === 'White') return '#D3D3D3';
-    if (value === 'Pink') return '#f59c96';
-    if (value === 'Green') return '#09a35b';
-    if (value === 'Red') return '#ce1211';
-    return '#000';
-  }
-
   const RenderProduct = () => {
-    let list = [];
-    for (let i = 0; i < 20; i++) {
-      list.push(
-        <Card className="product_item" elevation={0} key={i}>
-          <Box>
-            <Typography>New</Typography>
-            <Typography>-20%</Typography>
-          </Box>
-          <CardMedia
-            component="img"
-            image="https://picsum.photos/1900/800"
-            alt="unsplash img"
-            onClick={() => navigate('/product/detail')}
-          />
-          <CardContent>
+    const productList = products.map((product, index) => (
+      <Card className="product_item" elevation={0} key={index}>
+        <Box>
+          <Typography>New</Typography>
+          <Typography>-20%</Typography>
+        </Box>
+        <CardMedia
+          component="img"
+          image={product.IMG1}
+          alt="unsplash img"
+          sx={{ objectFit: 'contain', backgroundColor: '#e3e3e3' }}
+          onClick={() => navigate('/product/detail')}
+        />
+        <CardContent>
+          <Typography variant="h6" component="div">
+            {product.NAME}
+          </Typography>
+          <Stack>
             <Typography variant="h6" component="div">
-              Luiz Vitton Lace Suit
+              ${product.PRICE}
             </Typography>
-            <Stack>
-              <Typography variant="h6" component="div">
-                $180.00
-              </Typography>
-              <Typography variant="h6" component="div">
-                $210.90
-              </Typography>
-              <Rating size="small"></Rating>
-            </Stack>
-          </CardContent>
-        </Card>
-      );
-    }
-    return list;
+            <Typography variant="h6" component="div">
+              ${product.PRICE * 1.2}
+            </Typography>
+            <Rating
+              size="small"
+              defaultValue={Math.random() * (5 - 3) + 3}></Rating>
+          </Stack>
+        </CardContent>
+      </Card>
+    ));
+    return productList;
   };
 
   return (
@@ -123,32 +183,52 @@ export const ProductPage = () => {
                   <Typography>Categories</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  {['Tops(64)', 'Dresses(54)', 'T-shirts(29)', 'Jeans(18)'].map(
-                    (text, index) => (
+                  <RadioGroup
+                    aria-labelledby="demo-radio-buttons-group-label"
+                    defaultValue="Blue"
+                    name="radio-buttons-group">
+                    {categories.map((category, index) => (
                       <FormControlLabel
-                        key={text}
-                        label={text}
-                        control={<Checkbox />}
+                        key={category.ID}
+                        value={category.ID}
+                        label={category.NAME}
+                        control={
+                          <Link
+                            component="button"
+                            sx={{ ml: 2, mb: 5 }}
+                            onClick={() => handleCategories(category.ID)}
+                          />
+                        }
                       />
-                    )
-                  )}
+                    ))}
+                  </RadioGroup>
                 </AccordionDetails>
               </Accordion>
               <Divider />
               <Accordion elevation={0} defaultExpanded={true}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography>Brand</Typography>
+                  <Typography>Collections</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  {['URBANIC', 'BoStreet', 'Tokyo', 'Vero', 'H&M'].map(
-                    (text) => (
+                  <RadioGroup
+                    aria-labelledby="demo-radio-buttons-group-label"
+                    defaultValue="Blue"
+                    name="radio-buttons-group">
+                    {collections.map((colection, index) => (
                       <FormControlLabel
-                        key={text}
-                        label={text}
-                        control={<Checkbox />}
+                        key={colection.ID}
+                        value={colection.ID}
+                        label={colection.NAME}
+                        control={
+                          <Link
+                            component="button"
+                            sx={{ ml: 2, mb: 5 }}
+                            onClick={() => handleCollection(colection.ID)}
+                          />
+                        }
                       />
-                    )
-                  )}
+                    ))}
+                  </RadioGroup>
                 </AccordionDetails>
               </Accordion>
               <Divider />
@@ -176,49 +256,49 @@ export const ProductPage = () => {
               <Divider />
               <Accordion elevation={0} defaultExpanded={true}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography>Color</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <RadioGroup
-                    aria-labelledby="demo-radio-buttons-group-label"
-                    defaultValue="Blue"
-                    name="radio-buttons-group">
-                    {['Blue', 'Black', 'White', 'Pink', 'Green', 'Red'].map(
-                      (text) => (
-                        <FormControlLabel
-                          value={text}
-                          control={<Radio />}
-                          label={text}
-                          sx={{
-                            '& .Mui-checked': {
-                              color: handleColor(text),
-                            },
-                          }}
-                        />
-                      )
-                    )}
-                  </RadioGroup>
-                </AccordionDetails>
-              </Accordion>
-              <Divider />
-              <Accordion elevation={0} defaultExpanded={true}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                   <Typography>Price</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <Typography>$5 - ${price}</Typography>
-                  <Slider
-                    aria-label="Always visible"
-                    step={1}
-                    marks={marks}
-                    valueLabelDisplay="on"
-                    defaultValue={75}
-                    disableSwap
-                    onChange={(e) => handlePrice(e.target.value)}
-                  />
+                  <RadioGroup>
+                    {[
+                      'Nhỏ hơn 300.000',
+                      'Từ 300.000 - 500.000',
+                      'Lớn hơn 500.000',
+                    ].map((text, index) => (
+                      <FormControlLabel
+                        key={index}
+                        value={index}
+                        label={text}
+                        control={<Radio />}
+                        onChange={(e) => {
+                          setPrice(e.target.value);
+                        }}
+                      />
+                    ))}
+                  </RadioGroup>
                 </AccordionDetails>
               </Accordion>
+              <Button
+                variant="contained"
+                size="large"
+                endIcon={<FilterAltIcon />}
+                sx={{ width: '100%', mt: 3, backgroundColor: 'black' }}
+                onClick={() => handleFilter()}>
+                Filter
+              </Button>
             </Stack>
+            <Snackbar
+              open={open}
+              autoHideDuration={6000}
+              onClose={handleClose}
+              anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
+              <Alert
+                onClose={handleClose}
+                severity="error"
+                sx={{ width: '100%' }}>
+                Product not found!
+              </Alert>
+            </Snackbar>
             <Box className="product_display" component="main">
               <Stack>
                 <Typography>Showing 1-16 of 96 products</Typography>
