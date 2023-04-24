@@ -7,6 +7,8 @@ import { HomePage } from './pages/General/HomePage';
 import { LoginPage } from './pages/General/LoginPage';
 import { SignUpPage } from './pages/General/SignUpPage';
 import { ProductPage } from './pages/Customer/ProductPage';
+import { MyOrderPage } from './pages/Customer/MyOrderPage';
+import { OrderDetailPage } from './pages/Customer/OrderDetailPage';
 import { ProductDetailPage } from './pages/Customer/ProductDetailPage';
 import CartPage from './pages/Customer/CartPage';
 import { ErrorPage } from './pages/General/ErrorPage';
@@ -27,6 +29,9 @@ function App() {
         <Route path="/product/detail" element={<ProductDetailPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/payment" element={<PaymentPage />} />
+        <Route path="/payment" element={<PaymentPage />} />
+        <Route path="/order" element={<MyOrderPage />} />
+        <Route path="/order/detail" element={<OrderDetailPage />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
       <Footer />
