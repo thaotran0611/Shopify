@@ -142,7 +142,7 @@ export const ProductPage = () => {
           image={product.IMG1}
           alt="unsplash img"
           sx={{ objectFit: 'contain', backgroundColor: '#e3e3e3' }}
-          onClick={() => navigate('/product/detail')}
+          onClick={() => navigate(`/product/detail?code=${product.CODE}`)}
         />
         <CardContent>
           <Typography variant="h6" component="div">

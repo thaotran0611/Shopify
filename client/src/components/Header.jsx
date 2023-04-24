@@ -54,7 +54,7 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
                 ),
               }}
               sx={{
-                width: '50%',
+                width: '30%',
                 backgroundColor: '#f6f6f6',
                 mr: 2,
               }}
@@ -65,7 +65,7 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
               <Button
                 variant="contained"
                 startIcon={
-                  <Badge badgeContent={5} color="error">
+                  <Badge badgeContent={0} color="error">
                     <ShoppingBagOutlinedIcon />
                   </Badge>
                 }
@@ -96,84 +96,134 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
                 }}>
                 Đăng xuất
               </Button>
+              <Button
+                variant="contained"
+                disableElevation
+                sx={{
+                  background: 'inherit',
+                  color: '#000',
+                  textTransform: 'none',
+                  '&:hover': {
+                    color: '#fff',
+                  },
+                }}>
+                {JSON.parse(sessionStorage.getItem('user')).name} -{' '}
+                {JSON.parse(sessionStorage.getItem('user')).role.toUpperCase()}
+              </Button>
+            </Stack>
+          )}
+          {!loggedIn && (
+            <Stack direction="row" sx={{ mr: 10 }}>
+              <Button
+                variant="contained"
+                startIcon={
+                  <Badge badgeContent={0} color="error">
+                    <ShoppingBagOutlinedIcon />
+                  </Badge>
+                }
+                disableElevation
+                onClick={() => navigate('/login')}
+                sx={{
+                  background: 'inherit',
+                  color: '#000',
+                  textTransform: 'none',
+                  '&:hover': {
+                    color: '#fff',
+                  },
+                }}>
+                Đăng nhập
+              </Button>
+              <Button
+                variant="contained"
+                startIcon={<PermIdentityIcon />}
+                disableElevation
+                onClick={() => navigate('/signup')}
+                sx={{
+                  background: 'inherit',
+                  color: '#000',
+                  textTransform: 'none',
+                  '&:hover': {
+                    color: '#fff',
+                  },
+                }}>
+                Đăng ký
+              </Button>
             </Stack>
           )}
         </Toolbar>
-        {loggedIn && (
-          <Toolbar>
-            <Button
-              disableElevation
-              variant="contained"
-              onClick={() => navigate('/home')}
-              sx={{
-                ml: 8.5,
-                background: 'inherit',
-                color: '#000',
-                '&:hover': {
-                  color: '#fff',
-                },
-                fontWeight: 600,
-              }}>
-              Trang chủ
-            </Button>
-            <Button
-              disableElevation
-              variant="contained"
-              onClick={() => navigate('/intro')}
-              sx={{
-                background: 'inherit',
-                color: '#000',
-                '&:hover': {
-                  color: '#fff',
-                },
-                fontWeight: 600,
-              }}>
-              Giới thiệu
-            </Button>
-            <Button
-              disableElevation
-              variant="contained"
-              onClick={() => navigate('/product')}
-              sx={{
-                background: 'inherit',
-                color: '#000',
-                '&:hover': {
-                  color: '#fff',
-                },
-                fontWeight: 600,
-              }}>
-              Sản phẩm
-            </Button>
-            <Button
-              disableElevation
-              variant="contained"
-              onClick={() => navigate('/news')}
-              sx={{
-                background: 'inherit',
-                color: '#000',
-                '&:hover': {
-                  color: '#fff',
-                },
-                fontWeight: 600,
-              }}>
-              Tin tức
-            </Button>
-            <Button
-              disableElevation
-              variant="contained"
-              onClick={() => navigate('/contact')}
-              sx={{
-                background: 'inherit',
-                color: '#000',
-                '&:hover': {
-                  color: '#fff',
-                },
-                fontWeight: 600,
-              }}>
-              Liên hệ
-            </Button>
-          </Toolbar>
-        )}
+        <Toolbar>
+          <Button
+            disableElevation
+            variant="contained"
+            onClick={() => navigate('/home')}
+            sx={{
+              ml: 8.5,
+              background: 'inherit',
+              color: '#000',
+              '&:hover': {
+                color: '#fff',
+              },
+              fontWeight: 600,
+            }}>
+            Trang chủ
+          </Button>
+          <Button
+            disableElevation
+            variant="contained"
+            onClick={() => navigate('/intro')}
+            sx={{
+              background: 'inherit',
+              color: '#000',
+              '&:hover': {
+                color: '#fff',
+              },
+              fontWeight: 600,
+            }}>
+            Giới thiệu
+          </Button>
+          <Button
+            disableElevation
+            variant="contained"
+            onClick={() => navigate('/product')}
+            sx={{
+              background: 'inherit',
+              color: '#000',
+              '&:hover': {
+                color: '#fff',
+              },
+              fontWeight: 600,
+            }}>
+            Sản phẩm
+          </Button>
+          <Button
+            disableElevation
+            variant="contained"
+            onClick={() => navigate('/news')}
+            sx={{
+              background: 'inherit',
+              color: '#000',
+              '&:hover': {
+                color: '#fff',
+              },
+              fontWeight: 600,
+            }}>
+            Tin tức
+          </Button>
+          <Button
+            disableElevation
+            variant="contained"
+            onClick={() => navigate('/contact')}
+            sx={{
+              background: 'inherit',
+              color: '#000',
+              '&:hover': {
+                color: '#fff',
+              },
+              fontWeight: 600,
+            }}>
+            Liên hệ
+          </Button>
+        </Toolbar>
       </AppBar>
     </React.Fragment>
   );

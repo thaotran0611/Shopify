@@ -39,7 +39,7 @@ CREATE TABLE PRODUCT(
     IMG4 TEXT,
     CATEGORY_ID INT,
 	PRIMARY KEY(CODE,SIZE,COLOR),
-    FOREIGN KEY (CATEGORY_ID) REFERENCES CATEGORIES(ID),
+    FOREIGN KEY (CATEGORY_ID) REFERENCES CATEGORIES(ID) ON DELETE CASCADE ON UPDATE CASCADE,
     CHECK(QUANITY>=0),
     CHECK(PRICE>=0)
 );
@@ -58,6 +58,7 @@ CREATE TABLE CUSTOMER(
 CREATE TABLE ORDERS(
 	OrderID VARCHAR(20) PRIMARY KEY,
     CustomerID INT,
+    NAME VARCHAR(50),
     TOTAL_PRODUCT INT,
     TOTAL_COST FLOAT,
     PAY_METHOD VARCHAR(30),
@@ -66,7 +67,7 @@ CREATE TABLE ORDERS(
     RECEIVE_ADDRESS TEXT,
     CHECK (TOTAL_PRODUCT>0),
     CHECK (TOTAL_COST>0),
-	FOREIGN KEY (CustomerID) REFERENCES CUSTOMER(CustomerID)
+	FOREIGN KEY (CustomerID) REFERENCES CUSTOMER(CustomerID)   ON DELETE CASCADE ON UPDATE CASCADE
 );
 ALTER TABLE ORDERS ADD COLUMN STATUS BOOLEAN DEFAULT 0;
 
@@ -74,24 +75,30 @@ ALTER TABLE ORDERS ADD COLUMN STATUS BOOLEAN DEFAULT 0;
 CREATE TABLE IN_COLLECTION(
 	ProductCode VARCHAR(15) PRIMARY KEY,
     CollectID INT NOT NULL,
-    FOREIGN KEY (ProductCode) REFERENCES PRODUCT(CODE),
-    FOREIGN KEY (CollectID) REFERENCES COLLECTION(ID)
+    FOREIGN KEY (ProductCode) REFERENCES PRODUCT(CODE)   ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (CollectID) REFERENCES COLLECTION(ID)   ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE INCLUDE(
 	ProductID VARCHAR(15),
+	COLOR VARCHAR(20),
+    SIZE VARCHAR(10),
+    NUMBER INT,
     OrderID VARCHAR(20),
-    primary key (ProductID, OrderID),
-    FOREIGN KEY (ProductID) REFERENCES PRODUCT(CODE),
-	FOREIGN KEY (OrderID) REFERENCES ORDERS(OrderID)
+    primary key (ProductID,COLOR,SIZE,OrderID),
+	FOREIGN KEY (ProductID,SIZE,COLOR) REFERENCES PRODUCT(CODE,SIZE,COLOR)   ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (OrderID) REFERENCES ORDERS(OrderID)   ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE ADD_TO_CART(
 	ProductID VARCHAR(15),
+	COLOR VARCHAR(20),
+    SIZE VARCHAR(10),
     CustomerID INT,
-    primary key (ProductID, CustomerID),
-	FOREIGN KEY (ProductID) REFERENCES PRODUCT(CODE),
-	FOREIGN KEY (CustomerID) REFERENCES CUSTOMER(CustomerID)
+    NUMBER INT,
+    primary key (ProductID,COLOR,SIZE,CustomerID),
+	FOREIGN KEY (ProductID,SIZE,COLOR) REFERENCES PRODUCT(CODE,SIZE,COLOR)   ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (CustomerID) REFERENCES CUSTOMER(CustomerID)   ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE COMMENTS(
@@ -104,9 +111,9 @@ CREATE TABLE COMMENTS(
     VIDEO TEXT,
     CMT TEXT,
     PARENT_ID INT, 
-    FOREIGN KEY (PARENT_ID) REFERENCES COMMENTS(CommentID),
-    FOREIGN KEY (ProductID) REFERENCES PRODUCT(CODE),
-	FOREIGN KEY (CustomerID) REFERENCES CUSTOMER(CustomerID)
+    FOREIGN KEY (PARENT_ID) REFERENCES COMMENTS(CommentID)   ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (ProductID) REFERENCES PRODUCT(CODE)   ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (CustomerID) REFERENCES CUSTOMER(CustomerID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- DROP DATABASE LTW
@@ -128,12 +135,13 @@ INSERT INTO `ltw`.`categories` (`NAME`, `GENDER`) VALUES ('Áo Sơ Mi Họa Ti�
 INSERT INTO `ltw`.`categories` (`NAME`, `GENDER`) VALUES ('Áo Sơ Mi Kiểu', '1');
 
 -- customer
-INSERT INTO `ltw`.`customer` (`Phone_Number`, `USERNAME`, `PASSWORD`, `NAME`, `BIRTHDAY`, `AVATAR`, `ROLE`) VALUES ('0852531027', 'ducan1406', '123456', 'Nguyễn Đức An', '2002-06-14', 'https://thegioidienanh.vn/stores/news_dataimages/nguyenthithanhthuy/102019/15/11/0724_Ynh_1_7.jpg', 'admin');
+INSERT INTO `ltw`.`customer` (`Phone_Number`, `USERNAME`, `PASSWORD`, `NAME`, `BIRTHDAY`, `AVATAR`, `ROLE`) VALUES ('0852531027', 'ducan1406', '123456', 'Nguyễn Đức An', '2002-06-14', 'https://thegioidienanh.vn/stores/news_dataimages/nguyenthithanhthuy/102019/15/11/0724_Ynh_1_7.jpg', 'customer');
 
 INSERT INTO `ltw`.`customer` (`Phone_Number`, `USERNAME`, `PASSWORD`, `NAME`, `BIRTHDAY`, `AVATAR`, `ROLE`) VALUES ('0812586985', 'datdat123', '123456', 'Lê Phước Đạt', '2002-05-20', 'https://thegioidienanh.vn/stores/news_dataimages/nguyenthithanhthuy/102019/15/11/0724_Ynh_1_7.jpg', 'customer');
 
 INSERT INTO `ltw`.`customer` (`Phone_Number`, `USERNAME`, `PASSWORD`, `NAME`, `BIRTHDAY`, `AVATAR`, `ROLE`) VALUES ('0794763040', 'ducduong123', '123456', 'Dương Huỳnh Anh Đức', '2002-02-01', 'https://thegioidienanh.vn/stores/news_dataimages/nguyenthithanhthuy/102019/15/11/0724_Ynh_1_7.jpg', 'admin');
 
+INSERT INTO `ltw`.`customer` (`Phone_Number`, `USERNAME`, `PASSWORD`, `NAME`, `BIRTHDAY`, `AVATAR`, `ROLE`) VALUES ('0794763040', 'thuthao0611', '123456', 'Trần Thị Thu Thảo', '2002-06-11', 'https://thegioidienanh.vn/stores/news_dataimages/nguyenthithanhthuy/102019/15/11/0724_Ynh_1_7.jpg', 'admin');
 
 INSERT INTO `ltw`.`customer` (`Phone_Number`, `USERNAME`, `PASSWORD`, `NAME`, `BIRTHDAY`, `AVATAR`, `ROLE`) VALUES ('0903228745', 'lac123', '123456', 'Ngụy Anh Lạc', '2001-03-05', 'https://th.bing.com/th/id/R.0a8dfabc06847d163f5d82b41c8a5553?rik=h1peRQORlGvAwQ&pid=ImgRaw&r=0', 'customer');
 
@@ -182,20 +190,19 @@ INSERT INTO `ltw`.`in_collection` (`ProductCode`, `CollectID`) VALUES ('DC11098'
 INSERT INTO `ltw`.`in_collection` (`ProductCode`, `CollectID`) VALUES ('DC12067', '3');
 
 -- orders
-INSERT INTO `ltw`.`orders` (`OrderID`, `CustomerID`, `TOTAL_PRODUCT`, `TOTAL_COST`, `PAY_METHOD`, `RECEIVE_PHONE`, `RECEIVE_ADDRESS`) VALUES ('00001', '2', '2', '460000', 'cash', '0794763040', 'Gò Vấp, TP.HCM');
-INSERT INTO `ltw`.`orders` (`OrderID`, `CustomerID`, `TOTAL_PRODUCT`, `TOTAL_COST`, `PAY_METHOD`, `RECEIVE_PHONE`, `RECEIVE_ADDRESS`) VALUES ('00002', '4', '1', '230000', 'momo', '0459835899', '7/38A Cao Lãnh, quận 8, TP.HCM');
-INSERT INTO `ltw`.`orders` (`OrderID`, `CustomerID`, `TOTAL_PRODUCT`, `TOTAL_COST`, `PAY_METHOD`, `RECEIVE_PHONE`, `RECEIVE_ADDRESS`) VALUES ('00003', '5', '1', '240000', 'cash', '0796757342', '102 Nguyễn Văn Nghi, phường 5, quận Gò Vấp, TP.HCM');
-INSERT INTO `ltw`.`orders` (`OrderID`, `CustomerID`, `TOTAL_PRODUCT`, `TOTAL_COST`, `PAY_METHOD`, `RECEIVE_PHONE`, `RECEIVE_ADDRESS`) VALUES ('00004', '6', '1', '200000', 'cash', '0972334457', '112 Huỳnh Văn Bánh, Phú Nhuận, TP.HCM');
-INSERT INTO `ltw`.`orders` (`OrderID`, `CustomerID`, `TOTAL_PRODUCT`, `TOTAL_COST`, `PAY_METHOD`, `RECEIVE_PHONE`, `RECEIVE_ADDRESS`) VALUES ('00005', '7', '2', '500000', 'bank', '0123215568', '449E Lê Quang Định, Bình Thạnh, TP.HCM');
+INSERT INTO `ltw`.`orders` (`OrderID`, `CustomerID`, `NAME`,`TOTAL_PRODUCT`, `TOTAL_COST`, `PAY_METHOD`, `RECEIVE_PHONE`, `RECEIVE_ADDRESS`) VALUES ('00001', '2', 'Adee','2', '460000', 'cash', '0794763040', 'Gò Vấp, TP.HCM');
+INSERT INTO `ltw`.`orders` (`OrderID`, `CustomerID`, `NAME`,`TOTAL_PRODUCT`, `TOTAL_COST`, `PAY_METHOD`, `RECEIVE_PHONE`, `RECEIVE_ADDRESS`) VALUES ('00002', '4','ducan' ,'1', '230000', 'momo', '0459835899', '7/38A Cao Lãnh, quận 8, TP.HCM');
+INSERT INTO `ltw`.`orders` (`OrderID`, `CustomerID`,`NAME`, `TOTAL_PRODUCT`, `TOTAL_COST`, `PAY_METHOD`, `RECEIVE_PHONE`, `RECEIVE_ADDRESS`) VALUES ('00003', '5', 'thuthao','1', '240000', 'cash', '0796757342', '102 Nguyễn Văn Nghi, phường 5, quận Gò Vấp, TP.HCM');
+INSERT INTO `ltw`.`orders` (`OrderID`, `CustomerID`, `NAME`,`TOTAL_PRODUCT`, `TOTAL_COST`, `PAY_METHOD`, `RECEIVE_PHONE`, `RECEIVE_ADDRESS`) VALUES ('00004', '6', 'phuocdat','1', '200000', 'cash', '0972334457', '112 Huỳnh Văn Bánh, Phú Nhuận, TP.HCM');
+INSERT INTO `ltw`.`orders` (`OrderID`, `CustomerID`,`NAME`, `TOTAL_PRODUCT`, `TOTAL_COST`, `PAY_METHOD`, `RECEIVE_PHONE`, `RECEIVE_ADDRESS`) VALUES ('00005', '7','no one' ,'2', '500000', 'bank', '0123215568', '449E Lê Quang Định, Bình Thạnh, TP.HCM');
 
 -- include
-INSERT INTO `ltw`.`include` (`ProductID`, `OrderID`) VALUES ('DC08097', '00001');
-INSERT INTO `ltw`.`include` (`ProductID`, `OrderID`) VALUES ('DC09062', '00001');
-INSERT INTO `ltw`.`include` (`ProductID`, `OrderID`) VALUES ('DC08097', '00002');
-INSERT INTO `ltw`.`include` (`ProductID`, `OrderID`) VALUES ('DC11071', '00003');
-INSERT INTO `ltw`.`include` (`ProductID`, `OrderID`) VALUES ('DC12067', '00004');
-INSERT INTO `ltw`.`include` (`ProductID`, `OrderID`) VALUES ('DC09062', '00005');
-INSERT INTO `ltw`.`include` (`ProductID`, `OrderID`) VALUES ('DC11098', '00005');
+INSERT INTO `ltw`.`include` (`ProductID`,`COLOR`,`SIZE`,`NUMBER`,`OrderID`) VALUES ('DC08097','Đỏ','S','2','00001');
+INSERT INTO `ltw`.`include` (`ProductID`,`COLOR`,`SIZE`,`NUMBER`,`OrderID`) VALUES ('DC09062','Cam','XS','1','00001');
+INSERT INTO `ltw`.`include` (`ProductID`,`COLOR`,`SIZE`,`NUMBER`, `OrderID`) VALUES ('DC08097','Xanh','M','1','00002');
+INSERT INTO `ltw`.`include` (`ProductID`,`COLOR`,`SIZE`,`NUMBER`, `OrderID`) VALUES ('DC11071','Cam','S','1','00003');
+INSERT INTO `ltw`.`include` (`ProductID`,`COLOR`,`SIZE`,`NUMBER`, `OrderID`) VALUES ('DC12067','Hồng','S','1','00004');
+INSERT INTO `ltw`.`include` (`ProductID`,`COLOR`,`SIZE`,`NUMBER`, `OrderID`) VALUES ('DC09062','Cam','XS','3','00005');
 
 -- comment
 INSERT INTO `ltw`.`comments` (`CommentID`, `ProductID`, `CustomerID`, `RATING`, `DATE_TIME`, `IMG`, `CMT`) VALUES ('00001', 'DC08097', '2', '5', '2023-02-01', 'https://js0fpsb45jobj.vcdn.cloud/storage/upload/media/toolbar-200x238px-2-2.jpg', 'Sản phẩm tốt chất lượng, sẽ tiếp tục ủng hộ');
@@ -203,12 +210,12 @@ INSERT INTO `ltw`.`comments` (`CommentID`, `ProductID`, `CustomerID`, `RATING`, 
 INSERT INTO `ltw`.`comments` (`CommentID`, `ProductID`, `CustomerID`, `RATING`, `DATE_TIME`, `CMT`) VALUES ('3', 'DC08097', '5', '3', '2023-04-01', 'Giao hàng chậm, còn chất lượng thì tốt');
 
 -- add-to-cart
-INSERT INTO `ltw`.`add_to_cart` (`ProductID`, `CustomerID`) VALUES ('DC08097', '4');
-INSERT INTO `ltw`.`add_to_cart` (`ProductID`, `CustomerID`) VALUES ('DC12067', '5');
-INSERT INTO `ltw`.`add_to_cart` (`ProductID`, `CustomerID`) VALUES ('DC11071', '4');
-INSERT INTO `ltw`.`add_to_cart` (`ProductID`, `CustomerID`) VALUES ('DC09063', '4');
-INSERT INTO `ltw`.`add_to_cart` (`ProductID`, `CustomerID`) VALUES ('DC11071', '2');
-INSERT INTO `ltw`.`add_to_cart` (`ProductID`, `CustomerID`) VALUES ('DC11098', '5');
+INSERT INTO `ltw`.`add_to_cart` (`ProductID`,`COLOR`,`SIZE`, `CustomerID`,`NUMBER`) VALUES ('DC08097','Đỏ','M' ,'4','1');
+INSERT INTO `ltw`.`add_to_cart` (`ProductID`,`COLOR`,`SIZE`, `CustomerID`,`NUMBER`) VALUES ('DC08097','Đỏ','M' ,'1','1');
+INSERT INTO `ltw`.`add_to_cart` (`ProductID`,`COLOR`,`SIZE`, `CustomerID`,`NUMBER`) VALUES ('DC08097','Xanh','S' ,'2','2');
+INSERT INTO `ltw`.`add_to_cart` (`ProductID`,`COLOR`,`SIZE`, `CustomerID`,`NUMBER`) VALUES ('DC09062','Cam','XS' ,'2','2');
+INSERT INTO `ltw`.`add_to_cart` (`ProductID`,`COLOR`,`SIZE`, `CustomerID`,`NUMBER`) VALUES ('DC09063','Vàng','XS' ,'3','2');
+INSERT INTO `ltw`.`add_to_cart` (`ProductID`,`COLOR`,`SIZE`, `CustomerID`,`NUMBER`) VALUES ('DC11071','Cam','S' ,'5','1');
 
 -- resource
 INSERT INTO `ltw`.`resource` (`ID`, `NAME`, `CONTENT`) VALUES ('1', 'Rớt nước mắt trước tâm thư của nhân viên gửi sếp giữa tâm dịch', 'Trong thư, cô gái bày tỏ lời biết ơn sâu sắc tới sếp vì sự tử tế và tình yêu thương đã luôn hỗ trợ và đồng hành cùng mình trong suốt chặng đường qua. Đồng thời, công ty cũng là chỗ dựa vững chắc cho mình và các đồng nghiệp tại thời điểm khó khăn chung của nền kinh tế. ');

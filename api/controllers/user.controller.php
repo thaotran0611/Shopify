@@ -33,7 +33,8 @@ class UserController
         return json_encode(["data" => [
           'role' => $rows[0]['ROLE'],
           'id' => (string)$rows[0]['CustomerID'],
-          'avatar' => $rows[0]['AVATAR'],
+          'name' => $rows[0]['NAME'],
+          'username' => $rows[0]['USERNAME'],
           'avatar' => $rows[0]['AVATAR'],
           'birthday' => $rows[0]['BIRTHDAY'],
           'phone' => $rows[0]['Phone_Number'],

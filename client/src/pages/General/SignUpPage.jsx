@@ -36,6 +36,10 @@ export const SignUpPage = () => {
     navigate('../login');
   }
   const handleSubmitSignUp = () => {
+    if (username == '' || password == '') {
+      setOpenError(true);
+      return;
+    }
     axios({
       method: 'post',
       url: 'http://localhost:8080/api/users/signup',
@@ -102,6 +106,7 @@ export const SignUpPage = () => {
               placeholder="Your Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              required
               sx={{
                 backgroundColor: '#f7f8fa',
                 mt: 3,
@@ -116,6 +121,7 @@ export const SignUpPage = () => {
               placeholder="Your Phone"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
+              required
               sx={{
                 backgroundColor: '#f7f8fa',
                 mt: 3,
@@ -130,6 +136,7 @@ export const SignUpPage = () => {
               type="date"
               value={birthday}
               onChange={(e) => setBirthDay(e.target.value)}
+              required
               style={{
                 marginTop: '20px',
                 padding: '15px 10px',
@@ -140,6 +147,7 @@ export const SignUpPage = () => {
               placeholder="Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              required
               sx={{
                 backgroundColor: '#f7f8fa',
                 mt: 3,
@@ -155,6 +163,7 @@ export const SignUpPage = () => {
               type={invisible ? 'password' : 'text'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
               sx={{
                 backgroundColor: '#f7f8fa',
                 mt: 3,
