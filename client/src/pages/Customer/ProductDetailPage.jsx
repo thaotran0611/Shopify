@@ -67,7 +67,7 @@ export const ProductDetailPage = () => {
     return await getProducts().then((res) => {
       setProducts(res);
       setMainImg(res[0].IMG1);
-      setColor(handleColor(res[0].COLOR));
+      setColor(res[0].COLOR.split(','));
     });
   };
   useEffect(() => {
@@ -88,25 +88,6 @@ export const ProductDetailPage = () => {
   `;
   const handleSize = (e) => {
     setSize(e.target.value);
-  };
-  const handleColor = (data) => {
-    let ret = [];
-    const vietColor = ['Đỏ', 'Xanh', 'Vàng', 'Cam', 'Hồng', 'Đen', 'Trắng'];
-    const engColor = [
-      'red',
-      'blue',
-      'yellow',
-      'orange',
-      'pink',
-      'black',
-      'white',
-    ];
-    for (let i = 0; i < vietColor.length; i++) {
-      if (data.includes(vietColor[i])) {
-        ret.push(engColor[i]);
-      }
-    }
-    return ret;
   };
   const handleQuantity = (val) => {
     let tmp = quantity;

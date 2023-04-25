@@ -5,6 +5,8 @@ import { Box, Typography, Grid, Container } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 export const PaymentPage = () => {
   const navigate = useNavigate();
@@ -12,6 +14,10 @@ export const PaymentPage = () => {
     navigate('/');
   };
   const [open, setOpen] = useState(false);
+  const [payment, setPayment] = React.useState('cast');
+  const handlePayment = (event) => {
+    setPayment(event.target.value);
+  };
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -56,13 +62,6 @@ export const PaymentPage = () => {
                 />
                 <TextField
                   id="outlined-basic"
-                  label="Email"
-                  variant="outlined"
-                  required
-                  style={{ width: 400, marginBottom: 20 }}
-                />
-                <TextField
-                  id="outlined-basic"
                   label="Số điện thoại"
                   variant="outlined"
                   required
@@ -75,6 +74,16 @@ export const PaymentPage = () => {
                   required
                   style={{ width: 400, marginBottom: 20 }}
                 />
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={payment}
+                  label="Payment"
+                  style={{ width: 400, marginBottom: 20 }}
+                  onChange={handlePayment}>
+                  <MenuItem value={'cast'}>Cast</MenuItem>
+                  <MenuItem value={'momo'}>Momo</MenuItem>
+                </Select>
                 <TextField
                   id="outlined-basic"
                   label="Ghi chú"
