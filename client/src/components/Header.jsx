@@ -11,19 +11,47 @@ import {
   TextField,
   InputAdornment,
   Box,
-  CardMedia
+  CardMedia,
 } from '@mui/material';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import LogoutIcon from '@mui/icons-material/Logout';
+import HowToRegIcon from '@mui/icons-material/HowToReg';
+import PersonIcon from '@mui/icons-material/Person';
 import axios from 'axios';
 
 export const Header = ({ loggedIn, setLoggedIn }) => {
   const navigate = useNavigate();
-
-  const [cateState, setCateState] = useState(false)
-  const [colState, setColState] = useState(false)
-
+  const [cateState, setCateState] = useState(false);
+  const [colState, setColState] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [collections, setCollections] = useState([]);
+  useEffect(() => {
+    getCategories().then((data) => {
+      let ret = [];
+      for (let i = 0; i < data.length; i++) {
+        ret.push(data[i]['NAME']);
+      }
+      setCategories(ret);
+    });
+    getCollections().then((data) => {
+      let ret = [];
+      for (let i = 0; i < data.length; i++) {
+        ret.push(data[i]['NAME']);
+      }
+      setCollections(ret);
+    });
+  }, []);
+  const getCategories = async () => {
+    return axios
+      .get('http://localhost:8080/api/products/categories')
+      .then((res) => res.data);
+  };
+  const getCollections = async () => {
+    return axios
+      .get('http://localhost:8080/api/products/collections')
+      .then((res) => res.data);
+  };
   const setLogOut = () => {
     setLoggedIn(false);
     navigate('/login');
@@ -123,11 +151,7 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
             <Stack direction="row" sx={{ mr: 10 }}>
               <Button
                 variant="contained"
-                startIcon={
-                  <Badge badgeContent={0} color="error">
-                    <ShoppingBagOutlinedIcon />
-                  </Badge>
-                }
+                startIcon={<PersonIcon />}
                 disableElevation
                 onClick={() => navigate('/login')}
                 sx={{
@@ -142,7 +166,7 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
               </Button>
               <Button
                 variant="contained"
-                startIcon={<LogoutIcon />}
+                startIcon={<HowToRegIcon />}
                 disableElevation
                 onClick={() => navigate('/signup')}
                 sx={{
@@ -177,7 +201,7 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
           <Button
             disableElevation
             variant="contained"
-            onClick={() => navigate('/intro')}
+            onClick={() => navigate('/aboutus')}
             sx={{
               background: 'inherit',
               color: '#000',
@@ -222,8 +246,8 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
             disableElevation
             variant="contained"
             onClick={() => navigate('/contact')}
-            onMouseOver={() => setColState(true)} 
-            onMouseLeave={() => setColState(false)} 
+            onMouseOver={() => setColState(true)}
+            onMouseLeave={() => setColState(false)}
             sx={{
               background: 'inherit',
               color: '#000',
@@ -234,90 +258,27 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
             }}>
             Bộ sưu tập
           </Button>
-        {/* {colState && (
-          <Box 
-            onMouseOver={() => setColState(true)} 
-            onMouseLeave={() => setColState(false)} 
-            sx={{ 
-              zIndex: '999999', 
-              px: '91px',
-              mt: '-13px',
-            }}
-          >
-            <Stack sx={{ py: '40px', px: '30px', display: 'flex', justifyContent: 'space-between' }} direction='row'>
-              <CardMedia
-                component="img"
-                image="https://picsum.photos/700/900"
-                alt="unsplash img"
-                sx={{
-                  width: '220px',
-                  height: '280px',
-                  objectFit: 'contain',
-                  backgroundColor: '#e3e3e3',
-                }}
-              />
-              <Stack 
-                sx={{ 
-                  display: 'flex', 
-                  justifyContent: 'space-between', 
-                  flexWrap: 'wrap', 
-                  flexDirection: 'row',
-                  alignItems: 'flex-start',
-                  alignContent: 'flex-start'
-                }}
-              > 
-                {collections.map((text, index) => (
-                  <Typography 
-                    align='right'
-                    key={index} 
-                    width='200px'
-                    maxHeight='50px'
-                    sx={{ 
-                      color: '#786665',
-                      pl: '30px',
-                      mb: '10px',
-                      fontSize: '16px',
-                      textAlign: 'left',
-                      fontWeight: '600',
-                      cursor: 'pointer',
-                      "&:hover": { 
-                        color: "#4bc1f4"                      
-                      }
-                    }}
-                  >
-                  {text}
-                </Typography>
-                ))}
-              </Stack>
-              <CardMedia
-                component="img"
-                image="https://picsum.photos/700/900"
-                alt="unsplash img"
-                sx={{
-                  width: '220px',
-                  height: '280px',
-                  objectFit: 'contain',
-                  backgroundColor: '#e3e3e3',
-                }}
-              />
-            </Stack>
-          </Box>
-        )} */}
         </Toolbar>
         {cateState && (
-          <Box 
-            onMouseOver={() => setCateState(true)} 
-            onMouseLeave={() => setCateState(false)} 
-            sx={{ 
-              zIndex: '999999', 
+          <Box
+            onMouseOver={() => setCateState(true)}
+            onMouseLeave={() => setCateState(false)}
+            sx={{
+              zIndex: '999999',
               px: '91px',
               mt: '-13px',
-            }}
-          >
-            <Stack sx={{ py: '40px', px: '30px', display: 'flex', justifyContent: 'space-between' }} direction='row'>
+            }}>
+            <Stack
+              sx={{
+                py: '40px',
+                px: '30px',
+                display: 'flex',
+                justifyContent: 'space-between',
+              }}
+              direction="row">
               <CardMedia
                 component="img"
-                image="https://picsum.photos/700/900"
+                image="https://js0fpsb45jobj.vcdn.cloud/storage/upload/media/gumac3/dc08097/1-den-dc08097-1.jpg"
                 alt="unsplash img"
                 sx={{
                   width: '220px',
@@ -326,23 +287,23 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
                   backgroundColor: '#e3e3e3',
                 }}
               />
-              <Stack 
-                sx={{ 
-                  display: 'flex', 
-                  justifyContent: 'space-between', 
-                  flexWrap: 'wrap', 
+              <Stack
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  flexWrap: 'wrap',
                   flexDirection: 'row',
                   alignItems: 'flex-start',
-                  alignContent: 'flex-start'
-                }}
-              > 
+                  alignContent: 'flex-start',
+                }}>
                 {categories.map((text, index) => (
-                  <Typography 
-                    align='right'
-                    key={index} 
-                    width='200px'
-                    maxHeight='50px'
-                    sx={{ 
+                  <Typography
+                    align="right"
+                    key={index}
+                    width="200px"
+                    maxHeight="50px"
+                    onClick={() => navigate('/product')}
+                    sx={{
                       color: '#786665',
                       pl: '30px',
                       mb: '10px',
@@ -350,18 +311,17 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
                       textAlign: 'left',
                       fontWeight: '600',
                       cursor: 'pointer',
-                      "&:hover": { 
-                        color: "#4bc1f4"                      
-                      }
-                    }}
-                  >
+                      '&:hover': {
+                        color: '#4bc1f4',
+                      },
+                    }}>
                     {text}
                   </Typography>
                 ))}
               </Stack>
               <CardMedia
                 component="img"
-                image="https://picsum.photos/700/900"
+                image="https://js0fpsb45jobj.vcdn.cloud/storage/upload/media/gumac3/dc08097/1-den-dc08097-1.jpg"
                 alt="unsplash img"
                 sx={{
                   width: '220px',
@@ -374,19 +334,25 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
           </Box>
         )}
         {colState && (
-          <Box 
-            onMouseOver={() => setColState(true)} 
-            onMouseLeave={() => setColState(false)} 
-            sx={{ 
-              zIndex: '999999', 
+          <Box
+            onMouseOver={() => setColState(true)}
+            onMouseLeave={() => setColState(false)}
+            sx={{
+              zIndex: '999999',
               px: '91px',
               mt: '-13px',
-            }}
-          >
-            <Stack sx={{ py: '40px', px: '30px', display: 'flex', justifyContent: 'space-between' }} direction='row'>
+            }}>
+            <Stack
+              sx={{
+                py: '40px',
+                px: '30px',
+                display: 'flex',
+                justifyContent: 'space-between',
+              }}
+              direction="row">
               <CardMedia
                 component="img"
-                image="https://picsum.photos/700/900"
+                image="https://js0fpsb45jobj.vcdn.cloud/storage/upload/media/gumac/DC09062/2-CAM-DC09062.jpg"
                 alt="unsplash img"
                 sx={{
                   width: '220px',
@@ -395,23 +361,23 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
                   backgroundColor: '#e3e3e3',
                 }}
               />
-              <Stack 
-                sx={{ 
-                  display: 'flex', 
-                  justifyContent: 'space-between', 
-                  flexWrap: 'wrap', 
+              <Stack
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  flexWrap: 'wrap',
                   flexDirection: 'row',
                   alignItems: 'flex-start',
-                  alignContent: 'flex-start'
-                }}
-              > 
+                  alignContent: 'flex-start',
+                }}>
                 {collections.map((text, index) => (
-                  <Typography 
-                    align='right'
-                    key={index} 
-                    width='200px'
-                    maxHeight='50px'
-                    sx={{ 
+                  <Typography
+                    align="right"
+                    key={index}
+                    width="200px"
+                    maxHeight="50px"
+                    onClick={() => navigate('/product')}
+                    sx={{
                       color: '#786665',
                       pl: '30px',
                       mb: '10px',
@@ -419,18 +385,17 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
                       textAlign: 'left',
                       fontWeight: '600',
                       cursor: 'pointer',
-                      "&:hover": { 
-                        color: "#4bc1f4"                      
-                      }
-                    }}
-                  >
-                  {text}
-                </Typography>
+                      '&:hover': {
+                        color: '#4bc1f4',
+                      },
+                    }}>
+                    {text}
+                  </Typography>
                 ))}
               </Stack>
               <CardMedia
                 component="img"
-                image="https://picsum.photos/700/900"
+                image="https://js0fpsb45jobj.vcdn.cloud/storage/upload/media/gumac/DC09062/2-CAM-DC09062.jpg"
                 alt="unsplash img"
                 sx={{
                   width: '220px',
@@ -446,26 +411,3 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
     </React.Fragment>
   );
 };
-
-const categories = [
-  'Váy đầm công sở',
-  'Váy đầm sơ mi',
-  'fasdfasd',
-  'fasdfasd',
-  'fasdfasd',
-  'fasdfasd',
-  'fasdfasd',
-  'fasdfasd',
-  'Áo sơ mi tay ngắn',
-  'fasdfasd',
-]
-
-const collections = [
-  'Váy đầm công sở',
-  'fasdfasd',
-  'fasdfasd',
-  'fasdfasd',
-  'fasdfasd',
-  'fasdfasd',
-  'fasdfasd'
-]

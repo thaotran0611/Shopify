@@ -106,7 +106,6 @@ export const ProductDetailPage = () => {
         ret.push(engColor[i]);
       }
     }
-    console.log('Ret:', ret);
     return ret;
   };
   const handleQuantity = (val) => {

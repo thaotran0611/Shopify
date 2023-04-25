@@ -41,7 +41,7 @@ function App() {
         <Route path="/payment" element={<PaymentPage />} />
         <Route path="/order" element={<MyOrderPage />} />
         <Route path="/order/detail" element={<OrderDetailPage />} />
-        <Route path="/about-us" element={<AboutUsPage />} />
+        <Route path="/aboutus" element={<AboutUsPage />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
       {!isAdmin && <Footer />}
