@@ -119,12 +119,13 @@
   margin-top: 16px;
 }
 
-.product_display > .MuiBox-root:nth-child(2) {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-top: 16px;
+.product_display > .MuiBox-root:nth-child(2) > .MuiTypography-root {
+  width: 100%;
+  text-align: center;
+  font-size: 40px;
+  font-weight: 600;
+  margin: 40px 0;
+  color: #786665;
 }
 
 .product_item {

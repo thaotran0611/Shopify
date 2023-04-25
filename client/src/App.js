@@ -6,6 +6,7 @@ import { Header } from './components/Header';
 import { HomePage } from './pages/General/HomePage';
 import { LoginPage } from './pages/General/LoginPage';
 import { SignUpPage } from './pages/General/SignUpPage';
+import { AboutUsPage } from './pages/General/AboutUsPage';
 import { ProductPage } from './pages/Customer/ProductPage';
 import { MyOrderPage } from './pages/Customer/MyOrderPage';
 import { OrderDetailPage } from './pages/Customer/OrderDetailPage';
@@ -32,6 +33,7 @@ function App() {
         <Route path="/payment" element={<PaymentPage />} />
         <Route path="/order" element={<MyOrderPage />} />
         <Route path="/order/detail" element={<OrderDetailPage />} />
+        <Route path="/about-us" element={<AboutUsPage />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
       <Footer />
