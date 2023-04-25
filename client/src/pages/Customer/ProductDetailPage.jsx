@@ -68,6 +68,8 @@ export const ProductDetailPage = () => {
       setProducts(res);
       setMainImg(res[0].IMG1);
       setColor(res[0].COLOR.split(','));
+      setColorSelected(res[0].COLOR.split(',')[0]);
+      setSize(res[0].SIZE.split(','));
     });
   };
   useEffect(() => {
@@ -79,6 +81,7 @@ export const ProductDetailPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [tab, setTab] = useState(1);
   const [colors, setColor] = useState(['red']);
+  const [colorSelected, setColorSelected] = useState('');
   const ProductColor = styled.div`
     width: 20px;
     height: 20px;
@@ -99,10 +102,30 @@ export const ProductDetailPage = () => {
     else setQuantity(1);
   };
   const handleClickAdd = () => {
-    let isCustomer = sessionStorage.getItem('user') != null;
-    if (isCustomer == false) {
-      setOpen(true);
+    let isCustomer = '';
+    let customerID = '';
+    if (sessionStorage.getItem('user')) {
+      isCustomer = JSON.parse(sessionStorage.getItem('user')).name;
+      customerID = JSON.parse(sessionStorage.getItem('user')).id;
     }
+    axios({
+      method: 'post',
+      url: 'http://localhost:8080/api/cart/add',
+      data: {
+        CustomerID: customerID,
+        CODE: code,
+        COLOR: colorSelected,
+        SIZE: size,
+        NUM: quantity,
+      },
+    })
+      .then((res) => {
+        console.log('Success');
+      })
+      .catch((res) => {
+        console.log('Error');
+        console.log(res);
+      });
   };
   const handleClickBuy = () => {
     let isCustomer = JSON.parse(sessionStorage.getItem('user')) != null;
@@ -371,14 +394,17 @@ export const ProductDetailPage = () => {
                     </Typography>
                     <RadioGroup
                       aria-labelledby="demo-radio-buttons-group-label"
-                      defaultValue={colors[0]}
+                      value={colorSelected}
                       name="radio-buttons-group"
                       row>
-                      {colors.map((text) => (
+                      {colors.map((color) => (
                         <FormControlLabel
-                          key={text}
-                          value={text}
-                          control={<ProductColor color={text} />}
+                          key={color}
+                          value={color}
+                          onChange={(e) => {
+                            setColorSelected(e.target.value);
+                          }}
+                          control={<ProductColor color={color} />}
                         />
                       ))}
                     </RadioGroup>
