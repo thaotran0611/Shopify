@@ -142,7 +142,7 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
               </Button>
               <Button
                 variant="contained"
-                startIcon={<PermIdentityIcon />}
+                startIcon={<LogoutIcon />}
                 disableElevation
                 onClick={() => navigate('/signup')}
                 sx={{
@@ -205,6 +205,8 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
           <Button
             disableElevation
             variant="contained"
+            onMouseOver={() => setCateState(true)}
+            onMouseLeave={() => setCateState(false)}
             onClick={() => navigate('/news')}
             sx={{
               background: 'inherit',
@@ -214,12 +216,14 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
               },
               fontWeight: 600,
             }}>
-            Tin tức
+            Phân loại
           </Button>
           <Button
             disableElevation
             variant="contained"
             onClick={() => navigate('/contact')}
+            onMouseOver={() => setColState(true)} 
+            onMouseLeave={() => setColState(false)} 
             sx={{
               background: 'inherit',
               color: '#000',
@@ -228,9 +232,216 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
               },
               fontWeight: 600,
             }}>
-            Liên hệ
+            Bộ sưu tập
           </Button>
+        {/* {colState && (
+          <Box 
+            onMouseOver={() => setColState(true)} 
+            onMouseLeave={() => setColState(false)} 
+            sx={{ 
+              zIndex: '999999', 
+              px: '91px',
+              mt: '-13px',
+            }}
+          >
+            <Stack sx={{ py: '40px', px: '30px', display: 'flex', justifyContent: 'space-between' }} direction='row'>
+              <CardMedia
+                component="img"
+                image="https://picsum.photos/700/900"
+                alt="unsplash img"
+                sx={{
+                  width: '220px',
+                  height: '280px',
+                  objectFit: 'contain',
+                  backgroundColor: '#e3e3e3',
+                }}
+              />
+              <Stack 
+                sx={{ 
+                  display: 'flex', 
+                  justifyContent: 'space-between', 
+                  flexWrap: 'wrap', 
+                  flexDirection: 'row',
+                  alignItems: 'flex-start',
+                  alignContent: 'flex-start'
+                }}
+              > 
+                {collections.map((text, index) => (
+                  <Typography 
+                    align='right'
+                    key={index} 
+                    width='200px'
+                    maxHeight='50px'
+                    sx={{ 
+                      color: '#786665',
+                      pl: '30px',
+                      mb: '10px',
+                      fontSize: '16px',
+                      textAlign: 'left',
+                      fontWeight: '600',
+                      cursor: 'pointer',
+                      "&:hover": { 
+                        color: "#4bc1f4"                      
+                      }
+                    }}
+                  >
+                  {text}
+                </Typography>
+                ))}
+              </Stack>
+              <CardMedia
+                component="img"
+                image="https://picsum.photos/700/900"
+                alt="unsplash img"
+                sx={{
+                  width: '220px',
+                  height: '280px',
+                  objectFit: 'contain',
+                  backgroundColor: '#e3e3e3',
+                }}
+              />
+            </Stack>
+          </Box>
+        )} */}
         </Toolbar>
+        {cateState && (
+          <Box 
+            onMouseOver={() => setCateState(true)} 
+            onMouseLeave={() => setCateState(false)} 
+            sx={{ 
+              zIndex: '999999', 
+              px: '91px',
+              mt: '-13px',
+            }}
+          >
+            <Stack sx={{ py: '40px', px: '30px', display: 'flex', justifyContent: 'space-between' }} direction='row'>
+              <CardMedia
+                component="img"
+                image="https://picsum.photos/700/900"
+                alt="unsplash img"
+                sx={{
+                  width: '220px',
+                  height: '280px',
+                  objectFit: 'contain',
+                  backgroundColor: '#e3e3e3',
+                }}
+              />
+              <Stack 
+                sx={{ 
+                  display: 'flex', 
+                  justifyContent: 'space-between', 
+                  flexWrap: 'wrap', 
+                  flexDirection: 'row',
+                  alignItems: 'flex-start',
+                  alignContent: 'flex-start'
+                }}
+              > 
+                {categories.map((text, index) => (
+                  <Typography 
+                    align='right'
+                    key={index} 
+                    width='200px'
+                    maxHeight='50px'
+                    sx={{ 
+                      color: '#786665',
+                      pl: '30px',
+                      mb: '10px',
+                      fontSize: '16px',
+                      textAlign: 'left',
+                      fontWeight: '600',
+                      cursor: 'pointer',
+                      "&:hover": { 
+                        color: "#4bc1f4"                      
+                      }
+                    }}
+                  >
+                    {text}
+                  </Typography>
+                ))}
+              </Stack>
+              <CardMedia
+                component="img"
+                image="https://picsum.photos/700/900"
+                alt="unsplash img"
+                sx={{
+                  width: '220px',
+                  height: '280px',
+                  objectFit: 'contain',
+                  backgroundColor: '#e3e3e3',
+                }}
+              />
+            </Stack>
+          </Box>
+        )}
+        {colState && (
+          <Box 
+            onMouseOver={() => setColState(true)} 
+            onMouseLeave={() => setColState(false)} 
+            sx={{ 
+              zIndex: '999999', 
+              px: '91px',
+              mt: '-13px',
+            }}
+          >
+            <Stack sx={{ py: '40px', px: '30px', display: 'flex', justifyContent: 'space-between' }} direction='row'>
+              <CardMedia
+                component="img"
+                image="https://picsum.photos/700/900"
+                alt="unsplash img"
+                sx={{
+                  width: '220px',
+                  height: '280px',
+                  objectFit: 'contain',
+                  backgroundColor: '#e3e3e3',
+                }}
+              />
+              <Stack 
+                sx={{ 
+                  display: 'flex', 
+                  justifyContent: 'space-between', 
+                  flexWrap: 'wrap', 
+                  flexDirection: 'row',
+                  alignItems: 'flex-start',
+                  alignContent: 'flex-start'
+                }}
+              > 
+                {collections.map((text, index) => (
+                  <Typography 
+                    align='right'
+                    key={index} 
+                    width='200px'
+                    maxHeight='50px'
+                    sx={{ 
+                      color: '#786665',
+                      pl: '30px',
+                      mb: '10px',
+                      fontSize: '16px',
+                      textAlign: 'left',
+                      fontWeight: '600',
+                      cursor: 'pointer',
+                      "&:hover": { 
+                        color: "#4bc1f4"                      
+                      }
+                    }}
+                  >
+                  {text}
+                </Typography>
+                ))}
+              </Stack>
+              <CardMedia
+                component="img"
+                image="https://picsum.photos/700/900"
+                alt="unsplash img"
+                sx={{
+                  width: '220px',
+                  height: '280px',
+                  objectFit: 'contain',
+                  backgroundColor: '#e3e3e3',
+                }}
+              />
+            </Stack>
+          </Box>
+        )}
       </AppBar>
     </React.Fragment>
   );
