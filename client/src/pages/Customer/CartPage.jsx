@@ -1,6 +1,9 @@
 import styled from 'styled-components';
+import React from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ProductItem } from '../../components/ProductItem';
+import axios from 'axios';
 const Container = styled.div``;
 
 const Wrapper = styled.div`
@@ -91,8 +94,18 @@ const productData = [
   },
 ];
 const CartPage = () => {
+  const [cart, setCart] = useState([]);
+  useEffect(() => {
+    getCarts().then((data) => setCart(data));
+  }, []);
+  const getCarts = async () => {
+    const customerID = JSON.parse(sessionStorage.getItem('user')).id;
+    return axios
+      .get(`http://localhost:8080/api/cart/detailCart?id=${customerID}`)
+      .then((res) => res.data);
+  };
   const navigate = useNavigate();
-  const cart = { total: 100 };
+  const cartId = { total: 100 };
   return (
     <Container style={{ marginTop: 180 }}>
       <Wrapper>
@@ -138,7 +151,7 @@ const CartPage = () => {
             </SummaryItem>
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
+              <SummaryItemPrice>$ {cartId.total}</SummaryItemPrice>
             </SummaryItem>
           </Summary>
         </Bottom>

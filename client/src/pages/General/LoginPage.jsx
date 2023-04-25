@@ -44,7 +44,7 @@ export const LoginPage = ({ setLoggedIn }) => {
         const dataResponse = {
           id: res.data.data.id,
           phone: res.data.data.phone,
-          avatar: res.data.avatar,
+          avatar: res.data.data.avatar,
           birthday: res.data.data.birthday,
           name: res.data.data.name,
           token: res.data.data.token,

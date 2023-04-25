@@ -138,11 +138,7 @@ export const ProductDetailPage = () => {
   const RenderImage = () => {
     let img;
     if (products.length == 0) {
-      img = [
-        'https://picsum.photos/1900/800',
-        'https://picsum.photos/1900/800',
-        'https://picsum.photos/1900/800',
-      ];
+      return <div></div>;
     } else {
       img = [products[0].IMG1, products[0].IMG2, products[0].IMG3];
     }
@@ -167,6 +163,9 @@ export const ProductDetailPage = () => {
   };
 
   const RenderBestSeller = () => {
+    if (items.length == 0) {
+      return <div></div>;
+    }
     const data = items.map((item, index) => (
       <Card
         className="product-detail_recommend-image"
@@ -335,6 +334,9 @@ export const ProductDetailPage = () => {
   };
 
   const RenderDescription = () => {
+    if (products.length == 0) {
+      return <div></div>;
+    }
     return (
       <Stack className="product-detail_comment-content">
         <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>

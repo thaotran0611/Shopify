@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Typography, Grid, Container } from '@mui/material';
 import TextField from '@mui/material/TextField';
@@ -14,7 +14,8 @@ export const PaymentPage = () => {
     navigate('/');
   };
   const [open, setOpen] = useState(false);
-  const [payment, setPayment] = React.useState('cast');
+  const [payment, setPayment] = React.useState('cash');
+
   const handlePayment = (event) => {
     setPayment(event.target.value);
   };
@@ -81,7 +82,7 @@ export const PaymentPage = () => {
                   label="Payment"
                   style={{ width: 400, marginBottom: 20 }}
                   onChange={handlePayment}>
-                  <MenuItem value={'cast'}>Cast</MenuItem>
+                  <MenuItem value={'cash'}>Cash</MenuItem>
                   <MenuItem value={'momo'}>Momo</MenuItem>
                 </Select>
                 <TextField
