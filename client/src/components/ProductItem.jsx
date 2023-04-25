@@ -1,9 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { IconButton } from '@mui/material';
 import styled from 'styled-components';
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
 
 const Product = styled.div`
   display: flex;
@@ -99,13 +96,7 @@ export const ProductItem = ({
       </ProductDetail>
       <PriceDetail>
         <ProductAmountContainer>
-          <IconButton aria-label="add" onClick={() => setNum(num + 1)}>
-            <AddIcon />
-          </IconButton>
-          <ProductAmount>{num}</ProductAmount>
-          <IconButton aria-label="remove" onClick={() => setNum(num - 1)}>
-            <RemoveIcon />
-          </IconButton>
+          <ProductAmount>Quantity: {num}</ProductAmount>
         </ProductAmountContainer>
         <ProductPrice>${price}</ProductPrice>
       </PriceDetail>

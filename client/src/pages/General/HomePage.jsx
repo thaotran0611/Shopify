@@ -12,9 +12,8 @@ import {
   Grid,
   Button,
 } from '@mui/material';
-
+import { useNavigate } from 'react-router-dom';
 export const HomePage = ({ setLoggedIn }) => {
-  setLoggedIn(true);
   const [products, setProducts] = useState([]);
   useEffect(() => {
     getProducts().then((data) => setProducts(data));
@@ -57,6 +56,7 @@ export const HomePage = ({ setLoggedIn }) => {
           component="img"
           image={product.IMG1}
           alt="unsplash img"
+          onClick={() => navigate(`/product/detail?code=${product.CODE}`)}
           sx={{
             width: '100%',
             height: '280px',
@@ -188,7 +188,7 @@ export const HomePage = ({ setLoggedIn }) => {
     }
     return list;
   };
-
+  const navigate = useNavigate();
   return (
     <React.Fragment>
       <Box display="flex" justifyContent="center" alignItems="center">

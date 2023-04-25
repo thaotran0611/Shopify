@@ -61,7 +61,7 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
                 ),
               }}
               sx={{
-                width: '50%',
+                width: '30%',
                 backgroundColor: '#f6f6f6',
                 mr: 2,
               }}
@@ -72,7 +72,7 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
               <Button
                 variant="contained"
                 startIcon={
-                  <Badge badgeContent={5} color="error">
+                  <Badge badgeContent={0} color="error">
                     <ShoppingBagOutlinedIcon />
                   </Badge>
                 }
@@ -103,226 +103,134 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
                 }}>
                 Đăng xuất
               </Button>
+              <Button
+                variant="contained"
+                disableElevation
+                sx={{
+                  background: 'inherit',
+                  color: '#000',
+                  textTransform: 'none',
+                  '&:hover': {
+                    color: '#fff',
+                  },
+                }}>
+                {JSON.parse(sessionStorage.getItem('user')).name} -{' '}
+                {JSON.parse(sessionStorage.getItem('user')).role.toUpperCase()}
+              </Button>
+            </Stack>
+          )}
+          {!loggedIn && (
+            <Stack direction="row" sx={{ mr: 10 }}>
+              <Button
+                variant="contained"
+                startIcon={
+                  <Badge badgeContent={0} color="error">
+                    <ShoppingBagOutlinedIcon />
+                  </Badge>
+                }
+                disableElevation
+                onClick={() => navigate('/login')}
+                sx={{
+                  background: 'inherit',
+                  color: '#000',
+                  textTransform: 'none',
+                  '&:hover': {
+                    color: '#fff',
+                  },
+                }}>
+                Đăng nhập
+              </Button>
+              <Button
+                variant="contained"
+                startIcon={<PermIdentityIcon />}
+                disableElevation
+                onClick={() => navigate('/signup')}
+                sx={{
+                  background: 'inherit',
+                  color: '#000',
+                  textTransform: 'none',
+                  '&:hover': {
+                    color: '#fff',
+                  },
+                }}>
+                Đăng ký
+              </Button>
             </Stack>
           )}
         </Toolbar>
-        {loggedIn && (
-          <Toolbar>
-            <Button
-              disableElevation
-              variant="contained"
-              onClick={() => navigate('/home')}
-              sx={{
-                ml: 8.5,
-                background: 'inherit',
-                color: '#000',
-                '&:hover': {
-                  color: '#fff',
-                },
-                fontWeight: 600,
-              }}>
-              Trang chủ
-            </Button>
-            <Button
-              disableElevation
-              variant="contained"
-              onClick={() => navigate('/intro')}
-              sx={{
-                background: 'inherit',
-                color: '#000',
-                '&:hover': {
-                  color: '#fff',
-                },
-                fontWeight: 600,
-              }}>
-              Giới thiệu
-            </Button>
-            <Button
-              disableElevation
-              variant="contained"
-              onClick={() => navigate('/product')}
-              sx={{
-                background: 'inherit',
-                color: '#000',
-                '&:hover': {
-                  color: '#fff',
-                },
-                fontWeight: 600,
-              }}>
-              Sản phẩm
-            </Button>
-            <Button
-              disableElevation
-              variant="contained"
-              onClick={() => navigate('/news')}
-              onMouseOver={() => setCateState(true)}
-              onMouseLeave={() => setCateState(false)}
-              sx={{
-                background: 'inherit',
-                color: '#000',
-                '&:hover': {
-                  color: '#fff',
-                },
-                fontWeight: 600,
-              }}>
-              Phân loại
-            </Button>
-            <Button
-              disableElevation
-              variant="contained"
-              onClick={() => navigate('/contact')}
-              onMouseOver={() => setColState(true)} 
-              onMouseLeave={() => setColState(false)} 
-              sx={{
-                background: 'inherit',
-                color: '#000',
-                '&:hover': {
-                  color: '#fff',
-                },
-                fontWeight: 600,
-              }}>
-              Bộ sưu tập
-            </Button>
-          </Toolbar>
-        )}
-        {cateState && (
-          <Box 
-            onMouseOver={() => setCateState(true)} 
-            onMouseLeave={() => setCateState(false)} 
-            sx={{ 
-              zIndex: '999999', 
-              px: '91px',
-              mt: '-13px',
-            }}
-          >
-            <Stack sx={{ py: '40px', px: '30px', display: 'flex', justifyContent: 'space-between' }} direction='row'>
-              <CardMedia
-                component="img"
-                image="https://picsum.photos/700/900"
-                alt="unsplash img"
-                sx={{
-                  width: '220px',
-                  height: '280px',
-                  objectFit: 'contain',
-                  backgroundColor: '#e3e3e3',
-                }}
-              />
-              <Stack 
-                sx={{ 
-                  display: 'flex', 
-                  justifyContent: 'space-between', 
-                  flexWrap: 'wrap', 
-                  flexDirection: 'row',
-                  alignItems: 'flex-start',
-                  alignContent: 'flex-start'
-                }}
-              > 
-                {categories.map((text, index) => (
-                  <Typography 
-                    align='right'
-                    key={index} 
-                    width='200px'
-                    maxHeight='50px'
-                    sx={{ 
-                      color: '#786665',
-                      pl: '30px',
-                      mb: '10px',
-                      fontSize: '16px',
-                      textAlign: 'left',
-                      fontWeight: '600',
-                      cursor: 'pointer',
-                      "&:hover": { 
-                        color: "#4bc1f4"                      
-                      }
-                    }}
-                  >
-                    {text}
-                  </Typography>
-                ))}
-              </Stack>
-              <CardMedia
-                component="img"
-                image="https://picsum.photos/700/900"
-                alt="unsplash img"
-                sx={{
-                  width: '220px',
-                  height: '280px',
-                  objectFit: 'contain',
-                  backgroundColor: '#e3e3e3',
-                }}
-              />
-            </Stack>
-          </Box>
-        )}
-        {colState && (
-          <Box 
-            onMouseOver={() => setColState(true)} 
-            onMouseLeave={() => setColState(false)} 
-            sx={{ 
-              zIndex: '999999', 
-              px: '91px',
-              mt: '-13px',
-            }}
-          >
-            <Stack sx={{ py: '40px', px: '30px', display: 'flex', justifyContent: 'space-between' }} direction='row'>
-              <CardMedia
-                component="img"
-                image="https://picsum.photos/700/900"
-                alt="unsplash img"
-                sx={{
-                  width: '220px',
-                  height: '280px',
-                  objectFit: 'contain',
-                  backgroundColor: '#e3e3e3',
-                }}
-              />
-              <Stack 
-                sx={{ 
-                  display: 'flex', 
-                  justifyContent: 'space-between', 
-                  flexWrap: 'wrap', 
-                  flexDirection: 'row',
-                  alignItems: 'flex-start',
-                  alignContent: 'flex-start'
-                }}
-              > 
-                {collections.map((text, index) => (
-                  <Typography 
-                    align='right'
-                    key={index} 
-                    width='200px'
-                    maxHeight='50px'
-                    sx={{ 
-                      color: '#786665',
-                      pl: '30px',
-                      mb: '10px',
-                      fontSize: '16px',
-                      textAlign: 'left',
-                      fontWeight: '600',
-                      cursor: 'pointer',
-                      "&:hover": { 
-                        color: "#4bc1f4"                      
-                      }
-                    }}
-                  >
-                  {text}
-                </Typography>
-                ))}
-              </Stack>
-              <CardMedia
-                component="img"
-                image="https://picsum.photos/700/900"
-                alt="unsplash img"
-                sx={{
-                  width: '220px',
-                  height: '280px',
-                  objectFit: 'contain',
-                  backgroundColor: '#e3e3e3',
-                }}
-              />
-            </Stack>
-          </Box>
-        )}
+        <Toolbar>
+          <Button
+            disableElevation
+            variant="contained"
+            onClick={() => navigate('/home')}
+            sx={{
+              ml: 8.5,
+              background: 'inherit',
+              color: '#000',
+              '&:hover': {
+                color: '#fff',
+              },
+              fontWeight: 600,
+            }}>
+            Trang chủ
+          </Button>
+          <Button
+            disableElevation
+            variant="contained"
+            onClick={() => navigate('/intro')}
+            sx={{
+              background: 'inherit',
+              color: '#000',
+              '&:hover': {
+                color: '#fff',
+              },
+              fontWeight: 600,
+            }}>
+            Giới thiệu
+          </Button>
+          <Button
+            disableElevation
+            variant="contained"
+            onClick={() => navigate('/product')}
+            sx={{
+              background: 'inherit',
+              color: '#000',
+              '&:hover': {
+                color: '#fff',
+              },
+              fontWeight: 600,
+            }}>
+            Sản phẩm
+          </Button>
+          <Button
+            disableElevation
+            variant="contained"
+            onClick={() => navigate('/news')}
+            sx={{
+              background: 'inherit',
+              color: '#000',
+              '&:hover': {
+                color: '#fff',
+              },
+              fontWeight: 600,
+            }}>
+            Tin tức
+          </Button>
+          <Button
+            disableElevation
+            variant="contained"
+            onClick={() => navigate('/contact')}
+            sx={{
+              background: 'inherit',
+              color: '#000',
+              '&:hover': {
+                color: '#fff',
+              },
+              fontWeight: 600,
+            }}>
+            Liên hệ
+          </Button>
+        </Toolbar>
       </AppBar>
     </React.Fragment>
   );

@@ -1,5 +1,6 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import styled from 'styled-components';
 import {
   Box,
   Stack,
@@ -11,6 +12,7 @@ import {
   ToggleButtonGroup,
   ToggleButton,
   RadioGroup,
+  Checkbox,
   Radio,
   TextField,
   Card,
@@ -33,17 +35,80 @@ import UpdateOutlinedIcon from '@mui/icons-material/UpdateOutlined';
 import CircleIcon from '@mui/icons-material/Circle';
 import '../../styles/ProductDetailPage.css';
 import { useNavigate } from 'react-router-dom';
-
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
+import axios from 'axios';
 export const ProductDetailPage = () => {
-  const [mainImg, setMainImg] = useState('https://picsum.photos/1900/800');
-  const [size, setSize] = useState('S');
+  const params = new URLSearchParams(document.location.search);
+  const code = params.get('code');
+  const [products, setProducts] = useState('');
+  const [items, setItems] = useState('');
+  const [open, setOpen] = useState(false);
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
+  useEffect(() => {
+    getItems().then((data) => setItems(data));
+  }, []);
+  const getItems = async () => {
+    return axios
+      .get('http://localhost:8080/api/products/all')
+      .then((res) => res.data);
+  };
+  const getProducts = async () => {
+    return axios
+      .get(`http://localhost:8080/api/products/detail?code=${code}`)
+      .then((res) => res.data);
+  };
+  const getData = async () => {
+    return await getProducts().then((res) => {
+      setProducts(res);
+      setMainImg(res[0].IMG1);
+      setColor(handleColor(res[0].COLOR));
+    });
+  };
+  useEffect(() => {
+    getData();
+  }, [code]);
+
+  const [mainImg, setMainImg] = useState('');
+  const [size, setSize] = useState('');
   const [quantity, setQuantity] = useState(1);
   const [tab, setTab] = useState(1);
-
+  const [colors, setColor] = useState(['red']);
+  const ProductColor = styled.div`
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin: 10px;
+    background-color: ${(props) => props.color};
+  `;
   const handleSize = (e) => {
     setSize(e.target.value);
   };
-
+  const handleColor = (data) => {
+    let ret = [];
+    const vietColor = ['Đỏ', 'Xanh', 'Vàng', 'Cam', 'Hồng', 'Đen', 'Trắng'];
+    const engColor = [
+      'red',
+      'blue',
+      'yellow',
+      'orange',
+      'pink',
+      'black',
+      'white',
+    ];
+    for (let i = 0; i < vietColor.length; i++) {
+      if (data.includes(vietColor[i])) {
+        ret.push(engColor[i]);
+      }
+    }
+    console.log('Ret:', ret);
+    return ret;
+  };
   const handleQuantity = (val) => {
     let tmp = quantity;
 
@@ -53,19 +118,44 @@ export const ProductDetailPage = () => {
     if (tmp >= 1) setQuantity(tmp);
     else setQuantity(1);
   };
-
+  const handleClickAdd = () => {
+    let isCustomer = sessionStorage.getItem('user') != null;
+    if (isCustomer == false) {
+      setOpen(true);
+    }
+  };
+  const handleClickBuy = () => {
+    let isCustomer = JSON.parse(sessionStorage.getItem('user')) != null;
+    if (isCustomer == false) {
+      setOpen(true);
+    } else {
+      navigate('/cart');
+    }
+  };
   const RenderImage = () => {
+    let img;
+    if (products.length == 0) {
+      img = [
+        'https://picsum.photos/1900/800',
+        'https://picsum.photos/1900/800',
+        'https://picsum.photos/1900/800',
+      ];
+    } else {
+      img = [products[0].IMG1, products[0].IMG2, products[0].IMG3];
+    }
     let list = [];
     for (let i = 0; i < 3; i++) {
       list.push(
         <ButtonBase
           disableRipple
           key={i}
+          value={i}
           onClick={(event) => setMainImg(event.target.currentSrc)}>
           <CardMedia
             component="img"
-            image="https://picsum.photos/1900/800"
+            image={img[i]}
             alt="unsplash img"
+            sx={{ objectFit: 'contain', backgroundColor: '#e3e3e3' }}
           />
         </ButtonBase>
       );
@@ -74,40 +164,39 @@ export const ProductDetailPage = () => {
   };
 
   const RenderBestSeller = () => {
-    let list = [];
-    for (let i = 0; i < 5; i++) {
-      list.push(
-        <Card className="product-detail_recommend-image" elevation={0} key={i}>
-          <Box className="product-detail_img-detail">
-            <Typography>New</Typography>
-            <Typography>-20%</Typography>
-          </Box>
-          <CardMedia
-            component="img"
-            image="https://picsum.photos/1900/800"
-            alt="unsplash img"
-          />
-          <CardContent>
+    const data = items.map((item, index) => (
+      <Card
+        className="product-detail_recommend-image"
+        elevation={0}
+        key={index}>
+        <Box className="product-detail_img-detail">
+          <Typography>New</Typography>
+          <Typography>-20%</Typography>
+        </Box>
+        <CardMedia
+          component="img"
+          image={item.IMG1}
+          alt="unsplash img"
+          onClick={() => navigate(`/product/detail?code=${item.CODE}`)}
+          sx={{ objectFit: 'contain', backgroundColor: '#e3e3e3' }}
+        />
+        <CardContent>
+          <Typography variant="h6" component="div">
+            {item.NAME}
+          </Typography>
+          <Stack direction="row" display="flex" justifyContent="space-between">
             <Typography variant="h6" component="div">
-              Luiz Vitton Lace Suit
+              ${item.PRICE}
             </Typography>
-            <Stack
-              direction="row"
-              display="flex"
-              justifyContent="space-between">
-              <Typography variant="h6" component="div">
-                $180.00
-              </Typography>
-              <Typography variant="h6" component="div">
-                $210.90
-              </Typography>
-              <Rating size="small"></Rating>
-            </Stack>
-          </CardContent>
-        </Card>
-      );
-    }
-    return list;
+            <Typography variant="h6" component="div">
+              ${item.PRICE * 1.2}
+            </Typography>
+            <Rating size="small"></Rating>
+          </Stack>
+        </CardContent>
+      </Card>
+    ));
+    return data;
   };
 
   const RenderSellerComment = () => {
@@ -243,191 +332,212 @@ export const ProductDetailPage = () => {
   };
 
   const RenderDescription = () => {
-    return <Stack className="product-detail_comment-content"></Stack>;
+    return (
+      <Stack className="product-detail_comment-content">
+        <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
+          {products[0].DESCRIPTION}
+        </Typography>
+      </Stack>
+    );
   };
   const navigate = useNavigate();
   return (
     <React.Fragment>
-      <Box className="product-detail_container">
-        <Box className="product-detail_wrapper">
-          <Stack className="product-detail_breadcrumbs">
-            <Breadcrumbs aria-label="breadcrumbs" separator=">">
-              <Link href="#">Home</Link>
-              <Link href="#">Shop All</Link>
-              <Link href="#">Shop All</Link>
-            </Breadcrumbs>
-          </Stack>
-          <Box className="product-detail_content">
-            <Stack className="product-detail_content-side">
-              <RenderImage />
+      {products && (
+        <Box className="product-detail_container">
+          <Box className="product-detail_wrapper">
+            <Stack className="product-detail_breadcrumbs">
+              <Breadcrumbs aria-label="breadcrumbs" separator=">">
+                <Link href="#">Home</Link>
+                <Link href="#">Shop All</Link>
+                <Link href="#">Shop All</Link>
+              </Breadcrumbs>
             </Stack>
-            <Box className="product-detail_main">
-              <Stack className="product-detail_main-img">
-                <CardMedia component="img" image={mainImg} alt="unsplash img" />
+            <Box className="product-detail_content">
+              <Stack className="product-detail_content-side">
+                <RenderImage />
               </Stack>
-              <Stack className="product-detail_main-detail">
-                <Typography variant="h6" component="div">
-                  Luiz Vitton Lace Suit
-                </Typography>
-                <Stack direction="row">
-                  <Rating size="small" value={5}></Rating>
-                  <Typography variant="h6" component="div">
-                    (12)
-                  </Typography>
+              <Box className="product-detail_main">
+                <Stack className="product-detail_main-img">
+                  <CardMedia
+                    component="img"
+                    image={mainImg}
+                    alt="unsplash img"
+                  />
                 </Stack>
-                <Stack direction="row">
+                <Stack className="product-detail_main-detail">
                   <Typography variant="h6" component="div">
-                    $180.00
+                    {products[0].NAME}
                   </Typography>
-                  <Typography variant="h6" component="div">
-                    $210.90
-                  </Typography>
-                </Stack>
-                <Stack>
-                  <Typography variant="h6" component="div">
-                    Color:
-                  </Typography>
-                  <RadioGroup
-                    aria-labelledby="demo-radio-buttons-group-label"
-                    defaultValue={colors[0]}
-                    name="radio-buttons-group"
-                    row>
-                    {colors.map((text) => (
-                      <FormControlLabel
-                        key={text}
-                        value={text}
-                        control={<Radio />}
+                  <Stack direction="row">
+                    <Rating
+                      size="small"
+                      value={Math.random() * (5 - 3) + 3}></Rating>
+                    <Typography variant="h6" component="div">
+                      (12)
+                    </Typography>
+                  </Stack>
+                  <Stack direction="row">
+                    <Typography variant="h6" component="div">
+                      ${products[0].PRICE}
+                    </Typography>
+                    <Typography variant="h6" component="div">
+                      ${products[0].PRICE * 1.2}
+                    </Typography>
+                  </Stack>
+                  <Stack>
+                    <Typography variant="h6" component="div">
+                      Color:
+                    </Typography>
+                    <RadioGroup
+                      aria-labelledby="demo-radio-buttons-group-label"
+                      defaultValue={colors[0]}
+                      name="radio-buttons-group"
+                      row>
+                      {colors.map((text) => (
+                        <FormControlLabel
+                          key={text}
+                          value={text}
+                          control={<ProductColor color={text} />}
+                        />
+                      ))}
+                    </RadioGroup>
+                  </Stack>
+                  <Stack>
+                    <Typography variant="h6" component="div">
+                      Size:
+                    </Typography>
+                    <ToggleButtonGroup
+                      value={size}
+                      exclusive
+                      onChange={handleSize}
+                      aria-label="size">
+                      {products[0].SIZE.split(',').map((text) => (
+                        <ToggleButton
+                          key={text}
+                          value={text}
+                          aria-label={text}
+                          disableRipple>
+                          {text}
+                        </ToggleButton>
+                      ))}
+                    </ToggleButtonGroup>
+                  </Stack>
+                  <Stack>
+                    <Typography variant="h6" component="div">
+                      Quantity:
+                    </Typography>
+                    <ButtonGroup
+                      disableElevation
+                      variant="contained"
+                      aria-label="Disabled elevation buttons">
+                      <Button
+                        disableRipple
+                        endIcon={<RemoveIcon />}
+                        onClick={() => handleQuantity(1)}></Button>
+                      <Button
+                        disableRipple
                         sx={{
-                          '& .Mui-checked': {
-                            color: text,
-                          },
-                        }}
-                      />
-                    ))}
-                  </RadioGroup>
-                </Stack>
-                <Stack>
-                  <Typography variant="h6" component="div">
-                    Size:
-                  </Typography>
-                  <ToggleButtonGroup
-                    value={size}
-                    exclusive
-                    onChange={handleSize}
-                    aria-label="size">
-                    {['S', 'M', 'L', 'XL', 'XXL'].map((text) => (
-                      <ToggleButton
-                        key={text}
-                        value={text}
-                        aria-label={text}
-                        disableRipple>
-                        {text}
-                      </ToggleButton>
-                    ))}
-                  </ToggleButtonGroup>
-                </Stack>
-                <Stack>
-                  <Typography variant="h6" component="div">
-                    Quantity:
-                  </Typography>
-                  <ButtonGroup
-                    disableElevation
-                    variant="contained"
-                    aria-label="Disabled elevation buttons">
-                    <Button
-                      disableRipple
-                      endIcon={<RemoveIcon />}
-                      onClick={() => handleQuantity(1)}></Button>
-                    <Button
-                      disableRipple
-                      sx={{
-                        fontSize: '16px',
-                      }}>
-                      {quantity}
+                          fontSize: '16px',
+                        }}>
+                        {quantity}
+                      </Button>
+                      <Button
+                        disableRipple
+                        startIcon={<AddIcon />}
+                        onClick={() => handleQuantity(0)}></Button>
+                    </ButtonGroup>
+                  </Stack>
+                  <Stack direction="row">
+                    <Button onClick={() => handleClickAdd()}>
+                      Add to Cart
                     </Button>
-                    <Button
-                      disableRipple
-                      startIcon={<AddIcon />}
-                      onClick={() => handleQuantity(0)}></Button>
-                  </ButtonGroup>
-                </Stack>
-                <Stack direction="row">
-                  <Button>Add to Cart</Button>
-                  <Button onClick={() => navigate('/cart')}>Buy Now</Button>
-                  <IconButton aria-label="delete">
-                    <FavoriteIcon />
-                  </IconButton>
-                </Stack>
-                <Stack direction="column">
-                  <Box>
-                    <Typography variant="h6" component="div">
-                      Product Code: &nbsp;
-                    </Typography>
-                    <Typography variant="h6" component="div">
-                      #20344690
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <LocalShippingOutlinedIcon />
-                    &nbsp;
-                    <Typography variant="h6" component="div">
-                      FREE delivery Friday, 14 October on first order.
-                      <Typography variant="h6" component="span">
-                        Details
+                    <Button onClick={() => handleClickBuy()}>Buy Now</Button>
+                    <IconButton aria-label="delete">
+                      <FavoriteIcon />
+                    </IconButton>
+                  </Stack>
+                  <Stack direction="column">
+                    <Box>
+                      <Typography variant="h6" component="div">
+                        Product Code: &nbsp;
                       </Typography>
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <UpdateOutlinedIcon />
-                    &nbsp;
-                    <Typography variant="h6" component="div">
-                      Delivers in: 3-7 Working Days. &nbsp;
-                    </Typography>
-                    <Typography variant="h6" component="div">
-                      Learn More
-                    </Typography>
-                  </Box>
+                      <Typography variant="h6" component="div">
+                        #20344690
+                      </Typography>
+                    </Box>
+                    <Box>
+                      <LocalShippingOutlinedIcon />
+                      &nbsp;
+                      <Typography variant="h6" component="div">
+                        FREE delivery Friday, 14 October on first order.
+                        <Typography variant="h6" component="span">
+                          Details
+                        </Typography>
+                      </Typography>
+                    </Box>
+                    <Box>
+                      <UpdateOutlinedIcon />
+                      &nbsp;
+                      <Typography variant="h6" component="div">
+                        Delivers in: 3-7 Working Days. &nbsp;
+                      </Typography>
+                      <Typography variant="h6" component="div">
+                        Learn More
+                      </Typography>
+                    </Box>
+                  </Stack>
                 </Stack>
-              </Stack>
+              </Box>
             </Box>
           </Box>
-        </Box>
-        <Box className="product-detail_comment">
-          <Stack className="product-detail_comment-header" direction="row">
-            <Button
-              className={tab === 0 && 'border_bottom'}
-              onClick={() => setTab(0)}
-              disableRipple>
-              Product Description
-            </Button>
-            <Button
-              className={tab === 1 && 'border_bottom'}
-              onClick={() => setTab(1)}
-              disableRipple>
-              Rating & Reviews
-            </Button>
-            <Button
-              className={tab === 2 && 'border_bottom'}
-              onClick={() => setTab(2)}
-              disableRipple>
-              Questions
-            </Button>
-          </Stack>
-          {tab === 0 && <RenderDescription />}
-          {tab === 1 && <RenderRating />}
-          {tab === 2 && <RenderQuestion />}
-          <Stack className="product-detail_recommend">
-            <Typography gutterBottom variant="h6" component="div">
-              Silimar Items You Might Like
-            </Typography>
-            <Stack>
-              <RenderBestSeller />
+          <Box className="product-detail_comment">
+            <Stack className="product-detail_comment-header" direction="row">
+              <Button
+                className={tab === 0 && 'border_bottom'}
+                onClick={() => setTab(0)}
+                disableRipple>
+                Product Description
+              </Button>
+              <Button
+                className={tab === 1 && 'border_bottom'}
+                onClick={() => setTab(1)}
+                disableRipple>
+                Rating & Reviews
+              </Button>
+              <Button
+                className={tab === 2 && 'border_bottom'}
+                onClick={() => setTab(2)}
+                disableRipple>
+                Questions
+              </Button>
             </Stack>
-          </Stack>
+            {tab === 0 && <RenderDescription />}
+            {tab === 1 && <RenderRating />}
+            {tab === 2 && <RenderQuestion />}
+            <Stack className="product-detail_recommend">
+              <Typography gutterBottom variant="h6" component="div">
+                Silimar Items You Might Like
+              </Typography>
+              <Stack>
+                <RenderBestSeller />
+              </Stack>
+            </Stack>
+            <Snackbar
+              open={open}
+              autoHideDuration={6000}
+              onClose={handleClose}
+              anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
+              <Alert
+                onClose={handleClose}
+                severity="warning"
+                sx={{ width: '100%' }}>
+                Please Login!!!
+              </Alert>
+            </Snackbar>
+          </Box>
         </Box>
-      </Box>
+      )}
     </React.Fragment>
   );
 };
-
-const colors = ['#2434c7', '#000', '#f04439'];

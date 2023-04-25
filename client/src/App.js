@@ -14,29 +14,37 @@ import { ProductDetailPage } from './pages/Customer/ProductDetailPage';
 import CartPage from './pages/Customer/CartPage';
 import { ErrorPage } from './pages/General/ErrorPage';
 import { PaymentPage } from './pages/Customer/PaymentPage';
-
+import { TestPage } from './pages/Admin/TestPage';
 function App() {
-  const [loggedIn, setLoggedIn] = useState(true);
-
+  const [loggedIn, setLoggedIn] = useState(false);
+  let isAdmin = false;
+  if (loggedIn == true) {
+    isAdmin = JSON.parse(sessionStorage.getItem('user')).role == 'admin';
+  } else {
+    sessionStorage.removeItem('user');
+  }
   return (
     <Box>
-      <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
+      {!isAdmin && <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn} />}
       <Routes>
         <Route path="/" element={<HomePage setLoggedIn={setLoggedIn} />} />
+        {isAdmin && <Route path="/home" element={<TestPage />} />}
         <Route path="/home" element={<HomePage setLoggedIn={setLoggedIn} />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/login"
+          element={<LoginPage setLoggedIn={setLoggedIn} />}
+        />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/product" element={<ProductPage />} />
-        <Route path="/product/detail" element={<ProductDetailPage />} />
+        <Route path="/product/:code" element={<ProductDetailPage />} />
         <Route path="/cart" element={<CartPage />} />
-        <Route path="/payment" element={<PaymentPage />} />
         <Route path="/payment" element={<PaymentPage />} />
         <Route path="/order" element={<MyOrderPage />} />
         <Route path="/order/detail" element={<OrderDetailPage />} />
         <Route path="/about-us" element={<AboutUsPage />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
-      <Footer />
+      {!isAdmin && <Footer />}
     </Box>
   );
 }

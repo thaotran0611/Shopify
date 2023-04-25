@@ -53,7 +53,8 @@ export const LoginPage = ({ setLoggedIn }) => {
         sessionStorage.setItem('user', JSON.stringify(dataResponse));
       })
       .then(() => {
-        navigate('/');
+        setLoggedIn(true);
+        navigate('/home');
       })
       .catch((res) => {
         setOpen(true);
@@ -65,7 +66,7 @@ export const LoginPage = ({ setLoggedIn }) => {
         display="flex"
         justifyContent="center"
         alignItems="center"
-        mt={20}
+        mt={30}
         mb={10}>
         <Box direction="column">
           <Typography
