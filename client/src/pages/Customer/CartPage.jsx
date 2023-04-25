@@ -4,6 +4,14 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ProductItem } from '../../components/ProductItem';
 import axios from 'axios';
+import { Box, Typography, Grid } from '@mui/material';
+import TextField from '@mui/material/TextField';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import Button from '@mui/material/Button';
+
 const Container = styled.div``;
 
 const Wrapper = styled.div`
@@ -53,6 +61,7 @@ const Summary = styled.div`
   border-radius: 10px;
   padding: 20px;
   height: 30vh;
+  margin-bottom: 20px;
 `;
 
 const SummaryTitle = styled.h1`
@@ -71,89 +80,226 @@ const SummaryItemText = styled.span``;
 
 const SummaryItemPrice = styled.span``;
 
-const productData = [
-  {
-    id: 1,
-    thumbNail:
-      'https://js0fpsb45jobj.vcdn.cloud/storage/upload/media/gumac3/dc08097/2-den-dc08097.jpg',
-    title: 'Product 1',
-    size: 20,
-    color: 'red',
-    quantity: 10,
-    price: 100,
-  },
-  {
-    id: 2,
-    thumbNail:
-      'https://js0fpsb45jobj.vcdn.cloud/storage/upload/media/gumac/DC09062/2-CAM-DC09062.jpg',
-    title: 'Product 2',
-    size: 24,
-    color: 'blue',
-    quantity: 30,
-    price: 150,
-  },
-];
+const PaymentForm = ({ cost, totalProduct }) => {
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const [name, setName] = useState('');
+  const [payment, setPayment] = useState('cash');
+  const [note, setNote] = useState('');
+  const [phone, setPhone] = useState('');
+  const [add, setAdd] = useState('');
+  const customerID = sessionStorage.getItem('user')
+    ? JSON.parse(sessionStorage.getItem('user')).id
+    : '0';
+
+  const handleConfirmPayment = () => {
+    let customerName = '';
+    if (sessionStorage.getItem('user')) {
+      customerName = JSON.parse(sessionStorage.getItem('user')).name;
+    } else {
+      return;
+    }
+    axios({
+      method: 'post',
+      url: 'http://localhost:8080/api/orders/add',
+      data: {
+        CUSTOMER: customerID,
+        NAME: name,
+        PAY: payment,
+        NOTE: note,
+        PHONE: phone,
+        ADD: add,
+        COST: cost,
+        TOTAL_PRODUCT: totalProduct,
+      },
+    })
+      .then((res) => {
+        console.log('Success');
+      })
+      .catch((res) => {
+        console.log('Error');
+        console.log(res);
+      });
+  };
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
+  return (
+    <React.Fragment>
+      <Box
+        style={{
+          boxShadow: 'rgba(0, 0, 0, 0.16) 0px 1px 4px',
+          borderRadius: 5,
+          height: '65vh',
+        }}>
+        <Box>
+          <Typography
+            style={{
+              textAlign: 'center',
+              padding: 10,
+              fontSize: 30,
+              fontWeight: 'bold',
+            }}>
+            Thanh toán
+          </Typography>
+          <Box style={{ width: '80%', margin: '20px auto' }}>
+            <TextField
+              id="outlined-basic"
+              label="Họ tên"
+              variant="outlined"
+              required
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              style={{ width: 400, marginBottom: 20 }}
+            />
+            <TextField
+              id="outlined-basic"
+              label="Số điện thoại"
+              variant="outlined"
+              required
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              style={{ width: 400, marginBottom: 20 }}
+            />
+            <TextField
+              id="outlined-basic"
+              label="Địa chỉ"
+              variant="outlined"
+              required
+              value={add}
+              onChange={(e) => setAdd(e.target.value)}
+              style={{ width: 400, marginBottom: 20 }}
+            />
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={payment}
+              label="Payment"
+              style={{ width: 400, marginBottom: 20 }}
+              onChange={(e) => setPayment(e.target.value)}>
+              <MenuItem value={'cash'}>Cash</MenuItem>
+              <MenuItem value={'momo'}>Momo</MenuItem>
+            </Select>
+            <TextField
+              id="outlined-basic"
+              label="Ghi chú"
+              variant="outlined"
+              style={{ width: 400, marginBottom: 20 }}
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+            />
+            <Button
+              variant="contained"
+              size="large"
+              onClick={() => handleConfirmPayment()}
+              style={{ width: 400, marginBottom: 30 }}>
+              Xác nhận thanh toán
+            </Button>
+            <Snackbar
+              open={open}
+              autoHideDuration={6000}
+              onClose={handleClose}
+              anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
+              <Alert
+                onClose={handleClose}
+                severity="success"
+                sx={{ width: '100%' }}>
+                Thanh toán thành công
+              </Alert>
+            </Snackbar>
+          </Box>
+        </Box>
+      </Box>
+    </React.Fragment>
+  );
+};
+
 const CartPage = () => {
-  const [cart, setCart] = useState([]);
+  const [productData, setProductData] = useState([]);
+  const [bill, setBill] = useState([]);
+  const customerID = sessionStorage.getItem('user')
+    ? JSON.parse(sessionStorage.getItem('user')).id
+    : '0';
   useEffect(() => {
-    getCarts().then((data) => setCart(data));
+    getCarts().then((data) => setProductData(data));
+    getBill().then((data) => {
+      setBill([data[0]['TOTAL_COST'], data[0]['SUM(NUMBER)']]);
+    });
   }, []);
   const getCarts = async () => {
-    const customerID = JSON.parse(sessionStorage.getItem('user')).id;
     return axios
       .get(`http://localhost:8080/api/cart/detailCart?id=${customerID}`)
       .then((res) => res.data);
   };
+  const getBill = async () => {
+    return axios
+      .get(`http://localhost:8080/api/cart/calculate?id=${customerID}`)
+      .then((res) => res.data);
+  };
   const navigate = useNavigate();
-  const cartId = { total: 100 };
   return (
     <Container style={{ marginTop: 180 }}>
       <Wrapper>
         <Title style={{ fontSize: 30, fontWeight: 'bold' }}>
           ĐƠN HÀNG CỦA TÔI
         </Title>
-        <Top style={{ width: '80%', margin: '20px auto' }}>
-          <TopButton onClick={() => navigate('/product')}>
-            CONTINUE SHOPPING
-          </TopButton>
-          <TopButton type="filled" onClick={() => navigate('/payment')}>
-            CHECKOUT NOW
-          </TopButton>
-        </Top>
-        <Bottom style={{ width: '80%', margin: '20px auto' }}>
+        <Bottom style={{ width: '80%', margin: '50px auto' }}>
           <Info>
-            {productData.map((product) => (
-              <ProductItem
-                id={product.id}
-                thumbNail={product.thumbNail}
-                title={product.title}
-                size={product.size}
-                color={product.color}
-                quantity={product.quantity}
-                price={product.price}
-              />
-            ))}
-            <Hr />
+            {productData &&
+              productData.map((product) => (
+                <ProductItem
+                  id={product.CODE}
+                  thumbNail={product.IMG1}
+                  title={product.NAME}
+                  size={product.SIZE}
+                  color={product.COLOR}
+                  saleOff={product.SALEOFF}
+                  inStock={product.QUANITY}
+                  quantity={product.NUMBER}
+                  price={product.PRICE}
+                />
+              ))}
           </Info>
-          <Summary>
-            <SummaryTitle>ORDER SUMMARY</SummaryTitle>
-            <SummaryItem>
-              <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
-            </SummaryItem>
-            <SummaryItem>
-              <SummaryItemText>Estimated Shipping</SummaryItemText>
-              <SummaryItemPrice>$ 5.90</SummaryItemPrice>
-            </SummaryItem>
-            <SummaryItem>
-              <SummaryItemText>Shipping Discount</SummaryItemText>
-              <SummaryItemPrice>$ -5.90</SummaryItemPrice>
-            </SummaryItem>
-            <SummaryItem type="total">
-              <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>$ {cartId.total}</SummaryItemPrice>
-            </SummaryItem>
-          </Summary>
+          {bill && (
+            <Box sx={{ width: '40%', margin: '0 auto' }}>
+              <Summary>
+                <SummaryTitle>ORDER SUMMARY</SummaryTitle>
+                <SummaryItem>
+                  <SummaryItemText>Total</SummaryItemText>
+                  <SummaryItemPrice>
+                    $ {bill ? Math.round(bill[0]) : 0}
+                  </SummaryItemPrice>
+                </SummaryItem>
+                <SummaryItem>
+                  <SummaryItemText>Number</SummaryItemText>
+                  <SummaryItemPrice>{bill ? bill[1] : 0}</SummaryItemPrice>
+                </SummaryItem>
+                <SummaryItem>
+                  <SummaryItemText>Estimated Shipping</SummaryItemText>
+                  <SummaryItemPrice>$ 5.90</SummaryItemPrice>
+                </SummaryItem>
+                <SummaryItem>
+                  <SummaryItemText>Shipping Discount</SummaryItemText>
+                  <SummaryItemPrice>$ -5.90</SummaryItemPrice>
+                </SummaryItem>
+                <SummaryItem type="total">
+                  <SummaryItemText style={{ fontWeight: 'bold' }}>
+                    Total
+                  </SummaryItemText>
+                  <SummaryItemPrice style={{ fontWeight: 'bold' }}>
+                    $ {bill ? Math.round(bill[0]) : 0}
+                  </SummaryItemPrice>
+                </SummaryItem>
+              </Summary>
+              <PaymentForm
+                cost={Math.round(bill[0])}
+                totalProduct={Math.round(bill[1])}
+              />
+            </Box>
+          )}
         </Bottom>
       </Wrapper>
     </Container>

@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material';
 import React from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
@@ -32,44 +33,23 @@ const ProductColor = styled.div`
   height: 20px;
   border-radius: 50%;
   background-color: ${(props) => props.color};
+  margin-top: 10px;
 `;
 
 const ProductSize = styled.span``;
 
-const PriceDetail = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-const ProductAmountContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-`;
-
-const ProductAmount = styled.div`
-  font-size: 24px;
-  margin: 5px;
-`;
-
-const ProductPrice = styled.div`
-  font-size: 30px;
-  font-weight: 200;
-  margin-top: 20px;
-`;
-
-export const ProductItem = ({
-  thumbNail,
-  title,
-  id,
-  size,
-  color,
-  quantity,
-  price,
-}) => {
-  const [num, setNum] = useState(quantity);
+export const ProductItem = (props) => {
+  const {
+    thumbNail,
+    title,
+    id,
+    size,
+    color,
+    quantity,
+    price,
+    inStock,
+    saleOff,
+  } = props;
   return (
     <Product
       style={{
@@ -83,23 +63,34 @@ export const ProductItem = ({
         <Image src={thumbNail} />
         <Details>
           <ProductName>
-            <b>Product: {title}</b>
+            <b>Tên sản phẩm: {title}</b>
           </ProductName>
           <ProductId>
-            <b>ID: {id}</b>
+            <b>Code: {id}</b>
           </ProductId>
-          <ProductColor color={color} />
+          <ProductId>
+            <b>Màu sắc: </b>
+            <ProductColor color={color} />
+          </ProductId>
           <ProductSize>
-            <b>Size: {size}</b>
+            <b>Kích cỡ: {size}</b>
+          </ProductSize>
+          <ProductSize>
+            <b>Số lượng: {quantity}</b>
+          </ProductSize>
+          <ProductSize>
+            <b>Tồn kho: {inStock}</b>
+          </ProductSize>
+          <ProductSize>
+            <b>Giảm giá: {saleOff * 100}%</b>
+          </ProductSize>
+          <ProductSize>
+            <b>
+              Giá: <b style={{ fontWeight: 'bold' }}>$ {price}</b>
+            </b>
           </ProductSize>
         </Details>
       </ProductDetail>
-      <PriceDetail>
-        <ProductAmountContainer>
-          <ProductAmount>Quantity: {num}</ProductAmount>
-        </ProductAmountContainer>
-        <ProductPrice>${price}</ProductPrice>
-      </PriceDetail>
     </Product>
   );
 };

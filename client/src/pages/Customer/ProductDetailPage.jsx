@@ -101,12 +101,6 @@ export const ProductDetailPage = () => {
       setOpen(true);
       return;
     }
-    if (colorSelected == '') {
-      alert('Please choose color!!');
-    }
-    if (size == '') {
-      alert('Please choose size!!');
-    }
     axios({
       method: 'post',
       url: 'http://localhost:8080/api/cart/add',

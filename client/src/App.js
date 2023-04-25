@@ -21,7 +21,6 @@ import DashBoard from './pages/Admin/DashBoard';
 import { MyOrderPage } from './pages/Customer/MyOrderPage';
 import { OrderDetailPage } from './pages/Customer/OrderDetailPage';
 import CartPage from './pages/Customer/CartPage';
-import { PaymentPage } from './pages/Customer/PaymentPage';
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   let isAdmin = '';
@@ -108,14 +107,6 @@ function App() {
           element={
             <UserLayout loggedIn={loggedIn} setLoggedIn={setLoggedIn}>
               <CartPage />
-            </UserLayout>
-          }
-        />
-        <Route
-          path="/payment"
-          element={
-            <UserLayout loggedIn={loggedIn} setLoggedIn={setLoggedIn}>
-              <PaymentPage />
             </UserLayout>
           }
         />
