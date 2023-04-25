@@ -53,7 +53,7 @@ function App() {
             }
           />
         )}
-        {isAdmin == 'customer' && (
+        {isAdmin != 'admin' && (
           <Route
             path="/home"
             element={

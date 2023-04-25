@@ -25,6 +25,9 @@ export const HomePage = ({ setLoggedIn }) => {
   };
 
   const RenderBestSeller = () => {
+    if (products.length == 0) {
+      return <div></div>;
+    }
     const data = products.map((product, index) => (
       <Card
         elevation={0}
@@ -191,145 +194,149 @@ export const HomePage = ({ setLoggedIn }) => {
   const navigate = useNavigate();
   return (
     <React.Fragment>
-      <Box display="flex" justifyContent="center" alignItems="center">
-        <Box sx={{ width: '80%', mt: 22 }}>
-          <Card elevation={0}>
-            <CardMedia
-              component="img"
-              image="https://img.freepik.com/premium-vector/best-season-sale-banner-design-template_2239-1175.jpg?w=2000"
-              alt="unsplash img"
-              sx={{
-                height: '70vh',
-                objectFit: 'fill',
-              }}
-            />
-          </Card>
-        </Box>
-      </Box>
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        sx={{ mt: 15 }}>
-        <Box sx={{ width: '80%' }}>
-          <Typography
-            gutterBottom
-            variant="h6"
-            component="div"
-            sx={{ fontSize: 40, fontWeight: 700 }}>
-            Best Sellers
-          </Typography>
-          <Stack
-            direction="row"
-            sx={{
-              width: '100%',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              flexWrap: 'wrap',
-            }}>
-            <RenderBestSeller />
-          </Stack>
-        </Box>
-      </Box>
-      <Box display="flex" justifyContent="center" alignItems="center">
-        <Box
-          direction="row"
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          sx={{ width: '80%', mt: 10 }}>
-          <Card elevation={0} sx={{ width: '49%' }}>
-            <CardMedia
-              component="img"
-              image="https://assets.vogue.com/photos/5f5fac8b7d9362f52d645560/16:9/w_1280,c_limit/social-holding.jpg"
-              alt="unsplash img"
-              sx={{
-                height: '40vh',
-              }}
-            />
-          </Card>
-          <Card elevation={0} sx={{ width: '49%' }}>
-            <CardMedia
-              component="img"
-              image="https://i.pinimg.com/736x/b8/3f/6c/b83f6c2bb10b0bfe7cf4ab07e3e35b41.jpg"
-              alt="unsplash img"
-              sx={{
-                height: '40vh',
-              }}
-            />
-          </Card>
-        </Box>
-      </Box>
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        sx={{ mt: 15 }}>
-        <Box sx={{ width: '80%' }}>
-          <Typography
-            gutterBottom
-            variant="h6"
-            component="div"
-            sx={{ fontSize: 40, fontWeight: 700 }}>
-            Newly Added
-          </Typography>
-          <Stack
-            direction="row"
-            sx={{
-              width: '100%',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              flexWrap: 'wrap',
-            }}>
-            <RenderBestSeller />
-          </Stack>
-        </Box>
-      </Box>
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        sx={{ mt: 15 }}>
-        <Box sx={{ width: '80%' }}>
-          <Typography
-            gutterBottom
-            variant="h6"
-            component="div"
-            sx={{ fontSize: 40, fontWeight: 700 }}>
-            Explore Our Brand
-          </Typography>
-          <Grid container spacing={2}>
-            <RenderGrid />
-          </Grid>
-        </Box>
-      </Box>
-      <Box sx={{ width: '100%', mt: 10 }}>
-        <Card elevation={0}>
-          <CardMedia
-            component="img"
-            image="https://raw.githubusercontent.com/anduckhmt146/resource/master/public/342507301_9245703945471694_8487561683018262835_n.png"
-            alt="unsplash img"
-            sx={{
-              height: '100vh',
-              border: '1px solid #f3f4f6',
-            }}
-          />
-        </Card>
-      </Box>
-      <Box
-        mt={10}
-        mb={10}
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        flexDirection="column">
-        <Typography mb={2}>Follow Us</Typography>
-        <Stack direction="row">
-          <RenderFollowBtn />
-        </Stack>
-      </Box>
+      {products && (
+        <div>
+          <Box display="flex" justifyContent="center" alignItems="center">
+            <Box sx={{ width: '80%', mt: 22 }}>
+              <Card elevation={0}>
+                <CardMedia
+                  component="img"
+                  image="https://img.freepik.com/premium-vector/best-season-sale-banner-design-template_2239-1175.jpg?w=2000"
+                  alt="unsplash img"
+                  sx={{
+                    height: '70vh',
+                    objectFit: 'fill',
+                  }}
+                />
+              </Card>
+            </Box>
+          </Box>
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            sx={{ mt: 15 }}>
+            <Box sx={{ width: '80%' }}>
+              <Typography
+                gutterBottom
+                variant="h6"
+                component="div"
+                sx={{ fontSize: 40, fontWeight: 700 }}>
+                Best Sellers
+              </Typography>
+              <Stack
+                direction="row"
+                sx={{
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  flexWrap: 'wrap',
+                }}>
+                <RenderBestSeller />
+              </Stack>
+            </Box>
+          </Box>
+          <Box display="flex" justifyContent="center" alignItems="center">
+            <Box
+              direction="row"
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+              sx={{ width: '80%', mt: 10 }}>
+              <Card elevation={0} sx={{ width: '49%' }}>
+                <CardMedia
+                  component="img"
+                  image="https://assets.vogue.com/photos/5f5fac8b7d9362f52d645560/16:9/w_1280,c_limit/social-holding.jpg"
+                  alt="unsplash img"
+                  sx={{
+                    height: '40vh',
+                  }}
+                />
+              </Card>
+              <Card elevation={0} sx={{ width: '49%' }}>
+                <CardMedia
+                  component="img"
+                  image="https://i.pinimg.com/736x/b8/3f/6c/b83f6c2bb10b0bfe7cf4ab07e3e35b41.jpg"
+                  alt="unsplash img"
+                  sx={{
+                    height: '40vh',
+                  }}
+                />
+              </Card>
+            </Box>
+          </Box>
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            sx={{ mt: 15 }}>
+            <Box sx={{ width: '80%' }}>
+              <Typography
+                gutterBottom
+                variant="h6"
+                component="div"
+                sx={{ fontSize: 40, fontWeight: 700 }}>
+                Newly Added
+              </Typography>
+              <Stack
+                direction="row"
+                sx={{
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  flexWrap: 'wrap',
+                }}>
+                <RenderBestSeller />
+              </Stack>
+            </Box>
+          </Box>
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            sx={{ mt: 15 }}>
+            <Box sx={{ width: '80%' }}>
+              <Typography
+                gutterBottom
+                variant="h6"
+                component="div"
+                sx={{ fontSize: 40, fontWeight: 700 }}>
+                Explore Our Brand
+              </Typography>
+              <Grid container spacing={2}>
+                <RenderGrid />
+              </Grid>
+            </Box>
+          </Box>
+          <Box sx={{ width: '100%', mt: 10 }}>
+            <Card elevation={0}>
+              <CardMedia
+                component="img"
+                image="https://raw.githubusercontent.com/anduckhmt146/resource/master/public/342507301_9245703945471694_8487561683018262835_n.png"
+                alt="unsplash img"
+                sx={{
+                  height: '100vh',
+                  border: '1px solid #f3f4f6',
+                }}
+              />
+            </Card>
+          </Box>
+          <Box
+            mt={10}
+            mb={10}
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            flexDirection="column">
+            <Typography mb={2}>Follow Us</Typography>
+            <Stack direction="row">
+              <RenderFollowBtn />
+            </Stack>
+          </Box>
+        </div>
+      )}
     </React.Fragment>
   );
 };
