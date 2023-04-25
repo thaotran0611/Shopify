@@ -68,8 +68,8 @@ export const ProductDetailPage = () => {
       setProducts(res);
       setMainImg(res[0].IMG1);
       setColor(res[0].COLOR.split(','));
-      setColorSelected(res[0].COLOR.split(',')[0][0]);
-      setSize(res[0].SIZE.split(','));
+      setColorSelected(res[0].COLOR.split(',')[0]);
+      setSize(res[0].SIZE.split(',')[0]);
     });
   };
   useEffect(() => {
@@ -100,6 +100,12 @@ export const ProductDetailPage = () => {
     } else {
       setOpen(true);
       return;
+    }
+    if (colorSelected == '') {
+      alert('Please choose color!!');
+    }
+    if (size == '') {
+      alert('Please choose size!!');
     }
     axios({
       method: 'post',

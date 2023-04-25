@@ -27,8 +27,6 @@ function App() {
   let isAdmin = '';
   if (loggedIn == true) {
     isAdmin = JSON.parse(sessionStorage.getItem('user')).role;
-  } else {
-    sessionStorage.removeItem('user');
   }
   return (
     <Box>

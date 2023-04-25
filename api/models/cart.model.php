@@ -50,4 +50,16 @@ class Cart
             throw new InternalServerError('Server Error !');
         }
     }
+
+    public function getDetail($id)
+    {
+        try {
+            $query = "SELECT * FROM add_to_cart AS A JOIN product AS P ON A.ProductID=P.CODE AND A.COLOR=P.COLOR AND A.SIZE=P.SIZE WHERE CustomerID='$id';";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            return $stmt->get_result();
+        } catch (mysqli_sql_exception $e) {
+            throw new InternalServerError('Server Error !');
+        }
+    }
 }

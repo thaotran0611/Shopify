@@ -21,10 +21,19 @@ if ($url['3'] == 'add' and $method == 'POST') {
         http_response_code($e->getStatusCode());
     }
 }
-// api/cart/calculate
+// http://localhost:8080/api/cart/calculate?id=1
 elseif ($url['3'] == 'calculate' and $method == 'GET') {
     try {
         echo CartController::calculate($params['id']);
+        http_response_code(200);
+    } catch (CustomError $e) {
+        echo json_encode(['msg' => $e->getMessage()]);
+        http_response_code($e->getStatusCode());
+    }
+} // http://localhost:8080/api/cart/detailCart?id=1 
+elseif ($url['3'] == 'detailCart' and $method == 'GET') {
+    try {
+        echo CartController::getDetail($params['id']);
         http_response_code(200);
     } catch (CustomError $e) {
         echo json_encode(['msg' => $e->getMessage()]);

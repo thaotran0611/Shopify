@@ -76,7 +76,7 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
             }}>
             SHOPIFY
           </Typography>
-          {loggedIn && (
+          {sessionStorage.getItem('user') && (
             <TextField
               id="search"
               placeholder="Search for products, brands and more"
@@ -96,7 +96,7 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
               }}
             />
           )}
-          {loggedIn && (
+          {sessionStorage.getItem('user') && (
             <Stack direction="row" sx={{ mr: 10 }}>
               <Button
                 variant="contained"
@@ -148,7 +148,7 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
               </Button>
             </Stack>
           )}
-          {!loggedIn && (
+          {!sessionStorage.getItem('user') && (
             <Stack direction="row" sx={{ mr: 10 }}>
               <Button
                 variant="contained"
