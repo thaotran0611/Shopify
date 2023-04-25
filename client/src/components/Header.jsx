@@ -26,6 +26,16 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
   const [colState, setColState] = useState(false);
   const [categories, setCategories] = useState([]);
   const [collections, setCollections] = useState([]);
+  const getCategories = async () => {
+    return axios
+      .get('http://localhost:8080/api/products/categories')
+      .then((res) => res.data);
+  };
+  const getCollections = async () => {
+    return axios
+      .get('http://localhost:8080/api/products/collections')
+      .then((res) => res.data);
+  };
   useEffect(() => {
     getCategories().then((data) => {
       let ret = [];
@@ -42,17 +52,8 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
       setCollections(ret);
     });
   }, []);
-  const getCategories = async () => {
-    return axios
-      .get('http://localhost:8080/api/products/categories')
-      .then((res) => res.data);
-  };
-  const getCollections = async () => {
-    return axios
-      .get('http://localhost:8080/api/products/collections')
-      .then((res) => res.data);
-  };
   const setLogOut = () => {
+    sessionStorage.removeItem('user');
     setLoggedIn(false);
     navigate('/login');
   };
@@ -231,7 +232,6 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
             variant="contained"
             onMouseOver={() => setCateState(true)}
             onMouseLeave={() => setCateState(false)}
-            onClick={() => navigate('/news')}
             sx={{
               background: 'inherit',
               color: '#000',
@@ -245,7 +245,6 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
           <Button
             disableElevation
             variant="contained"
-            onClick={() => navigate('/contact')}
             onMouseOver={() => setColState(true)}
             onMouseLeave={() => setColState(false)}
             sx={{

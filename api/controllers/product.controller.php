@@ -85,4 +85,61 @@ class ProductController
         }
         throw new FileNotFoundError("Product not found !");
     }
+    public static function get_info($id)
+    {
+        $temp = new Product();
+        $new = $temp->get_info($id);
+        if ($new->num_rows > 0) {
+            $rows = $new->fetch_all(MYSQLI_ASSOC);
+            $rows = json_encode($rows);
+            return $rows;
+        }
+        throw new FileNotFoundError("Product not found !");
+    }
+    public static function get_detail($id)
+    {
+        $temp = new Product();
+        $new = $temp->get_detail($id);
+        if ($new->num_rows > 0) {
+            $rows = $new->fetch_all(MYSQLI_ASSOC);
+            $rows = json_encode($rows);
+            return $rows;
+        }
+        throw new FileNotFoundError("Product not found !");
+    }
+    public static function get_quanity($id, $color, $size)
+    {
+        $temp = new Product();
+        $new = $temp->get_quanity($id, $color, $size);
+        if ($new->num_rows > 0) {
+            $rows = $new->fetch_all(MYSQLI_ASSOC);
+            $rows = json_encode($rows);
+            return $rows;
+        }
+        throw new FileNotFoundError("Product not found !");
+    }
+
+    public static function addProduct($data)
+    {
+        $temp = new Product();
+        $temp->addProduct($data);
+    }
+
+    public static function restock($data)
+    {
+        $temp = new Product();
+        $temp->restock($data);
+    }
+    public static function edit($data)
+    {
+        $temp = new Product();
+        $temp->edit($data);
+    }
+
+    public static function deleteProduct($id)
+    {
+        $temp = new Product();
+        $temp->deleteProduct($id);
+        // throw new FileNotFoundError("Categories not found !");
+    }
 }

@@ -111,18 +111,6 @@ class Product
         }
     }
 
-
-    public function delete($id)
-    {
-        try {
-            $query = "DELTE FROM Product WHERE CODE='$id'";
-            $stmt = $this->conn->prepare($query);
-            $stmt->execute();
-        } catch (mysqli_sql_exception $e) {
-            throw new InternalServerError('Server Error !');
-        }
-    }
-
     public function getAllCategories()
     {
         try {
@@ -141,6 +129,114 @@ class Product
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
             return $stmt->get_result();
+        } catch (mysqli_sql_exception $e) {
+            throw new InternalServerError('Server Error !');
+        }
+    }
+    public function deleteProduct($id)
+    {
+        try {
+            $CODE = $id['CODE'];
+            $query = "DELETE FROM product WHERE CODE='$CODE';";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+        } catch (mysqli_sql_exception $e) {
+            throw new InternalServerError('Server Error !');
+        }
+    }
+    public function addProduct($data)
+    {
+        try {
+            $CODE = $data['CODE'];
+            $NAME = $data['NAME'];
+            $CATEGORY = $data['CATEGORY'];
+            $PRICE = $data['PRICE'];
+            $SALE = $data['SALE'];
+            $MATERIAL = $data['MATERIAL'];
+
+            $DESCRIPTION = $data['DESCRIPTION'];
+            $IMG = $data['IMG'];
+
+            $sizes = (array) $data['SIZE'];
+            $colors = (array) $data['COLOR'];
+            if (($key = array_search("", $colors)) !== false) {
+                unset($colors[$key]);
+            }
+
+            foreach ($sizes as $size) {
+                foreach ($colors as $x => $val) {
+                    $query = "INSERT INTO product VALUES ('$CODE','$NAME','$val','$size','$MATERIAL','$DESCRIPTION',0,'$SALE','$PRICE','$IMG[0]','$IMG[1]','$IMG[2]','$IMG[3]','$CATEGORY')";
+                    $stmt = $this->conn->prepare($query);
+                    $stmt->execute();
+                }
+            }
+        } catch (mysqli_sql_exception $e) {
+            throw new FileNotFoundError($e);
+        }
+    }
+    public function get_info($id)
+    {
+        try {
+            $query = "SELECT CODE, GROUP_CONCAT(distinct(SIZE)) AS SIZE, GROUP_CONCAT(distinct(COLOR) SEPARATOR '/') AS COLOR FROM product WHERE CODE = '$id'";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            return $stmt->get_result();
+        } catch (mysqli_sql_exception $e) {
+            throw new InternalServerError('Server Error !');
+        }
+    }
+    public function get_detail($id)
+    {
+        try {
+            $query = "SELECT DISTINCT(CODE), product.NAME, MATERIAL, DESCRIPTION, SALEOFF, PRICE, IMG1, IMG2, IMG3, IMG4, categories.NAME AS CATEGORY
+            FROM product JOIN categories ON CATEGORY_ID=categories.ID WHERE CODE = '$id'";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            return $stmt->get_result();
+        } catch (mysqli_sql_exception $e) {
+            throw new InternalServerError('Server Error !');
+        }
+    }
+    public function get_quanity($id, $color, $size)
+    {
+        try {
+            $query = "SELECT QUANITY FROM product WHERE CODE = '$id' AND COLOR='$color' AND SIZE='$size'";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            return $stmt->get_result();
+        } catch (mysqli_sql_exception $e) {
+            throw new InternalServerError('Server Error !');
+        }
+    }
+    public function restock($data)
+    {
+        try {
+            $QUANITY = $data['QUANITY'];
+            $CODE = $data['CODE'];
+            $SIZE = $data['SIZE'];
+            $COLOR = $data['COLOR'];
+            $query = "UPDATE product SET QUANITY='$QUANITY' WHERE CODE = '$CODE' AND SIZE='$SIZE' AND COLOR='$COLOR'";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+        } catch (mysqli_sql_exception $e) {
+            throw new InternalServerError('Server Error !');
+        }
+    }
+    public function edit($data)
+    {
+        try {
+            $CODE = $data['CODE'];
+            $NAME = $data['NAME'];
+            $PRICE = $data['PRICE'];
+            $SALE = $data['SALE'];
+            $MATERIAL = $data['MATERIAL'];
+            $DESCRIPTION = $data['DESCRIPTION'];
+            $IMG = $data['IMG'];
+            $query = "UPDATE product SET NAME='$NAME', PRICE='$PRICE',SALEOFF='$SALE',MATERIAL='$MATERIAL',
+            DESCRIPTION='$DESCRIPTION', IMG1='$IMG[0]',IMG2='$IMG[1]', IMG3='$IMG[2]', IMG4='$IMG[3]'
+            WHERE CODE = '$CODE'";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
         } catch (mysqli_sql_exception $e) {
             throw new InternalServerError('Server Error !');
         }

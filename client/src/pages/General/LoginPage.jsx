@@ -57,6 +57,7 @@ export const LoginPage = ({ setLoggedIn }) => {
         navigate('/home');
       })
       .catch((res) => {
+        console.log(res);
         setOpen(true);
       });
   };

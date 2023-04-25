@@ -1,50 +1,237 @@
 import { React, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Box } from '@mui/material';
-import { Footer } from './components/Footer';
-import { Header } from './components/Header';
 import { HomePage } from './pages/General/HomePage';
 import { LoginPage } from './pages/General/LoginPage';
 import { SignUpPage } from './pages/General/SignUpPage';
-import { AboutUsPage } from './pages/General/AboutUsPage';
 import { ProductPage } from './pages/Customer/ProductPage';
+import { ProductDetailPage } from './pages/Customer/ProductDetailPage';
+import { AboutUsPage } from './pages/General/AboutUsPage';
+import { ErrorPage } from './pages/General/ErrorPage';
+import { UserLayout } from './layout/UserLayout';
+import Topbar from './components/topbar/Topbar';
+import Sidebar from './components/sidebar/Sidebar';
+import UserList from './pages/Admin/UserList';
+import User from './pages/Admin/User';
+import NewUser from './pages/Admin/NewUser';
+import Product from './pages/Admin/Product';
+import ProductList from './pages/Admin/ProductList';
+import NewProduct from './pages/Admin/NewProduct';
+import DashBoard from './pages/Admin/DashBoard';
 import { MyOrderPage } from './pages/Customer/MyOrderPage';
 import { OrderDetailPage } from './pages/Customer/OrderDetailPage';
-import { ProductDetailPage } from './pages/Customer/ProductDetailPage';
 import CartPage from './pages/Customer/CartPage';
-import { ErrorPage } from './pages/General/ErrorPage';
 import { PaymentPage } from './pages/Customer/PaymentPage';
-import { TestPage } from './pages/Admin/TestPage';
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
-  let isAdmin = false;
+  let isAdmin = '';
   if (loggedIn == true) {
-    isAdmin = JSON.parse(sessionStorage.getItem('user')).role == 'admin';
+    isAdmin = JSON.parse(sessionStorage.getItem('user')).role;
   } else {
     sessionStorage.removeItem('user');
   }
   return (
     <Box>
-      {!isAdmin && <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn} />}
       <Routes>
-        <Route path="/" element={<HomePage setLoggedIn={setLoggedIn} />} />
-        {isAdmin && <Route path="/home" element={<TestPage />} />}
-        <Route path="/home" element={<HomePage setLoggedIn={setLoggedIn} />} />
+        <Route
+          path="/"
+          element={
+            <UserLayout loggedIn={loggedIn} setLoggedIn={setLoggedIn}>
+              <HomePage setLoggedIn={setLoggedIn} />
+            </UserLayout>
+          }
+        />
+        {isAdmin == 'admin' && (
+          <Route
+            path="/home"
+            element={
+              <div>
+                <Topbar />
+                <div className="container">
+                  <Sidebar />
+                  <DashBoard />
+                </div>
+              </div>
+            }
+          />
+        )}
+        {isAdmin == 'customer' && (
+          <Route
+            path="/home"
+            element={
+              <UserLayout loggedIn={loggedIn} setLoggedIn={setLoggedIn}>
+                <HomePage setLoggedIn={setLoggedIn} />
+              </UserLayout>
+            }
+          />
+        )}
         <Route
           path="/login"
-          element={<LoginPage setLoggedIn={setLoggedIn} />}
+          element={
+            <UserLayout loggedIn={loggedIn} setLoggedIn={setLoggedIn}>
+              <LoginPage setLoggedIn={setLoggedIn} />
+            </UserLayout>
+          }
         />
-        <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/product" element={<ProductPage />} />
-        <Route path="/product/:code" element={<ProductDetailPage />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/payment" element={<PaymentPage />} />
-        <Route path="/order" element={<MyOrderPage />} />
-        <Route path="/order/detail" element={<OrderDetailPage />} />
-        <Route path="/aboutus" element={<AboutUsPage />} />
-        <Route path="*" element={<ErrorPage />} />
+        <Route
+          path="/signup"
+          element={
+            <UserLayout loggedIn={loggedIn} setLoggedIn={setLoggedIn}>
+              <SignUpPage setLoggedIn={setLoggedIn} />
+            </UserLayout>
+          }
+        />
+        <Route
+          path="/product"
+          element={
+            <UserLayout loggedIn={loggedIn} setLoggedIn={setLoggedIn}>
+              <ProductPage />
+            </UserLayout>
+          }
+        />
+        <Route
+          path="/product/:code"
+          element={
+            <UserLayout loggedIn={loggedIn} setLoggedIn={setLoggedIn}>
+              <ProductDetailPage />
+            </UserLayout>
+          }
+        />
+        <Route
+          path="/aboutus"
+          element={
+            <UserLayout loggedIn={loggedIn} setLoggedIn={setLoggedIn}>
+              <AboutUsPage />
+            </UserLayout>
+          }
+        />
+        <Route
+          path="/cart"
+          element={
+            <UserLayout loggedIn={loggedIn} setLoggedIn={setLoggedIn}>
+              <CartPage />
+            </UserLayout>
+          }
+        />
+        <Route
+          path="/payment"
+          element={
+            <UserLayout loggedIn={loggedIn} setLoggedIn={setLoggedIn}>
+              <PaymentPage />
+            </UserLayout>
+          }
+        />
+        <Route
+          path="/order"
+          element={
+            <UserLayout loggedIn={loggedIn} setLoggedIn={setLoggedIn}>
+              <MyOrderPage />
+            </UserLayout>
+          }
+        />
+        <Route
+          path="/order/detail"
+          element={
+            <UserLayout loggedIn={loggedIn} setLoggedIn={setLoggedIn}>
+              <OrderDetailPage />
+            </UserLayout>
+          }
+        />
+        {/* page admin */}
+        <Route
+          path="/dashboard"
+          element={
+            <div>
+              <Topbar />
+              <div className="container">
+                <Sidebar />
+                <DashBoard />
+              </div>
+            </div>
+          }
+        />
+        <Route
+          path="/dashboard/users"
+          element={
+            <div>
+              <Topbar />
+              <div className="container">
+                <Sidebar />
+                <UserList />
+              </div>
+            </div>
+          }
+        />
+        <Route
+          path="/dashboard/user/:userId"
+          element={
+            <div>
+              <Topbar />
+              <div className="container">
+                <Sidebar />
+                <User />
+              </div>
+            </div>
+          }
+        />
+        <Route
+          path="/dashboard/newUser"
+          element={
+            <div>
+              <Topbar />
+              <div className="container">
+                <Sidebar />
+                <NewUser />
+              </div>
+            </div>
+          }
+        />
+        <Route
+          path="/dashboard/products"
+          element={
+            <div>
+              <Topbar />
+              <div className="container">
+                <Sidebar />
+                <ProductList />
+              </div>
+            </div>
+          }
+        />
+        <Route
+          path="/dashboard/product/:productId"
+          element={
+            <div>
+              <Topbar />
+              <div className="container">
+                <Sidebar />
+                <Product />
+              </div>
+            </div>
+          }
+        />
+        <Route
+          path="/dashboard/newProduct"
+          element={
+            <div>
+              <Topbar />
+              <div className="container">
+                <Sidebar />
+                <NewProduct />
+              </div>
+            </div>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <UserLayout>
+              <ErrorPage />
+            </UserLayout>
+          }
+        />
       </Routes>
-      {!isAdmin && <Footer />}
+      {/* <Footer /> */}
     </Box>
   );
 }

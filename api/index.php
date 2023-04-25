@@ -25,6 +25,8 @@ if (isset($_SERVER['REDIRECT_URL'])) {
             include './routes/user.route.php';
         } elseif ($url['2'] == 'products') {
             include './routes/product.route.php';
+        } elseif ($url['2'] == 'cart') {
+            include './routes/cart.route.php';
         } elseif ($url['2'] == 'orders') {
             include './routes/order.route.php';
         } else {
