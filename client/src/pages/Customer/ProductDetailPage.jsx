@@ -68,7 +68,7 @@ export const ProductDetailPage = () => {
       setProducts(res);
       setMainImg(res[0].IMG1);
       setColor(res[0].COLOR.split(','));
-      setColorSelected(res[0].COLOR.split(',')[0]);
+      setColorSelected(res[0].COLOR.split(',')[0][0]);
       setSize(res[0].SIZE.split(','));
     });
   };
@@ -82,16 +82,6 @@ export const ProductDetailPage = () => {
   const [tab, setTab] = useState(1);
   const [colors, setColor] = useState(['red']);
   const [colorSelected, setColorSelected] = useState('');
-  const ProductColor = styled.div`
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    margin: 10px;
-    background-color: ${(props) => props.color};
-  `;
-  const handleSize = (e) => {
-    setSize(e.target.value);
-  };
   const handleQuantity = (val) => {
     let tmp = quantity;
 
@@ -107,6 +97,9 @@ export const ProductDetailPage = () => {
     if (sessionStorage.getItem('user')) {
       isCustomer = JSON.parse(sessionStorage.getItem('user')).name;
       customerID = JSON.parse(sessionStorage.getItem('user')).id;
+    } else {
+      setOpen(true);
+      return;
     }
     axios({
       method: 'post',
@@ -126,6 +119,7 @@ export const ProductDetailPage = () => {
         console.log('Error');
         console.log(res);
       });
+    console.log(customerID, code, colorSelected, size, quantity);
   };
   const handleClickBuy = () => {
     let isCustomer = JSON.parse(sessionStorage.getItem('user')) != null;
@@ -401,12 +395,16 @@ export const ProductDetailPage = () => {
                       row>
                       {colors.map((color) => (
                         <FormControlLabel
-                          key={color}
                           value={color}
+                          control={<Radio />}
                           onChange={(e) => {
                             setColorSelected(e.target.value);
                           }}
-                          control={<ProductColor color={color} />}
+                          sx={{
+                            '& .Mui-checked': {
+                              color: colorSelected,
+                            },
+                          }}
                         />
                       ))}
                     </RadioGroup>
@@ -418,7 +416,7 @@ export const ProductDetailPage = () => {
                     <ToggleButtonGroup
                       value={size}
                       exclusive
-                      onChange={handleSize}
+                      onChange={(e) => setSize(e.target.value)}
                       aria-label="size">
                       {products[0].SIZE.split(',').map((text) => (
                         <ToggleButton
