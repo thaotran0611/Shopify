@@ -30,15 +30,6 @@ const Top = styled.div`
   padding: 20px;
 `;
 
-const TopButton = styled.button`
-  padding: 10px;
-  font-weight: 600;
-  cursor: pointer;
-  border: ${(props) => props.type === 'filled' && 'none'};
-  background-color: ${(props) =>
-    props.type === 'filled' ? 'black' : 'transparent'};
-  color: ${(props) => props.type === 'filled' && 'white'};
-`;
 const Bottom = styled.div`
   display: flex;
   justify-content: space-between;
@@ -46,12 +37,6 @@ const Bottom = styled.div`
 
 const Info = styled.div`
   flex: 3;
-`;
-
-const Hr = styled.hr`
-  background-color: #eee;
-  border: none;
-  height: 1px;
 `;
 
 const Summary = styled.div`
@@ -228,24 +213,34 @@ const CartPage = () => {
     ? JSON.parse(sessionStorage.getItem('user')).id
     : '0';
   useEffect(() => {
-    getCarts().then((data) => {
-      setProductData(data);
-    });
-    getBill().then((data) => {
-      if (data) {
+    getCarts()
+      .then((data) => {
+        setProductData(data);
+      })
+      .catch((err) => {
+        setProductData([]);
+      });
+  }, [productData]);
+  useEffect(() => {
+    getBill()
+      .then((data) => {
         setBill([data[0]['TOTAL_COST'], data[0]['SUM(NUMBER)']]);
-      }
-    });
+      })
+      .catch((err) => {
+        setBill([]);
+      });
   }, [productData]);
   const getCarts = async () => {
     return axios
       .get(`http://localhost:8080/api/cart/detailCart?id=${customerID}`)
-      .then((res) => res.data);
+      .then((res) => res.data)
+      .catch((err) => setProductData([]));
   };
   const getBill = async () => {
     return axios
       .get(`http://localhost:8080/api/cart/calculate?id=${customerID}`)
-      .then((res) => res.data);
+      .then((res) => res.data)
+      .catch((err) => setBill([]));
   };
   const navigate = useNavigate();
   return (
@@ -254,6 +249,7 @@ const CartPage = () => {
         <Title style={{ fontSize: 30, fontWeight: 'bold' }}>
           ĐƠN HÀNG CỦA TÔI
         </Title>
+        {!productData && <div></div>}
         {productData && (
           <Bottom style={{ width: '80%', margin: '50px auto' }}>
             <Info>
@@ -271,6 +267,7 @@ const CartPage = () => {
                   />
                 ))}
             </Info>
+            {!productData && <div></div>}
             {productData && bill.length > 0 && (
               <Box sx={{ width: '40%', margin: '0 auto' }}>
                 <Summary>
@@ -278,7 +275,8 @@ const CartPage = () => {
                   <SummaryItem>
                     <SummaryItemText>Total</SummaryItemText>
                     <SummaryItemPrice>
-                      $ {bill.length > 0 ? Math.round(bill[0]) : 0}
+                      ${' '}
+                      {bill.length > 0 && productData ? Math.round(bill[0]) : 0}
                     </SummaryItemPrice>
                   </SummaryItem>
                   <SummaryItem>
@@ -294,7 +292,8 @@ const CartPage = () => {
                       Total
                     </SummaryItemText>
                     <SummaryItemPrice style={{ fontWeight: 'bold' }}>
-                      $ {bill.length > 0 ? Math.round(bill[0]) : 0}
+                      ${' '}
+                      {bill.length > 0 && productData ? Math.round(bill[0]) : 0}
                     </SummaryItemPrice>
                   </SummaryItem>
                 </Summary>

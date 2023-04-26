@@ -45,7 +45,7 @@ elseif ($url['3'] == 'allOrder' and $method == 'GET') {
 elseif ($url['3'] == 'confirm' and $method == 'PUT') {
     try {
         $data = (array) json_decode(file_get_contents('php://input'));
-        echo OrderController::confirm($params['OrderID']);
+        echo OrderController::confirm($data['OrderID']);
         http_response_code(200);
     } catch (CustomError $e) {
         echo json_encode(['msg' => $e->getMessage()]);

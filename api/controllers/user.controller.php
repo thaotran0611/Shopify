@@ -45,6 +45,17 @@ class UserController
     }
     throw new BadRequestError('Invalid username or password');
   }
+  public static function getOneUser($username)
+  {
+    $temp = new User();
+    $new = $temp->getUser($username);
+    if ($new->num_rows == 1) {
+      $rows = $new->fetch_all(MYSQLI_ASSOC);
+      $rows = json_encode($rows);
+      return $rows;
+    }
+    throw new FileNotFoundError("User not found !");
+  }
   public static function signup($info)
   {
     $temp = new User();

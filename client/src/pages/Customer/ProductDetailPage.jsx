@@ -135,14 +135,6 @@ export const ProductDetailPage = () => {
         console.log(res);
       });
   };
-  const handleClickBuy = () => {
-    let isCustomer = JSON.parse(sessionStorage.getItem('user')) != null;
-    if (isCustomer == false) {
-      setOpen(true);
-    } else {
-      navigate('/cart');
-    }
-  };
   const RenderImage = () => {
     let img;
     if (products.length == 0) {
@@ -472,7 +464,7 @@ export const ProductDetailPage = () => {
                     <Button onClick={() => handleClickAdd()}>
                       Add to Cart
                     </Button>
-                    <Button onClick={() => handleClickBuy()}>Buy Now</Button>
+                    <Button onClick={() => handleClickAdd()}>Buy Now</Button>
                     <IconButton aria-label="delete">
                       <FavoriteIcon />
                     </IconButton>

@@ -42,6 +42,11 @@ class Order
             $query = "UPDATE orders SET status = 1  WHERE OrderID='$id'";
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
+
+            $query = "UPDATE product AS P, include AS I SET QUANITY = QUANITY - NUMBER 
+            WHERE CODE = ProductID AND P.COLOR=I.COLOR AND P.SIZE = I.SIZE AND OrderID='$id';";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
         } catch (mysqli_sql_exception $e) {
             throw new InternalServerError('Server Error !');
         }

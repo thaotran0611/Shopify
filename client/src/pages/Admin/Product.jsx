@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import '../../styles/Product.css';
 import Chart from '../../components/chart/Chart';
-import { productData } from '../../dummyData';
 import '../../styles/NewProduct.css';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -157,9 +156,6 @@ export default function Product() {
         </button>
       </div>
       <div className="productTop">
-        <div className="productTopLeft">
-          <Chart data={productData} dataKey="Sales" title="Sales Performance" />
-        </div>
         <div className="productTopRight">
           <div className="productInfoTop">
             <img

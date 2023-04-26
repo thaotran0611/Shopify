@@ -21,10 +21,11 @@ import DashBoard from './pages/Admin/DashBoard';
 import { MyOrderPage } from './pages/Customer/MyOrderPage';
 import { OrderDetailPage } from './pages/Customer/OrderDetailPage';
 import CartPage from './pages/Customer/CartPage';
+import OrderList from './pages/Admin/OrderList';
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
-  let isAdmin = '';
-  if (loggedIn == true) {
+  var isAdmin = '';
+  if (sessionStorage.getItem('user')) {
     isAdmin = JSON.parse(sessionStorage.getItem('user')).role;
   }
   return (
@@ -127,78 +128,90 @@ function App() {
           }
         />
         {/* page admin */}
-        <Route
-          path="/dashboard"
-          element={
-            <div>
-              <Topbar />
-              <div className="container">
-                <Sidebar />
-                <DashBoard />
+        {isAdmin == 'admin' && (
+          <Route
+            path="/dashboard"
+            element={
+              <div>
+                <Topbar />
+                <div className="container">
+                  <Sidebar />
+                  <DashBoard />
+                </div>
               </div>
-            </div>
-          }
-        />
-        <Route
-          path="/dashboard/users"
-          element={
-            <div>
-              <Topbar />
-              <div className="container">
-                <Sidebar />
-                <UserList />
+            }
+          />
+        )}
+        {isAdmin == 'admin' && (
+          <Route
+            path="/dashboard/users"
+            element={
+              <div>
+                <Topbar />
+                <div className="container">
+                  <Sidebar />
+                  <UserList />
+                </div>
               </div>
-            </div>
-          }
-        />
-        <Route
-          path="/dashboard/user/:userId"
-          element={
-            <div>
-              <Topbar />
-              <div className="container">
-                <Sidebar />
-                <User />
+            }
+          />
+        )}
+        {isAdmin == 'admin' && (
+          <Route
+            path="/dashboard/user/:userId"
+            element={
+              <div>
+                <Topbar />
+                <div className="container">
+                  <Sidebar />
+                  <User />
+                </div>
               </div>
-            </div>
-          }
-        />
-        <Route
-          path="/dashboard/newUser"
-          element={
-            <div>
-              <Topbar />
-              <div className="container">
-                <Sidebar />
-                <NewUser />
+            }
+          />
+        )}
+        {isAdmin == 'admin' && (
+          <Route
+            path="/dashboard/newUser"
+            element={
+              <div>
+                <Topbar />
+                <div className="container">
+                  <Sidebar />
+                  <NewUser />
+                </div>
               </div>
-            </div>
-          }
-        />
-        <Route
-          path="/dashboard/products"
-          element={
-            <div>
-              <Topbar />
-              <div className="container">
-                <Sidebar />
-                <ProductList />
+            }
+          />
+        )}
+        {isAdmin == 'admin' && (
+          <Route
+            path="/dashboard/products"
+            element={
+              <div>
+                <Topbar />
+                <div className="container">
+                  <Sidebar />
+                  <ProductList />
+                </div>
               </div>
-            </div>
-          }
-        />
-        <Route
-          path="/dashboard/product/:productId"
-          element={
-            <div>
-              <Topbar />
-              <div className="container">
-                <Sidebar />
-                <Product />
+            }
+          />
+        )}
+        {isAdmin == 'admin' && (
+          <Route
+            path="/dashboard/product/:productId"
+            element={
+              <div>
+                <Topbar />
+                <div className="container">
+                  <Sidebar />
+                  <Product />
+                </div>
               </div>
-            </div>
-          }
-        />
+            }
+          />
+        )}
         <Route
           path="/dashboard/newProduct"
           element={
@@ -207,6 +220,18 @@ function App() {
               <div className="container">
                 <Sidebar />
                 <NewProduct />
+              </div>
+            </div>
+          }
+        />
+        <Route
+          path="/dashboard/orders"
+          element={
+            <div>
+              <Topbar />
+              <div className="container">
+                <Sidebar />
+                <OrderList />
               </div>
             </div>
           }

@@ -10,6 +10,7 @@ export default function ProductList() {
   //const [data, setData] = useState(productRows);
   const navigate = useNavigate();
   const [product, setProducts] = useState([]);
+  const [render, setRender] = useState(false);
   useEffect(() => {
     axios
       .get('http://localhost:8080/api/products/all')
@@ -18,7 +19,16 @@ export default function ProductList() {
         setProducts(result.data);
       })
       .catch((error) => console.log(error));
-  }, []);
+  }, [, render]);
+  useEffect(() => {
+    axios
+      .get('http://localhost:8080/api/products/all')
+      .then((result) => {
+        navigate('/dashboard/products');
+        console.log(result.data);
+      })
+      .catch((error) => console.log(error));
+  }, [, render]);
 
   const handleDelete = (id) => {
     axios({
@@ -29,10 +39,10 @@ export default function ProductList() {
       },
     })
       .then((res) => {
-        navigate('../dashboard');
+        setRender(!render);
       })
       .catch((res) => {
-        console.log('hello');
+        console.log('Error');
       });
   };
 
@@ -80,7 +90,6 @@ export default function ProductList() {
         disableSelectionOnClick
         columns={columns}
         pageSize={8}
-        checkboxSelection
       />
     </div>
   );

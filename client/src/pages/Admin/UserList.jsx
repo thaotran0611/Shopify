@@ -2,10 +2,8 @@ import '../../styles/UserList.css';
 import { DataGrid } from '@mui/x-data-grid';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-
+import { Link } from 'react-router-dom';
 export default function UserList() {
-  // const [data, setData] = useState(userRows);
-
   const [user, setUsers] = useState([]);
   useEffect(() => {
     axios
@@ -16,12 +14,6 @@ export default function UserList() {
       })
       .catch((error) => console.log(error));
   }, []);
-
-  /*
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
-  };
-  */
 
   const columns = [
     { field: 'CustomerID', headerName: 'ID', width: 70 },
@@ -54,6 +46,20 @@ export default function UserList() {
       headerName: 'User Name',
       width: 160,
     },
+    {
+      field: 'action',
+      headerName: 'Action',
+      width: 150,
+      renderCell: (params) => {
+        return (
+          <>
+            <Link to={'../dashboard/user/' + params.row.USERNAME}>
+              <button className="userListEdit">Detail</button>
+            </Link>
+          </>
+        );
+      },
+    },
   ];
 
   return (
@@ -64,7 +70,6 @@ export default function UserList() {
         disableSelectionOnClick
         columns={columns}
         pageSize={8}
-        checkboxSelection
       />
     </div>
   );

@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
 import IconButton from '@mui/material/IconButton';
@@ -49,6 +49,7 @@ export const ProductItem = (props) => {
   const [quant, setQuant] = useState(quantity);
   const customerID = JSON.parse(sessionStorage.getItem('user')).id;
   const navigate = useNavigate();
+  console.log(quant);
   const handleDelete = () => {
     axios({
       method: 'post',
@@ -69,16 +70,7 @@ export const ProductItem = (props) => {
         console.log(res);
       });
   };
-  const handleEdit = (index) => {
-    if (index == 0) {
-      setQuant(quant + 1);
-    } else {
-      if (quant < 1) {
-        setQuant(1);
-        return;
-      }
-      setQuant(quant - 1);
-    }
+  useEffect(() => {
     axios({
       method: 'post',
       url: 'http://localhost:8080/api/cart/edit',
@@ -92,12 +84,22 @@ export const ProductItem = (props) => {
     })
       .then((res) => {
         console.log('Success');
-        navigate('/cart');
+        // navigate('/cart');
       })
       .catch((res) => {
         console.log('Error');
         console.log(res);
       });
+  }, [quant]);
+  const handleEdit = (index) => {
+    if (quant <= 1) {
+      setQuant(1);
+    }
+    if (index == 0) {
+      setQuant(quant + 1);
+    } else {
+      setQuant(quant - 1);
+    }
   };
   return (
     <Product
@@ -158,7 +160,7 @@ export const ProductItem = (props) => {
         {quant}
       </Typography>
       <IconButton aria-label="add" size="large" onClick={() => handleEdit(0)}>
-        <AddIcon fontSize="inherit" />
+        <AddIcon />
       </IconButton>
       <IconButton
         aria-label="delete"

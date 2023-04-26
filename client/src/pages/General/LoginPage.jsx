@@ -43,6 +43,7 @@ export const LoginPage = ({ setLoggedIn }) => {
       .then((res) => {
         const dataResponse = {
           id: res.data.data.id,
+          username: res.data.data.username,
           phone: res.data.data.phone,
           avatar: res.data.data.avatar,
           birthday: res.data.data.birthday,

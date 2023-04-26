@@ -2,12 +2,20 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { DataGrid } from '@mui/x-data-grid';
 import { useState } from 'react';
-import { userRows } from '../../dummyData';
 import { GridCheckIcon } from '@mui/x-data-grid';
+import axios from 'axios';
 export default function OrderList() {
-  const [data, setData] = useState(userRows);
-
-  // useEffect
+  const [render, setRender] = useState(false);
+  const [orders, setOrders] = useState([]);
+  useEffect(() => {
+    axios
+      .get('http://localhost:8080/api/orders/all')
+      .then((result) => {
+        console.log(result.data);
+        setOrders(result.data);
+      })
+      .catch((error) => console.log(error));
+  }, [, render]);
 
   const columns = [
     { field: 'OrderID', headerName: 'OrderID', width: 100 },
@@ -16,16 +24,16 @@ export default function OrderList() {
       headerName: 'CustomerID',
       width: 100,
     },
-    { field: 'TOTAL_PRODUCT', headerName: 'Total Product', width: 100 },
+    { field: 'TOTAL_PRODUCT', headerName: 'Total Product', width: 150 },
     {
       field: 'TOTAL_COST',
       headerName: 'Total Cost',
-      width: 100,
+      width: 150,
     },
     {
       field: 'PAY_METHOD',
       headerName: 'Pay method',
-      width: 120,
+      width: 150,
     },
     {
       field: 'RECEIVE_PHONE',
@@ -44,10 +52,29 @@ export default function OrderList() {
       renderCell: (params) => {
         return (
           <>
-            {params.row.STATUS ? (
-              <Link to={'../dashboard/user/' + params.row.STATUS}>
-                <button className="userListEdit">Confirm</button>
-              </Link>
+            {params.row.STATUS == 0 ? (
+              <button
+                style={{ backgroundColor: 'orange' }}
+                onClick={() => {
+                  axios({
+                    method: 'put',
+                    url: 'http://localhost:8080/api/orders/confirm',
+                    data: {
+                      OrderID: params.row.OrderID,
+                    },
+                  })
+                    .then((res) => {
+                      console.log(res);
+                      setRender(!render);
+                    })
+                    .catch((res) => {
+                      // setOpenError(true);
+                      console.log(res);
+                    });
+                }}
+                className="userListEdit">
+                Confirm
+              </button>
             ) : (
               <GridCheckIcon sx={{ color: 'green' }} />
             )}
@@ -59,15 +86,13 @@ export default function OrderList() {
 
   return (
     <div className="userList">
-      <Link to="../dashboard/newUser">
-        <button className="userAddButton">Create</button>
-      </Link>
       <DataGrid
-        rows={data}
+        getRowId={(row) => row.OrderID}
+        rows={orders}
         disableSelectionOnClick
         columns={columns}
         pageSize={8}
-        checkboxSelection
+        // checkboxSelection
       />
     </div>
   );
