@@ -86,7 +86,13 @@ export const ProductItem = (props) => {
           </ProductSize>
           <ProductSize>
             <b>
-              Giá: <b style={{ fontWeight: 'bold' }}>$ {price}</b>
+              Giá:{' '}
+              <b style={{ fontWeight: 'bold' }}>
+                $ {Math.round(price * (1 - saleOff))}{' '}
+                <b style={{ color: 'red', textDecoration: 'line-through' }}>
+                  $ {price}
+                </b>
+              </b>
             </b>
           </ProductSize>
         </Details>
