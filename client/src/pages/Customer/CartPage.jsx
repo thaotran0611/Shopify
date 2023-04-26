@@ -110,7 +110,7 @@ const PaymentForm = ({ cost, totalProduct }) => {
         PHONE: phone,
         ADD: add,
         COST: cost,
-        TOTAL_PRODUCT: totalProduct,
+        NUM: totalProduct,
       },
     })
       .then((res) => {
@@ -120,6 +120,16 @@ const PaymentForm = ({ cost, totalProduct }) => {
         console.log('Error');
         console.log(res);
       });
+    console.log(
+      customerID,
+      name,
+      payment,
+      note,
+      phone,
+      add,
+      cost,
+      totalProduct
+    );
   };
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
