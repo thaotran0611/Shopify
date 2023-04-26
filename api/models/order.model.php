@@ -54,17 +54,16 @@ class Order
             $COST = $info['COST'];
             $TOTAL_PRODUCT = $info['NUM'];
 
-            $query = "INSERT INTO include (ProductID,COLOR,SIZE,NUMBER,OrderID) SELECT ProductID, COLOR, SIZE, NUMBER, OrderID FROM add_to_cart JOIN 
-                ( SELECT AUTO_INCREMENT AS OrderID FROM information_schema.TABLES
-                WHERE TABLE_SCHEMA = 'ltw' AND TABLE_NAME = 'orders') AS TEMP WHERE CustomerID='$CUSTOMER';";
+            $query = "INSERT INTO orders (CUSTOMERID,NAME,TOTAL_PRODUCT,TOTAL_COST,PAY_METHOD,NOTE,RECEIVE_PHONE,RECEIVE_ADDRESS) VALUES ('$CUSTOMER','$NAME','$TOTAL_PRODUCT','$COST','$PAY','$NOTE','$PHONE','$ADD');";
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
 
-            $query = "INSERT INTO orders (CUSTOMERID,NAME,TOTAL_PRODUCT,TOTAL_COST,PAY_METHOD,NOTE,RECEIVE_PHONE,RECEIVE_ADDRESS) VALUES ('$CUSTOMER','$NAME','$TOTAL_PRODUCT','$COST','$PAY','$NOTE','$PHONE','$ADD')";
+            $query = "INSERT INTO include (ProductID,COLOR,SIZE,NUMBER,OrderID) SELECT ProductID, COLOR, SIZE, NUMBER, OrderID FROM add_to_cart JOIN (SELECT max(OrderID) AS OrderID FROM orders) AS TEMP WHERE CustomerID='$CUSTOMER';";
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
 
-            $query = "DELETE add_to_cart WHERE CutomerID='$CUSTOMER'";
+
+            $query = "DELETE FROM add_to_cart WHERE CustomerID='$CUSTOMER'";
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
         } catch (mysqli_sql_exception $e) {

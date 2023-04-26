@@ -58,6 +58,7 @@ CREATE TABLE CUSTOMER(
 CREATE TABLE ORDERS(
 	OrderID INT AUTO_INCREMENT PRIMARY KEY,
     CustomerID INT,
+    NAME VARCHAR(20),
     TOTAL_PRODUCT INT,
     TOTAL_COST FLOAT,
     PAY_METHOD VARCHAR(30),
@@ -190,11 +191,11 @@ INSERT INTO `ltw`.`in_collection` (`ProductCode`, `CollectID`) VALUES ('DC11098'
 INSERT INTO `ltw`.`in_collection` (`ProductCode`, `CollectID`) VALUES ('DC12067', '3');
 
 -- orders
-INSERT INTO `ltw`.`orders` (`OrderID`, `CustomerID`, `TOTAL_PRODUCT`, `TOTAL_COST`, `PAY_METHOD`, `RECEIVE_PHONE`, `RECEIVE_ADDRESS`) VALUES ('00001', '2', '2', '460000', 'cash', '0794763040', 'Gò Vấp, TP.HCM');
-INSERT INTO `ltw`.`orders` (`OrderID`, `CustomerID`, `TOTAL_PRODUCT`, `TOTAL_COST`, `PAY_METHOD`, `RECEIVE_PHONE`, `RECEIVE_ADDRESS`) VALUES ('00002', '4', '1', '230000', 'momo', '0459835899', '7/38A Cao Lãnh, quận 8, TP.HCM');
-INSERT INTO `ltw`.`orders` (`OrderID`, `CustomerID`, `TOTAL_PRODUCT`, `TOTAL_COST`, `PAY_METHOD`, `RECEIVE_PHONE`, `RECEIVE_ADDRESS`) VALUES ('00003', '5', '1', '240000', 'cash', '0796757342', '102 Nguyễn Văn Nghi, phường 5, quận Gò Vấp, TP.HCM');
-INSERT INTO `ltw`.`orders` (`OrderID`, `CustomerID`, `TOTAL_PRODUCT`, `TOTAL_COST`, `PAY_METHOD`, `RECEIVE_PHONE`, `RECEIVE_ADDRESS`) VALUES ('00004', '6', '1', '200000', 'cash', '0972334457', '112 Huỳnh Văn Bánh, Phú Nhuận, TP.HCM');
-INSERT INTO `ltw`.`orders` (`OrderID`, `CustomerID`, `TOTAL_PRODUCT`, `TOTAL_COST`, `PAY_METHOD`, `RECEIVE_PHONE`, `RECEIVE_ADDRESS`) VALUES ('00005', '7', '2', '500000', 'bank', '0123215568', '449E Lê Quang Định, Bình Thạnh, TP.HCM');
+INSERT INTO `ltw`.`orders` (`OrderID`, `CustomerID`, `NAME`, `TOTAL_PRODUCT`, `TOTAL_COST`, `PAY_METHOD`, `RECEIVE_PHONE`, `RECEIVE_ADDRESS`) VALUES ('00001', '2', 'Nguyen Duc An', '2', '460000', 'cash', '0794763040', 'Gò Vấp, TP.HCM');
+INSERT INTO `ltw`.`orders` (`OrderID`, `CustomerID`, `NAME`, `TOTAL_PRODUCT`, `TOTAL_COST`, `PAY_METHOD`, `RECEIVE_PHONE`, `RECEIVE_ADDRESS`) VALUES ('00002', '4', 'Le Phuoc Dat', '1', '230000', 'momo', '0459835899', '7/38A Cao Lãnh, quận 8, TP.HCM');
+INSERT INTO `ltw`.`orders` (`OrderID`, `CustomerID`, `NAME`, `TOTAL_PRODUCT`, `TOTAL_COST`, `PAY_METHOD`, `RECEIVE_PHONE`, `RECEIVE_ADDRESS`) VALUES ('00003', '5', 'Duong Huynh Anh Duc', '1', '240000', 'cash', '0796757342', '102 Nguyễn Văn Nghi, phường 5, quận Gò Vấp, TP.HCM');
+INSERT INTO `ltw`.`orders` (`OrderID`, `CustomerID`, `NAME`, `TOTAL_PRODUCT`, `TOTAL_COST`, `PAY_METHOD`, `RECEIVE_PHONE`, `RECEIVE_ADDRESS`) VALUES ('00004', '6', 'Tran Thi Thu Thao', '1', '200000', 'cash', '0972334457', '112 Huỳnh Văn Bánh, Phú Nhuận, TP.HCM');
+INSERT INTO `ltw`.`orders` (`OrderID`, `CustomerID`, `NAME`, `TOTAL_PRODUCT`, `TOTAL_COST`, `PAY_METHOD`, `RECEIVE_PHONE`, `RECEIVE_ADDRESS`) VALUES ('00005', '7', 'Kim Su Quan', '2', '500000', 'bank', '0123215568', '449E Lê Quang Định, Bình Thạnh, TP.HCM');
 
 -- include
 INSERT INTO `ltw`.`include` (`ProductID`,`COLOR`,`SIZE`,`NUMBER`,`OrderID`) VALUES ('DC08097','red','S','2','00001');
