@@ -39,4 +39,24 @@ elseif ($url['3'] == 'detailCart' and $method == 'GET') {
         echo json_encode(['msg' => $e->getMessage()]);
         http_response_code($e->getStatusCode());
     }
+} // http://localhost:8080/api/cart/deleteCart 
+elseif ($url['3'] == 'deleteCart' and $method == 'POST') {
+    try {
+        $data = (array) json_decode(file_get_contents('php://input'));
+        echo CartController::deleteCart($data);
+        http_response_code(200);
+    } catch (CustomError $e) {
+        echo json_encode(['msg' => $e->getMessage()]);
+        http_response_code($e->getStatusCode());
+    }
+} // http://localhost:8080/api/cart/edit  
+elseif ($url['3'] == 'edit' and $method == 'POST') {
+    try {
+        $data = (array) json_decode(file_get_contents('php://input'));
+        echo CartController::edit($data);
+        http_response_code(200);
+    } catch (CustomError $e) {
+        echo json_encode(['msg' => $e->getMessage()]);
+        http_response_code($e->getStatusCode());
+    }
 }

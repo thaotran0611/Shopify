@@ -2,6 +2,12 @@ import { Typography } from '@mui/material';
 import React from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
+import IconButton from '@mui/material/IconButton';
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import RemoveIcon from '@mui/icons-material/Remove';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Product = styled.div`
   display: flex;
@@ -40,6 +46,59 @@ const ProductSize = styled.span``;
 
 export const ProductItem = (props) => {
   const { thumbNail, title, id, size, color, quantity, price, saleOff } = props;
+  const [quant, setQuant] = useState(quantity);
+  const customerID = JSON.parse(sessionStorage.getItem('user')).id;
+  const navigate = useNavigate();
+  const handleDelete = () => {
+    axios({
+      method: 'post',
+      url: 'http://localhost:8080/api/cart/deleteCart',
+      data: {
+        ProductID: id,
+        COLOR: color,
+        SIZE: size,
+        CustomerID: customerID,
+      },
+    })
+      .then((res) => {
+        console.log('Success');
+        navigate('/cart');
+      })
+      .catch((res) => {
+        console.log('Error');
+        console.log(res);
+      });
+  };
+  const handleEdit = (index) => {
+    if (index == 0) {
+      setQuant(quant + 1);
+    } else {
+      if (quant < 1) {
+        setQuant(1);
+        return;
+      }
+      setQuant(quant - 1);
+    }
+    axios({
+      method: 'post',
+      url: 'http://localhost:8080/api/cart/edit',
+      data: {
+        ProductID: id,
+        COLOR: color,
+        SIZE: size,
+        CustomerID: customerID,
+        NUM: quant,
+      },
+    })
+      .then((res) => {
+        console.log('Success');
+        navigate('/cart');
+      })
+      .catch((res) => {
+        console.log('Error');
+        console.log(res);
+      });
+  };
   return (
     <Product
       style={{
@@ -66,7 +125,7 @@ export const ProductItem = (props) => {
             <b>Kích cỡ: {size}</b>
           </ProductSize>
           <ProductSize>
-            <b>Số lượng: {quantity}</b>
+            <b>Số lượng: {quant}</b>
           </ProductSize>
           <ProductSize>
             <b>Giảm giá: {saleOff * 100}%</b>
@@ -84,6 +143,29 @@ export const ProductItem = (props) => {
           </ProductSize>
         </Details>
       </ProductDetail>
+      <IconButton
+        aria-label="remove"
+        size="large"
+        onClick={() => handleEdit(1)}>
+        <RemoveIcon fontSize="inherit" />
+      </IconButton>
+      <Typography
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        {quant}
+      </Typography>
+      <IconButton aria-label="add" size="large" onClick={() => handleEdit(0)}>
+        <AddIcon fontSize="inherit" />
+      </IconButton>
+      <IconButton
+        aria-label="delete"
+        size="large"
+        onClick={() => handleDelete()}>
+        <DeleteIcon fontSize="inherit" />
+      </IconButton>
     </Product>
   );
 };

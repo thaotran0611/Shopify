@@ -32,4 +32,14 @@ class CartController
         }
         throw new FileNotFoundError("Product not found !");
     }
+    public static function deleteCart($data)
+    {
+        $temp = new Cart();
+        $new = $temp->deleteCart($data);
+    }
+    public static function edit($data)
+    {
+        $temp = new Cart();
+        $new = $temp->edit($data);
+    }
 }

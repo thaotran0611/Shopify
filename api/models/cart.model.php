@@ -62,4 +62,33 @@ class Cart
             throw new InternalServerError('Server Error !');
         }
     }
+    public function deleteCart($data)
+    {
+        try {
+            $CODE = $data['ProductID'];
+            $COLOR = $data['COLOR'];
+            $SIZE = $data['SIZE'];
+            $CustomerID = $data['CustomerID'];
+            $query = "DELETE FROM add_to_cart WHERE COLOR='$COLOR' AND SIZE='$SIZE' AND ProductID='$CODE' AND CustomerID='$CustomerID';";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+        } catch (mysqli_sql_exception $e) {
+            throw new InternalServerError('Server Error !');
+        }
+    }
+    public function edit($data)
+    {
+        try {
+            $CODE = $data['ProductID'];
+            $COLOR = $data['COLOR'];
+            $SIZE = $data['SIZE'];
+            $CustomerID = $data['CustomerID'];
+            $NUM = $data['NUM'];
+            $query = "UPDATE add_to_cart SET NUMBER= '$NUM' WHERE COLOR='$COLOR' AND SIZE='$SIZE' AND ProductID='$CODE' AND CustomerID='$CustomerID';";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+        } catch (mysqli_sql_exception $e) {
+            throw new InternalServerError('Server Error !');
+        }
+    }
 }

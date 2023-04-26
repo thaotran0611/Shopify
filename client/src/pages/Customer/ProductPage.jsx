@@ -326,12 +326,11 @@ export const ProductPage = () => {
                 />
               </Stack>
               <Box>
-                {products.length > 0 ? 
-                  <RenderProduct /> : 
-                  <Typography>
-                    No Result Found
-                  </Typography>
-                }
+                {products.length > 0 ? (
+                  <RenderProduct />
+                ) : (
+                  <Typography>No Result Found</Typography>
+                )}
               </Box>
               <Stack spacing={2}>
                 <Pagination count={10} shape="rounded" />

@@ -228,11 +228,15 @@ const CartPage = () => {
     ? JSON.parse(sessionStorage.getItem('user')).id
     : '0';
   useEffect(() => {
-    getCarts().then((data) => setProductData(data));
-    getBill().then((data) => {
-      setBill([data[0]['TOTAL_COST'], data[0]['SUM(NUMBER)']]);
+    getCarts().then((data) => {
+      setProductData(data);
     });
-  }, []);
+    getBill().then((data) => {
+      if (data) {
+        setBill([data[0]['TOTAL_COST'], data[0]['SUM(NUMBER)']]);
+      }
+    });
+  }, [productData]);
   const getCarts = async () => {
     return axios
       .get(`http://localhost:8080/api/cart/detailCart?id=${customerID}`)
@@ -250,56 +254,58 @@ const CartPage = () => {
         <Title style={{ fontSize: 30, fontWeight: 'bold' }}>
           ĐƠN HÀNG CỦA TÔI
         </Title>
-        <Bottom style={{ width: '80%', margin: '50px auto' }}>
-          <Info>
-            {productData &&
-              productData.map((product) => (
-                <ProductItem
-                  id={product.CODE}
-                  thumbNail={product.IMG1}
-                  title={product.NAME}
-                  size={product.SIZE}
-                  color={product.COLOR}
-                  saleOff={product.SALEOFF}
-                  quantity={product.NUMBER}
-                  price={product.PRICE}
+        {productData && (
+          <Bottom style={{ width: '80%', margin: '50px auto' }}>
+            <Info>
+              {productData &&
+                productData.map((product) => (
+                  <ProductItem
+                    id={product.CODE}
+                    thumbNail={product.IMG1}
+                    title={product.NAME}
+                    size={product.SIZE}
+                    color={product.COLOR}
+                    saleOff={product.SALEOFF}
+                    quantity={product.NUMBER}
+                    price={product.PRICE}
+                  />
+                ))}
+            </Info>
+            {productData && bill.length > 0 && (
+              <Box sx={{ width: '40%', margin: '0 auto' }}>
+                <Summary>
+                  <SummaryTitle>ORDER SUMMARY</SummaryTitle>
+                  <SummaryItem>
+                    <SummaryItemText>Total</SummaryItemText>
+                    <SummaryItemPrice>
+                      $ {bill.length > 0 ? Math.round(bill[0]) : 0}
+                    </SummaryItemPrice>
+                  </SummaryItem>
+                  <SummaryItem>
+                    <SummaryItemText>Estimated Shipping</SummaryItemText>
+                    <SummaryItemPrice>$ 5.90</SummaryItemPrice>
+                  </SummaryItem>
+                  <SummaryItem>
+                    <SummaryItemText>Shipping Discount</SummaryItemText>
+                    <SummaryItemPrice>$ -5.90</SummaryItemPrice>
+                  </SummaryItem>
+                  <SummaryItem type="total">
+                    <SummaryItemText style={{ fontWeight: 'bold' }}>
+                      Total
+                    </SummaryItemText>
+                    <SummaryItemPrice style={{ fontWeight: 'bold' }}>
+                      $ {bill.length > 0 ? Math.round(bill[0]) : 0}
+                    </SummaryItemPrice>
+                  </SummaryItem>
+                </Summary>
+                <PaymentForm
+                  cost={Math.round(bill[0])}
+                  totalProduct={Math.round(bill[1])}
                 />
-              ))}
-          </Info>
-          {bill.length > 0 && (
-            <Box sx={{ width: '40%', margin: '0 auto' }}>
-              <Summary>
-                <SummaryTitle>ORDER SUMMARY</SummaryTitle>
-                <SummaryItem>
-                  <SummaryItemText>Total</SummaryItemText>
-                  <SummaryItemPrice>
-                    $ {bill.length > 0 ? Math.round(bill[0]) : 0}
-                  </SummaryItemPrice>
-                </SummaryItem>
-                <SummaryItem>
-                  <SummaryItemText>Estimated Shipping</SummaryItemText>
-                  <SummaryItemPrice>$ 5.90</SummaryItemPrice>
-                </SummaryItem>
-                <SummaryItem>
-                  <SummaryItemText>Shipping Discount</SummaryItemText>
-                  <SummaryItemPrice>$ -5.90</SummaryItemPrice>
-                </SummaryItem>
-                <SummaryItem type="total">
-                  <SummaryItemText style={{ fontWeight: 'bold' }}>
-                    Total
-                  </SummaryItemText>
-                  <SummaryItemPrice style={{ fontWeight: 'bold' }}>
-                    $ {bill.length > 0 ? Math.round(bill[0]) : 0}
-                  </SummaryItemPrice>
-                </SummaryItem>
-              </Summary>
-              <PaymentForm
-                cost={Math.round(bill[0])}
-                totalProduct={Math.round(bill[1])}
-              />
-            </Box>
-          )}
-        </Bottom>
+              </Box>
+            )}
+          </Bottom>
+        )}
       </Wrapper>
     </Container>
   );
