@@ -39,17 +39,7 @@ const ProductColor = styled.div`
 const ProductSize = styled.span``;
 
 export const ProductItem = (props) => {
-  const {
-    thumbNail,
-    title,
-    id,
-    size,
-    color,
-    quantity,
-    price,
-    inStock,
-    saleOff,
-  } = props;
+  const { thumbNail, title, id, size, color, quantity, price, saleOff } = props;
   return (
     <Product
       style={{
@@ -77,9 +67,6 @@ export const ProductItem = (props) => {
           </ProductSize>
           <ProductSize>
             <b>Số lượng: {quantity}</b>
-          </ProductSize>
-          <ProductSize>
-            <b>Tồn kho: {inStock}</b>
           </ProductSize>
           <ProductSize>
             <b>Giảm giá: {saleOff * 100}%</b>

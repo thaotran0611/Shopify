@@ -26,6 +26,7 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
   const [colState, setColState] = useState(false);
   const [categories, setCategories] = useState([]);
   const [collections, setCollections] = useState([]);
+  const [cartNumber, setCartNumber] = useState(0);
   const getCategories = async () => {
     return axios
       .get('http://localhost:8080/api/products/categories')
@@ -34,6 +35,12 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
   const getCollections = async () => {
     return axios
       .get('http://localhost:8080/api/products/collections')
+      .then((res) => res.data);
+  };
+  const getBill = async () => {
+    const customerID = JSON.parse(sessionStorage.getItem('user')).id;
+    return axios
+      .get(`http://localhost:8080/api/cart/calculate?id=${customerID}`)
       .then((res) => res.data);
   };
   useEffect(() => {
@@ -52,6 +59,17 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
       setCollections(ret);
     });
   }, []);
+  useEffect(() => {
+    if (sessionStorage.getItem('user')) {
+      getBill()
+        .then((data) => {
+          setCartNumber(data[0]['SUM(NUMBER)']);
+        })
+        .catch((err) => {
+          setCartNumber(0);
+        });
+    }
+  });
   const setLogOut = () => {
     sessionStorage.removeItem('user');
     setLoggedIn(false);
@@ -101,12 +119,27 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
               <Button
                 variant="contained"
                 startIcon={
-                  <Badge badgeContent={0} color="error">
+                  <Badge badgeContent={cartNumber} color="error">
                     <ShoppingBagOutlinedIcon />
                   </Badge>
                 }
                 disableElevation
                 onClick={() => navigate('/cart')}
+                sx={{
+                  background: 'inherit',
+                  color: '#000',
+                  textTransform: 'none',
+                  '&:hover': {
+                    color: '#fff',
+                  },
+                }}>
+                Giỏ hàng
+              </Button>
+              <Button
+                variant="contained"
+                startIcon={<ShoppingBagOutlinedIcon />}
+                disableElevation
+                onClick={() => navigate('/order')}
                 sx={{
                   background: 'inherit',
                   color: '#000',

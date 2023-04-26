@@ -18,6 +18,7 @@ class Order
             $query = "SELECT * FROM orders WHERE CustomerID='$id';";
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
+            return $stmt->get_result();
         } catch (mysqli_sql_exception $e) {
             throw new InternalServerError('Server Error !');
         }
@@ -25,9 +26,12 @@ class Order
     public function getOrder($id)
     { // id of 1 order
         try {
-            $query = "SELECT * FROM orders JOIN include ON orders.OrderID = include.OrderID WHERE orders.OrderID='$id'";
+            $query = "SELECT OrderID, CustomerID, orders.NAME ,TOTAL_PRODUCT, TOTAL_COST, PAY_METHOD, RECEIVE_PHONE, RECEIVE_ADDRESS, DATE_TIME, CODE, T.COLOR, T.SIZE, PRICE, SALEOFF ,NUMBER, IMG1
+            FROM orders NATURAL JOIN include  AS T JOIN Product AS P ON T.ProductID=P.CODE AND T.COLOR=P.COLOR AND T.SIZE = P.SIZE 
+            WHERE orders.OrderID='$id';";
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
+            return $stmt->get_result();
         } catch (mysqli_sql_exception $e) {
             throw new InternalServerError('Server Error !');
         }
@@ -66,6 +70,28 @@ class Order
             $query = "DELETE FROM add_to_cart WHERE CustomerID='$CUSTOMER'";
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
+        } catch (mysqli_sql_exception $e) {
+            throw new InternalServerError('Server Error !');
+        }
+    }
+    public function chart()
+    { // id of customer
+        try {
+            $query = "SELECT month(date_time) AS MONTH, sum(total_cost) AS TOTAL_COST from orders group by month(date_time);";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            return $stmt->get_result();
+        } catch (mysqli_sql_exception $e) {
+            throw new InternalServerError('Server Error !');
+        }
+    }
+    public function getAll_Admin()
+    { // id of 1 order
+        try {
+            $query = "SELECT * FROM orders";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            return $stmt->get_result();
         } catch (mysqli_sql_exception $e) {
             throw new InternalServerError('Server Error !');
         }

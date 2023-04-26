@@ -44,6 +44,13 @@ export const ProductDetailPage = () => {
   const [products, setProducts] = useState('');
   const [items, setItems] = useState('');
   const [open, setOpen] = useState(false);
+  const [mainImg, setMainImg] = useState('');
+  const [size, setSize] = useState('');
+  const [quantity, setQuantity] = useState(1);
+  const [tab, setTab] = useState(1);
+  const [colors, setColor] = useState(['red']);
+  const [colorSelected, setColorSelected] = useState('');
+  const [inStock, setInStock] = useState(0);
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -63,6 +70,18 @@ export const ProductDetailPage = () => {
       .get(`http://localhost:8080/api/products/detail?code=${code}`)
       .then((res) => res.data);
   };
+  useEffect(() => {
+    getQuantity().then((data) => {
+      setInStock(data[0]['QUANITY']);
+    });
+  }, [code, colorSelected, size]);
+  const getQuantity = async () => {
+    return axios
+      .get(
+        `http://localhost:8080/api/products/get_quanity?id=${code}&&color=${colorSelected}&&size=${size}`
+      )
+      .then((res) => res.data);
+  };
   const getData = async () => {
     return await getProducts().then((res) => {
       setProducts(res);
@@ -75,21 +94,16 @@ export const ProductDetailPage = () => {
   useEffect(() => {
     getData();
   }, [code]);
-
-  const [mainImg, setMainImg] = useState('');
-  const [size, setSize] = useState('');
-  const [quantity, setQuantity] = useState(1);
-  const [tab, setTab] = useState(1);
-  const [colors, setColor] = useState(['red']);
-  const [colorSelected, setColorSelected] = useState('');
-  const handleQuantity = (val) => {
-    let tmp = quantity;
-
-    if (val === 0) tmp++;
-    else tmp--;
-
-    if (tmp >= 1) setQuantity(tmp);
-    else setQuantity(1);
+  const handleQuantity = (index) => {
+    if (quantity <= 1) setQuantity(1);
+    if (quantity >= inStock) setQuantity(inStock);
+    else {
+      if (index == 0) {
+        setQuantity(quantity - 1);
+      } else {
+        setQuantity(quantity + 1);
+      }
+    }
   };
   const handleClickAdd = () => {
     let isCustomer = '';
@@ -114,12 +128,12 @@ export const ProductDetailPage = () => {
     })
       .then((res) => {
         console.log('Success');
+        navigate('/cart');
       })
       .catch((res) => {
         console.log('Error');
         console.log(res);
       });
-    console.log(customerID, code, colorSelected, size, quantity);
   };
   const handleClickBuy = () => {
     let isCustomer = JSON.parse(sessionStorage.getItem('user')) != null;
@@ -440,7 +454,7 @@ export const ProductDetailPage = () => {
                       <Button
                         disableRipple
                         endIcon={<RemoveIcon />}
-                        onClick={() => handleQuantity(1)}></Button>
+                        onClick={() => handleQuantity(0)}></Button>
                       <Button
                         disableRipple
                         sx={{
@@ -451,7 +465,7 @@ export const ProductDetailPage = () => {
                       <Button
                         disableRipple
                         startIcon={<AddIcon />}
-                        onClick={() => handleQuantity(0)}></Button>
+                        onClick={() => handleQuantity(1)}></Button>
                     </ButtonGroup>
                   </Stack>
                   <Stack direction="row">
@@ -464,6 +478,9 @@ export const ProductDetailPage = () => {
                     </IconButton>
                   </Stack>
                   <Stack direction="column">
+                    <Typography variant="h6" component="div">
+                      In Stock: {inStock}
+                    </Typography>
                     <Box>
                       <Typography variant="h6" component="div">
                         Product Code: &nbsp;

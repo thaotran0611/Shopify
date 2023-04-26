@@ -241,4 +241,18 @@ class Product
             throw new InternalServerError('Server Error !');
         }
     }
+    public function chart($id)
+    {
+        try {
+            $query = "SELECT MONTH(date_time) AS MONTH,  SUM(NUMBER) AS NUMBER 
+            FROM orders as O join include AS I on O.orderID = I.orderID
+            WHERE ProductID='$id'
+            GROUP BY MONTH ;";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            return $stmt->get_result();
+        } catch (mysqli_sql_exception $e) {
+            throw new InternalServerError('Server Error !');
+        }
+    }
 }

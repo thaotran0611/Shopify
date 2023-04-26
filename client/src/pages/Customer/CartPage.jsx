@@ -39,7 +39,6 @@ const TopButton = styled.button`
     props.type === 'filled' ? 'black' : 'transparent'};
   color: ${(props) => props.type === 'filled' && 'white'};
 `;
-
 const Bottom = styled.div`
   display: flex;
   justify-content: space-between;
@@ -99,6 +98,10 @@ const PaymentForm = ({ cost, totalProduct }) => {
     } else {
       return;
     }
+    if (name == '' || phone == '' || add == '') {
+      setOpen(true);
+      return;
+    }
     axios({
       method: 'post',
       url: 'http://localhost:8080/api/orders/add',
@@ -115,21 +118,12 @@ const PaymentForm = ({ cost, totalProduct }) => {
     })
       .then((res) => {
         console.log('Success');
+        navigate('/order');
       })
       .catch((res) => {
         console.log('Error');
         console.log(res);
       });
-    console.log(
-      customerID,
-      name,
-      payment,
-      note,
-      phone,
-      add,
-      cost,
-      totalProduct
-    );
   };
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -215,9 +209,9 @@ const PaymentForm = ({ cost, totalProduct }) => {
               anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
               <Alert
                 onClose={handleClose}
-                severity="success"
+                severity="error"
                 sx={{ width: '100%' }}>
-                Thanh toán thành công
+                Vui lòng nhập đầy đủ thông tin!!
               </Alert>
             </Snackbar>
           </Box>
@@ -267,25 +261,20 @@ const CartPage = () => {
                   size={product.SIZE}
                   color={product.COLOR}
                   saleOff={product.SALEOFF}
-                  inStock={product.QUANITY}
                   quantity={product.NUMBER}
                   price={product.PRICE}
                 />
               ))}
           </Info>
-          {bill && (
+          {bill.length > 0 && (
             <Box sx={{ width: '40%', margin: '0 auto' }}>
               <Summary>
                 <SummaryTitle>ORDER SUMMARY</SummaryTitle>
                 <SummaryItem>
                   <SummaryItemText>Total</SummaryItemText>
                   <SummaryItemPrice>
-                    $ {bill ? Math.round(bill[0]) : 0}
+                    $ {bill.length > 0 ? Math.round(bill[0]) : 0}
                   </SummaryItemPrice>
-                </SummaryItem>
-                <SummaryItem>
-                  <SummaryItemText>Number</SummaryItemText>
-                  <SummaryItemPrice>{bill ? bill[1] : 0}</SummaryItemPrice>
                 </SummaryItem>
                 <SummaryItem>
                   <SummaryItemText>Estimated Shipping</SummaryItemText>
@@ -300,7 +289,7 @@ const CartPage = () => {
                     Total
                   </SummaryItemText>
                   <SummaryItemPrice style={{ fontWeight: 'bold' }}>
-                    $ {bill ? Math.round(bill[0]) : 0}
+                    $ {bill.length > 0 ? Math.round(bill[0]) : 0}
                   </SummaryItemPrice>
                 </SummaryItem>
               </Summary>

@@ -54,7 +54,7 @@ elseif ($url['3'] == 'detail' and $method == 'GET') {
 // size , price , color 
 elseif ($url['3'] == 'filter_pro' and $method == 'GET') {
     $info = array('size' => '', 'price' => '', 'color' => '');
-
+    $params = (array)$params;
     if (array_key_exists('size', $params)) {
         $info['size'] = $params['size'];
     }
@@ -149,61 +149,10 @@ elseif ($url['3'] == 'filter_collection' and $method == 'GET') {
         echo json_encode(['msg' => $e->getMessage()]);
         http_response_code($e->getStatusCode());
     }
-} elseif ($url['3'] == 'add' and $method == 'POST') {
+} // api/products/chart?code=
+elseif ($url['3'] == 'chart' and $method == 'GET') {
     try {
-        $data = (array) json_decode(file_get_contents('php://input'));
-        echo ProductController::addProduct($data);
-        http_response_code(200);
-    } catch (CustomError $e) {
-        echo json_encode(['msg' => $e->getMessage()]);
-        http_response_code($e->getStatusCode());
-    }
-} elseif ($url['3'] == 'delete' and $method == 'POST') {
-    try {
-        $id = (array) json_decode(file_get_contents('php://input'));
-        echo ProductController::deleteProduct($id);
-        http_response_code(200);
-    } catch (CustomError $e) {
-        echo json_encode(['msg' => $e->getMessage()]);
-        http_response_code($e->getStatusCode());
-    }
-} elseif ($url['3'] == 'get_info' and $method == 'GET') { #get color and size
-    try {
-        echo ProductController::get_info($params['id']);
-        http_response_code(200);
-    } catch (CustomError $e) {
-        echo json_encode(['msg' => $e->getMessage()]);
-        http_response_code($e->getStatusCode());
-    }
-} elseif ($url['3'] == 'get_detail' and $method == 'GET') { #get color and size
-    try {
-        echo ProductController::get_detail($params['id']);
-        http_response_code(200);
-    } catch (CustomError $e) {
-        echo json_encode(['msg' => $e->getMessage()]);
-        http_response_code($e->getStatusCode());
-    }
-} elseif ($url['3'] == 'get_quanity' and $method == 'GET') { #get quanity
-    try {
-        echo ProductController::get_quanity($params['id'], $params['color'], $params['size']);
-        http_response_code(200);
-    } catch (CustomError $e) {
-        echo json_encode(['msg' => $e->getMessage()]);
-        http_response_code($e->getStatusCode());
-    }
-} elseif ($url['3'] == 'edit' and $method == 'POST') {
-    try {
-        $data = (array) json_decode(file_get_contents('php://input'));
-        echo ProductController::edit($data);
-        http_response_code(200);
-    } catch (CustomError $e) {
-        echo json_encode(['msg' => $e->getMessage()]);
-        http_response_code($e->getStatusCode());
-    }
-} elseif ($url['3'] == 'restock' and $method == 'POST') { #get quanity
-    try {
-        $data = (array) json_decode(file_get_contents('php://input'));
-        echo ProductController::restock($data);
+        echo ProductController::chart($params['code']);
         http_response_code(200);
     } catch (CustomError $e) {
         echo json_encode(['msg' => $e->getMessage()]);
