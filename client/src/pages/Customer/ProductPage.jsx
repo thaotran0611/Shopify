@@ -11,8 +11,6 @@ import {
   AccordionSummary,
   AccordionDetails,
   FormControlLabel,
-  Checkbox,
-  Slider,
   Divider,
   ToggleButtonGroup,
   ToggleButton,
@@ -26,21 +24,29 @@ import {
   CardContent,
   Rating,
   Pagination,
+  Drawer,
+  IconButton
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import TuneIcon from '@mui/icons-material/Tune';
+import CloseIcon from '@mui/icons-material/Close';
 import axios from 'axios';
 import '../../styles/ProductPage.css';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
+
 export const ProductPage = () => {
+
   const [price, setPrice] = useState(0);
   const [size, setSize] = useState('');
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [collections, setCollections] = useState([]);
   const [open, setOpen] = useState(false);
+  const [openDrawer, setOpenDrawer] = useState(false);
+
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -165,6 +171,121 @@ export const ProductPage = () => {
     return productList;
   };
 
+  const RenderProductSidebar = () => {
+    return (
+      <React.Fragment>
+        <Accordion elevation={0} defaultExpanded={true}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography>Categories</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <RadioGroup
+              aria-labelledby="demo-radio-buttons-group-label"
+              defaultValue="Blue"
+              name="radio-buttons-group">
+              {categories.map((category, index) => (
+                <FormControlLabel
+                  key={category.ID}
+                  value={category.ID}
+                  label={category.NAME}
+                  control={
+                    <Link
+                      component="button"
+                      sx={{ ml: 2, mb: 5 }}
+                      onClick={() => handleCategories(category.ID)}
+                    />
+                  }
+                />
+              ))}
+            </RadioGroup>
+          </AccordionDetails>
+        </Accordion>
+        <Divider />
+        <Accordion elevation={0} defaultExpanded={true}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography>Collections</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <RadioGroup
+              aria-labelledby="demo-radio-buttons-group-label"
+              defaultValue="Blue"
+              name="radio-buttons-group">
+              {collections.map((colection, index) => (
+                <FormControlLabel
+                  key={colection.ID}
+                  value={colection.ID}
+                  label={colection.NAME}
+                  control={
+                    <Link
+                      component="button"
+                      sx={{ ml: 2, mb: 5 }}
+                      onClick={() => handleCollection(colection.ID)}
+                    />
+                  }
+                />
+              ))}
+            </RadioGroup>
+          </AccordionDetails>
+        </Accordion>
+        <Divider />
+        <Accordion elevation={0} defaultExpanded={true}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography>Size</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <ToggleButtonGroup
+              value={size}
+              exclusive
+              onChange={handleSize}
+              aria-label="size">
+              {['S', 'M', 'L', 'XL', 'XXL'].map((text) => (
+                <ToggleButton
+                  value={text}
+                  aria-label={text}
+                  disableRipple>
+                  {text}
+                </ToggleButton>
+              ))}
+            </ToggleButtonGroup>
+          </AccordionDetails>
+        </Accordion>
+        <Divider />
+        <Accordion elevation={0} defaultExpanded={true}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography>Price</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <RadioGroup>
+              {[
+                'Nhỏ hơn 300.000',
+                'Từ 300.000 - 500.000',
+                'Lớn hơn 500.000',
+              ].map((text, index) => (
+                <FormControlLabel
+                  key={index}
+                  value={index}
+                  label={text}
+                  control={<Radio />}
+                  onChange={(e) => {
+                    setPrice(e.target.value);
+                  }}
+                />
+              ))}
+            </RadioGroup>
+          </AccordionDetails>
+        </Accordion>
+        <Button
+          variant="contained"
+          size="large"
+          endIcon={<FilterAltIcon />}
+          sx={{ width: '100%', mt: 3, backgroundColor: 'black' }}
+          onClick={() => handleFilter()}>
+          Filter
+        </Button>
+      </React.Fragment>
+    )
+  }
+
   return (
     <React.Fragment>
       <Box className="product_container">
@@ -177,115 +298,14 @@ export const ProductPage = () => {
             </Breadcrumbs>
           </Stack>
           <Box className="product_content">
+            <IconButton onClick={() => setOpenDrawer(true)}>
+              <TuneIcon/>
+              <Typography>
+                Bộ lọc
+              </Typography>
+            </IconButton>
             <Stack className="product_sidebar">
-              <Accordion elevation={0} defaultExpanded={true}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography>Categories</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <RadioGroup
-                    aria-labelledby="demo-radio-buttons-group-label"
-                    defaultValue="Blue"
-                    name="radio-buttons-group">
-                    {categories.map((category, index) => (
-                      <FormControlLabel
-                        key={category.ID}
-                        value={category.ID}
-                        label={category.NAME}
-                        control={
-                          <Link
-                            component="button"
-                            sx={{ ml: 2, mb: 5 }}
-                            onClick={() => handleCategories(category.ID)}
-                          />
-                        }
-                      />
-                    ))}
-                  </RadioGroup>
-                </AccordionDetails>
-              </Accordion>
-              <Divider />
-              <Accordion elevation={0} defaultExpanded={true}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography>Collections</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <RadioGroup
-                    aria-labelledby="demo-radio-buttons-group-label"
-                    defaultValue="Blue"
-                    name="radio-buttons-group">
-                    {collections.map((colection, index) => (
-                      <FormControlLabel
-                        key={colection.ID}
-                        value={colection.ID}
-                        label={colection.NAME}
-                        control={
-                          <Link
-                            component="button"
-                            sx={{ ml: 2, mb: 5 }}
-                            onClick={() => handleCollection(colection.ID)}
-                          />
-                        }
-                      />
-                    ))}
-                  </RadioGroup>
-                </AccordionDetails>
-              </Accordion>
-              <Divider />
-              <Accordion elevation={0} defaultExpanded={true}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography>Size</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <ToggleButtonGroup
-                    value={size}
-                    exclusive
-                    onChange={handleSize}
-                    aria-label="size">
-                    {['S', 'M', 'L', 'XL', 'XXL'].map((text) => (
-                      <ToggleButton
-                        value={text}
-                        aria-label={text}
-                        disableRipple>
-                        {text}
-                      </ToggleButton>
-                    ))}
-                  </ToggleButtonGroup>
-                </AccordionDetails>
-              </Accordion>
-              <Divider />
-              <Accordion elevation={0} defaultExpanded={true}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography>Price</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <RadioGroup>
-                    {[
-                      'Nhỏ hơn 300.000',
-                      'Từ 300.000 - 500.000',
-                      'Lớn hơn 500.000',
-                    ].map((text, index) => (
-                      <FormControlLabel
-                        key={index}
-                        value={index}
-                        label={text}
-                        control={<Radio />}
-                        onChange={(e) => {
-                          setPrice(e.target.value);
-                        }}
-                      />
-                    ))}
-                  </RadioGroup>
-                </AccordionDetails>
-              </Accordion>
-              <Button
-                variant="contained"
-                size="large"
-                endIcon={<FilterAltIcon />}
-                sx={{ width: '100%', mt: 3, backgroundColor: 'black' }}
-                onClick={() => handleFilter()}>
-                Filter
-              </Button>
+              <RenderProductSidebar/>
             </Stack>
             <Snackbar
               open={open}
@@ -300,8 +320,8 @@ export const ProductPage = () => {
               </Alert>
             </Snackbar>
             <Box className="product_display" component="main">
-              <Stack>
-                <Typography>Showing 1-16 of 96 products</Typography>
+              <Stack className="product_header">
+                {/* <Typography>Showing 1-16 of 96 products</Typography> */}
                 <Autocomplete
                   options={top100Films.map((option) => option.title)}
                   renderInput={(params) => (
@@ -326,19 +346,37 @@ export const ProductPage = () => {
                 />
               </Stack>
               <Box>
-                {products.length > 0 ? (
-                  <RenderProduct />
-                ) : (
-                  <Typography>No Result Found</Typography>
-                )}
+                {products.length > 0 ? 
+                  <RenderProduct /> : 
+                  <Typography>
+                    No Result Found
+                  </Typography>
+                }
               </Box>
               <Stack spacing={2}>
-                <Pagination count={10} shape="rounded" />
+                <Pagination count={3} shape="rounded" />
               </Stack>
             </Box>
           </Box>
         </Box>
       </Box>
+      <Drawer
+        variant="persistent"
+        open={openDrawer}
+        className='product_drawer'
+      >
+        <Typography>
+          Bộ lọc
+        </Typography>
+        <IconButton
+          onClick={() => setOpenDrawer(false)}
+        >
+          <CloseIcon />
+        </IconButton>
+        <Stack className="product_sidebar">
+          <RenderProductSidebar/>
+        </Stack>
+      </Drawer>
     </React.Fragment>
   );
 };

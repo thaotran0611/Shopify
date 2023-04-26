@@ -22,7 +22,7 @@ export const AboutUsPage = () => {
               ABOUT US
             </Typography>
             <Typography>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Optio fugit mollitia dolor dolore vitae, quibusdam enim ex voluptatum officiis molestias quia nam qui! Dignissimos, quae commodi atque molestias rerum ex. Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo, sit libero magni, voluptas sequi eos ullam voluptatem tenetur saepe nulla pariatur quod? Sint facere earum nisi unde repellendus, eligendi quisquam?
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Optio fugit mollitia dolor dolore vitae, quibusdam enim ex voluptatum officiis molestias quia nam qui! Dignissimos, quae commodi atque molestias rerum ex. Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo, sit libero magni, voluptas sequi eos ullam voluptatem tenetur saepe nulla pariatur quod? Sint facere earum nisi unde? Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod vero cupiditate culpa soluta iste, possimus libero eaque eligendi modi quaerat, nostrum nisi ipsum cum perspiciatis ducimus repellendus reprehenderit a ullam.
             </Typography>
           </Stack>
           <Stack className='about-us_quote'>

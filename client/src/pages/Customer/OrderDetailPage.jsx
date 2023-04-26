@@ -41,25 +41,27 @@ export const OrderDetailPage = () => {
   const RenderItems = () => {
     const data = orders.map((order, index) => (
       <Stack direction="row" className="timeline-item" id={index}>
-        <CardMedia
-          component="img"
-          image={order.IMG1}
-          alt="unsplash img"
-          style={{ objectFit: 'contain', backgroundColor: '#e3e3e3' }}
-        />
-        <Stack>
-          <Typography style={{ width: '100%', margin: 0 }}>
-            CODE: {order.CODE}
-          </Typography>
-          <Typography style={{ width: '100%', margin: 0 }}>
-            Màu sắc: {order.COLOR}
-          </Typography>
-          <Typography style={{ width: '100%', margin: 0 }}>
-            Kích cỡ: {order.SIZE}
-          </Typography>
-          <Typography style={{ width: '100%', margin: 0, fontSize: 16 }}>
-            Giảm giá: {order.SALEOFF}
-          </Typography>
+        <Stack direction='row'>
+          <CardMedia
+            component="img"
+            image={order.IMG1}
+            alt="unsplash img"
+            style={{ objectFit: 'contain', backgroundColor: '#e3e3e3' }}
+          />
+          <Stack>
+            <Typography style={{ width: '100%', margin: 0 }}>
+              CODE: {order.CODE}
+            </Typography>
+            <Typography style={{ width: '100%', margin: 0 }}>
+              <b>Màu sắc:</b> {order.COLOR}
+            </Typography>
+            <Typography style={{ width: '100%', margin: 0 }}>
+              <b>Kích cỡ:</b> {order.SIZE}
+            </Typography>
+            <Typography style={{ width: '100%', margin: 0, fontSize: 16 }}>
+              <b>Giảm giá:</b> {order.SALEOFF}
+            </Typography>
+          </Stack>
         </Stack>
         <Typography>
           <b>Số lượng: {order.NUMBER}</b>
@@ -105,7 +107,8 @@ export const OrderDetailPage = () => {
                 variant="contained"
                 size="large"
                 style={{ backgroundColor: 'black' }}
-                onClick={() => navigate('/order')}>
+                onClick={() => navigate('/order')}
+              >
                 History
               </Button>
             </Box>

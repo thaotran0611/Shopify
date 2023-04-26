@@ -1,0 +1,32 @@
+.sign-up_break-page {
+  display: none;
+}
+
+@media only screen and (max-width: 1250px) {
+  .sign-up_ctn {
+    margin-top: 110px;
+  }
+}
+
+@media only screen and (max-width: 567px) {
+  .sign-up_ctn {
+    margin-top: 130px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .sign-up_break-page {
+    display: block;
+  }
+  .sign-up_ctn > .MuiBox-root {
+    width: calc(100vw - 44px);
+  }
+  .sign-up_form  {
+    margin-top: 0 !important;
+    width: calc(100%) !important;
+    box-sizing: border-box;
+  }
+  .sign-up_policy {
+    font-size: 14px;
+  }
+}

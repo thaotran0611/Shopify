@@ -21,11 +21,13 @@
 
 .product_content {
   display: flex;
+  position: relative;
 }
 
 .product_sidebar {
   width: 300px;
   flex-shrink: 0;
+  position: relative;
 }
 
 .product_sidebar .MuiAccordion-root:before {
@@ -84,7 +86,7 @@
 
 .product_display > .MuiStack-root:nth-child(1) {
   display: flex;
-  justify-content: space-between;
+  justify-content: right;
   align-items: center;
   flex-direction: row;
   margin-right: 8px;
@@ -204,4 +206,98 @@
   justify-content: center;
   align-items: center;
   padding: 32px;
+}
+
+.product_content > .MuiIconButton-root {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 999;
+  color: #6b595e;
+  margin-top: 0px;
+  margin-bottom: 20px;
+}
+
+.product_content > .MuiIconButton-root .MuiTypography-root {
+  margin-left: 10px;
+}
+
+.product_drawer {
+  width: 250px;
+  background-color: #fff;
+  flex-shrink: 0;
+  position: relative;
+  transition: ease-out 0.3s !important;
+}
+
+.product_drawer .MuiIconButton-root  {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.product_drawer .MuiPaper-root > .MuiTypography-root  {
+  position: absolute;
+  top: 8px;
+  left: 5px;
+  font-size: 24px;
+  font-weight: 600;
+  font-style: italic;
+  padding-left: 10px;
+  color: #694c4f;
+}
+
+.product_drawer > .MuiDrawer-paper {
+  width: 250px;
+  box-sizing: border-box;
+  padding: 50px 15px;
+}
+
+@media only screen and (max-width: 1250px) {
+  .product_content > .MuiIconButton-root {
+    display: flex;
+  }
+  .product_content > .product_sidebar {
+    display: none !important;
+  }
+  .product_wrapper {
+    margin-top: 90px;
+  }
+  .product_header > .MuiTypography-root {
+    position: absolute;
+    right: 0;
+  }
+  .product_header {
+    position: relative;
+  }
+  .product_header > .MuiAutocomplete-root {
+    display: none;
+  }
+  .product_display > .MuiStack-root:nth-child(1) .MuiTypography-root {
+    margin-top: 8px;
+  }.product_sidebar {
+    width: 100%;
+  }
+  .product_display {
+    padding: 0;
+  }
+  .product_content {
+    padding-top: 20px;
+  }
+  .product_drawer .product_sidebar .MuiAccordion-root:nth-child(5) .MuiAccordionDetails-root .MuiToggleButton-root  {
+    padding: 7px 10px;
+  }
+}
+
+@media only screen and (max-width: 716px) {
+  .product_display > .MuiBox-root:nth-child(2) {
+    justify-content: center;
+  }
+}
+
+@media only screen and (max-width: 580px) {
+  .product_wrapper {
+    margin-top: 130px;
+  }
 }

@@ -252,7 +252,7 @@ export const ProductDetailPage = () => {
       <Stack className="product-detail_comment-content">
         <Stack direction="row">
           <TextField id="standard-name" placeholder="Ask seller a question" />
-          <Button variant="contained" disableElevation>
+          <Button variant="contained" disableElevation  sx={{ maxHeight: '56px' }}>
             Ask Question
           </Button>
         </Stack>
@@ -369,6 +369,9 @@ export const ProductDetailPage = () => {
                     image={mainImg}
                     alt="unsplash img"
                   />
+                  <Stack className="product-detail_content-side product-detail_side_respon">
+                    <RenderImage />
+                  </Stack>
                 </Stack>
                 <Stack className="product-detail_main-detail">
                   <Typography variant="h6" component="div">
@@ -437,6 +440,9 @@ export const ProductDetailPage = () => {
                   </Stack>
                   <Stack>
                     <Typography variant="h6" component="div">
+                      In Stock: {inStock}
+                    </Typography>
+                    <Typography variant="h6" component="div">
                       Quantity:
                     </Typography>
                     <ButtonGroup
@@ -465,14 +471,11 @@ export const ProductDetailPage = () => {
                       Add to Cart
                     </Button>
                     <Button onClick={() => handleClickAdd()}>Buy Now</Button>
-                    <IconButton aria-label="delete">
+                    {/* <IconButton aria-label="delete">
                       <FavoriteIcon />
-                    </IconButton>
+                    </IconButton> */}
                   </Stack>
                   <Stack direction="column">
-                    <Typography variant="h6" component="div">
-                      In Stock: {inStock}
-                    </Typography>
                     <Box>
                       <Typography variant="h6" component="div">
                         Product Code: &nbsp;

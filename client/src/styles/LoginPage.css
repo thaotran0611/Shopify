@@ -1,4 +1,4 @@
-.login_container {
+/* .login_container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -59,4 +59,34 @@
   text-align: left;
   margin-top: 24px;
   cursor: pointer;
+} */
+
+.login_break-page {
+  display: none;
+}
+
+@media only screen and (max-width: 1250px) {
+  .login_ctn {
+    margin-top: 110px;
+  }
+}
+
+@media only screen and (max-width: 567px) {
+  .login_ctn {
+    margin-top: 130px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .login_break-page {
+    display: block;
+  }
+  .login_ctn > .MuiBox-root {
+    width: calc(100vw - 44px);
+  }
+  .login_form  {
+    margin-top: 0 !important;
+    width: calc(100%) !important;
+    box-sizing: border-box;
+  }
 }

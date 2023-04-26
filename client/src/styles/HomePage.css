@@ -1,4 +1,4 @@
-.homepage_main-img {
+/* .homepage_main-img {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -215,4 +215,18 @@
 
 .media_btn:hover {
   color: #fff;
+} */
+
+@media only screen and (max-width: 700px) {
+  .homepage_main-img {
+    width: 100% !important;
+  }
+
+  .homepage_main-component {
+    margin-top: 20px !important;
+  }
+
+  .homepage_best-seller {
+    justify-content: center !important;
+  }
 }

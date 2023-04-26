@@ -40,10 +40,10 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  height: 120px;
   background-color: #f7f8fa;
   padding: 20px;
   box-sizing: border-box;
+  flex-wrap: wrap;
 }
 
 .my-order_item > .MuiStack-root {
@@ -72,9 +72,12 @@
 
 .my-order_item-detail > .MuiStack-root {
   width: 100%;
-  height: 120px;
+  /* height: 120px; */
   padding: 20px 0;
   border-bottom: 1px solid #e3eaf2;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 #last-item {
@@ -89,25 +92,59 @@
   width: 120px;
 }
 
-.item-detail .MuiStack-root:nth-child(2) {
+.item-detail .MuiStack-root:nth-child(1) {
+  min-width: 250px;
   margin-left: 20px;
-  max-height: 100px;
   max-width: 40%;
 }
 
-.item-detail .MuiStack-root:nth-child(2) .MuiTypography-root:nth-child(1) {
+.item-detail .MuiStack-root:nth-child(1) .MuiTypography-root:nth-child(1) {
   font-size: 18px;
   font-weight: 600;
 }
 
-.item-detail .MuiButton-root:nth-child(3) {
-  position: absolute;
-  right: 0px;
-  top: 50%;
-  transform: translateY(-50%);  
+.item-detail .MuiButton-root:nth-child(2) {
   width: 20%;
+  min-width: 145px;
+  max-height: 50px;
   border-radius: 0;
   padding: 10px 20px;
   color: #fff;
   background-color: #000;
+}
+
+.my-order_detail b {
+  font-weight: 600;
+}
+
+@media only screen and (max-width: 1033px) {
+  .my-order_item > .MuiStack-root:nth-child(2) .MuiTypography-root {
+    text-align: left;
+  }
+}
+
+@media only screen and (max-width: 1250px) {
+  .my-order_wrapper {
+    margin-top: 110px;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .my-order_item-detail > .MuiStack-root {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .item-detail .MuiButton-root:nth-child(2) {
+    max-height: 80px;
+  }
+  .item-detail .MuiStack-root:nth-child(1) {
+    margin-bottom: 30px;
+  }
+}
+
+@media only screen and (max-width: 660px) {
+  .my-order_wrapper {
+    margin-top: 130px;
+  }
 }

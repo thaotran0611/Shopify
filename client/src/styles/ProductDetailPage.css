@@ -58,10 +58,12 @@
   padding: 6px 32px 16px;
   display: flex;
   direction: row;
+  flex-wrap: wrap;
 }
 
 .product-detail_main-img {
-  width: 600px;
+  width: 30vw;
+  min-width: 450px;
 }
 
 .product-detail_main-img img {
@@ -70,7 +72,8 @@
 }
 
 .product-detail_main-detail {
-  padding-left: 40px;
+  max-width: 470px;
+  margin-left: 40px;
   padding-top: 20px;
 }
 
@@ -151,6 +154,8 @@
 }
 
 .product-detail_main-detail .MuiStack-root:nth-child(7) {
+  display: flex;
+  flex-wrap: wrap;
   margin-top: 20px;
 }
 
@@ -443,4 +448,106 @@
   position: absolute;
   margin-left: 4px;
   margin-top: 4px;
+}
+
+.product-detail_main-img .product-detail_side_respon {
+  display: none;
+  max-height: 150px;
+  margin-top: 20px;
+}
+
+.product-detail_main-img .product-detail_side_respon .MuiButtonBase-root {
+  box-sizing: border-box;
+}
+
+.product-detail_side_respon .MuiButtonBase-root .MuiCardMedia-root {
+  height: 130px;
+}
+
+.product-detail_comment-header .MuiButtonBase-root:nth-child(1) {
+  margin-left: 0;
+}
+
+@media only screen and (max-width: 1500px) {
+  .product-detail_main-img .product-detail_side_respon {
+    display: flex !important;
+    flex-direction: row !important;
+  }
+  .product-detail_content-side {
+    display: none !important;
+  }
+  .product-detail_wrapper {
+    padding-bottom: 0px;
+  }
+}
+
+@media only screen and (max-width: 1312px) {
+  .product-detail_main {
+    justify-content: left;
+    padding-left: 0;
+  }
+  .product-detail_main-img {
+    width: 30vw;
+    min-width: 600px;
+  }
+  .product-detail_main-detail {
+    margin-left: 0px;
+  }
+}
+
+@media only screen and (max-width: 1250px) {
+  .product-detail_wrapper {
+    margin-top: 130px; 
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .product-detail_wrapper {
+    margin-top: 80px; 
+  }
+}
+
+@media only screen and (max-width: 660px) {
+  .product-detail_wrapper {
+    margin-top: 120px; 
+  }
+}
+
+@media only screen and (max-width: 750px) {
+  .product-detail_main-detail {
+    margin-left: 0px;
+  }
+  .product-detail_comment-header .MuiButtonBase-root {
+    font-size: 14px;
+    padding: 5px 5px;
+  }
+  .product-detail_comment {
+    padding-top: 20px;
+  }
+  .product-detail_main-img {
+    width: 100%;
+    max-width: 80vw;
+    min-width: 80vw;
+  }
+  .product-detail_main-img .product-detail_side_respon {
+    max-height: 150px;
+    margin-top: 20px;
+  }
+}
+
+@media only screen and (max-width: 825px) {
+  .product-detail_content-side .MuiButtonBase-root .MuiCardMedia-root {
+    max-width: 80px;
+    max-height: 80px;
+  }
+  .product-detail_main-img .product-detail_side_respon .MuiButtonBase-root {
+    width: 100px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .product-detail_main-detail .MuiStack-root:nth-child(7) .MuiButtonBase-root:nth-child(2) {
+    margin-left: 0;
+    margin-top: 20px;
+  }
 }

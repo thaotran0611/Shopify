@@ -1,4 +1,4 @@
-.header_container {
+/* .header_container {
   position: fixed;
   background-color: #fff;
   padding-top: 16px;
@@ -71,4 +71,64 @@
 
 .header_container .MuiToolbar-root:nth-child(2) .MuiButton-root:nth-child(1) {
   margin-left: 68px;
+} */
+
+.header_ctn .MuiToolbar-root > .MuiIconButton-root {
+  display: none;
+}
+
+.header_person-icon {
+  display: none !important;
+}
+
+.header_search-btn {
+  display: none !important;
+}
+
+@media only screen and (max-width: 1200px) {
+  .header_ctn .header_navigation-bar {
+    display: none;
+  }
+  .header_ctn .MuiToolbar-root > .MuiIconButton-root {
+    display: block;
+  }
+  .header_user-txt {
+    display: none;
+  }
+  .header_person-icon {
+    display: block !important;
+  }
+  .header_search-btn {
+    display: block;
+  }
+  .header_ctn .header_search-field {
+    display: none;
+  }
+  .header_user-btn:hover {
+    background-color: #fff !important;
+    color: #000 !important;
+  }
+}
+
+@media only screen and (max-width: 1250px) {
+  .header_ctn .header_search-field {
+    display: none;
+  }
+  .header_search-btn {
+    display: block !important;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .header_ctn > .MuiToolbar-root:nth-child(1) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .header_user-icons {
+    margin: 0 !important;
+  }
+  .header_not-login {
+    margin: 0 !important;
+  }
 }

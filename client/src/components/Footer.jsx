@@ -17,7 +17,7 @@ export const Footer = () => {
       <Box className="footer_container">
         <Box>
           <Grid container className='footer_grid'>
-            <Grid item xs={3}>
+            <Grid item lg={3} md={4} sm={6} xs={12} sx={{ mb: '20px' }}>
               <Stack>
                 {['SHOPIFY', '685 Market Street', 'San Francisc, CA 94105', 'United States'].map((text, index) => (
                   <Typography 
@@ -29,7 +29,7 @@ export const Footer = () => {
                 ))}
               </Stack>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item lg={2} md={4} sm={6} xs={12} sx={{ mb: '20px' }}>
               <Stack>
                 {['Company', 'About', 'All Products', 'Location', 'FAQ', 'Contact Us'].map((text, index) => (
                   <Typography 
@@ -41,7 +41,7 @@ export const Footer = () => {
                 ))}
               </Stack>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item lg={2} md={4} sm={6} xs={12} sx={{ mb: '20px' }}>
               <Stack>
                 {['Delivery & Collection', 'How to Return', 'Return Policy', 'Refunds', 'Delivery FAQs', 'Site Map'].map((text, index) => (
                   <Typography 
@@ -53,7 +53,7 @@ export const Footer = () => {
                 ))}
               </Stack>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item lg={2} md={6} sm={6} xs={12} sx={{ mb: '20px' }}>
               <Stack>
                 {['Help', 'Security', 'Privacy', 'Accessibility', 'Terms & Conditions', 'Size Guild'].map((text, index) => (
                   <Typography 
@@ -65,7 +65,7 @@ export const Footer = () => {
                 ))}
               </Stack>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item lg={3} md={6} xs={12}>
               <Stack>
                 <Typography variant="h6">
                   Newsletter

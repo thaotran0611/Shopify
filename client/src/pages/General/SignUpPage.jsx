@@ -18,6 +18,8 @@ import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import '../../styles/SignUpPage.css';
+
 export const SignUpPage = () => {
   const navigate = useNavigate();
   const [invisible, setInvisible] = useState(true);
@@ -79,7 +81,9 @@ export const SignUpPage = () => {
         justifyContent="center"
         alignItems="center"
         mt={20}
-        mb={5}>
+        mb={5}
+        className="sign-up_ctn"
+      >
         <Box direction="column">
           <Typography
             gutterBottom
@@ -94,6 +98,7 @@ export const SignUpPage = () => {
             component="div"
             sx={{ fontSize: 20, textAlign: 'center' }}>
             Already have an account?
+            <br className='sign-up_break-page'/>
             <Typography
               component="span"
               sx={{ fontSize: 20, fontWeight: 700, pl: 1, cursor: 'pointer' }}
@@ -101,7 +106,15 @@ export const SignUpPage = () => {
               Log in
             </Typography>
           </Typography>
-          <Stack sx={{ width: '500px', boxShadow: 3, p: 5, my: 3 }}>
+          <Stack 
+            sx={{ 
+              width: '500px', 
+              boxShadow: 3, 
+              p: 5, 
+              my: 3 
+            }}
+            className="sign-up_form"
+          >
             <TextField
               placeholder="Your Name"
               value={name}
@@ -192,24 +205,28 @@ export const SignUpPage = () => {
             <FormControlLabel
               label={
                 <div>
-                  <span>Yes, I agree with </span>
+                  <span className='sign-up_policy'>Yes, I agree with </span>
                   <Link
                     to={'/terms'}
                     sx={{
                       fontWeight: 700,
                       textDecoration: 'none',
                       color: '#000',
-                    }}>
+                    }}
+                    className='sign-up_policy'
+                  >
                     Privacy Policy
                   </Link>
-                  <span> and </span>
+                  <span className='sign-up_policy'> and </span>
                   <Link
                     to={'/privacy'}
                     sx={{
                       fontWeight: 700,
                       textDecoration: 'none',
                       color: '#000',
-                    }}>
+                    }}
+                    className='sign-up_policy'
+                  >
                     Terms of Use
                   </Link>
                 </div>

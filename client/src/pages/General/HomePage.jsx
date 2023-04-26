@@ -13,6 +13,8 @@ import {
   Button,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import Carousel from 'react-material-ui-carousel';
+import './../../styles/HomePage.css'
 export const HomePage = ({ setLoggedIn }) => {
   const [products, setProducts] = useState([]);
   useEffect(() => {
@@ -142,8 +144,15 @@ export const HomePage = ({ setLoggedIn }) => {
       },
     ];
     const brandData = brands.map((brand, index) => (
-      <Grid item xs={3} key={index}>
-        <Card elevation={0}>
+      <Grid item xs={12} md={6} lg={3} key={index}>
+        <Card 
+          sx={{
+            display: 'flex',
+            alignContent: 'center',
+            justifyContent: 'center'
+          }}
+          elevation={0}
+        >
           <CardMedia
             component="img"
             image={brand.logo}
@@ -197,17 +206,46 @@ export const HomePage = ({ setLoggedIn }) => {
       {products && (
         <div>
           <Box display="flex" justifyContent="center" alignItems="center">
-            <Box sx={{ width: '80%', mt: 22 }}>
+            <Box sx={{ width: '80%', mt: 22 }} className='homepage_main-img'>
               <Card elevation={0}>
-                <CardMedia
-                  component="img"
-                  image="https://img.freepik.com/premium-vector/best-season-sale-banner-design-template_2239-1175.jpg?w=2000"
-                  alt="unsplash img"
-                  sx={{
-                    height: '70vh',
-                    objectFit: 'fill',
-                  }}
-                />
+                <Carousel>
+                  <CardMedia
+                    component="img"
+                    image="https://big.com.my/wp-content/uploads/2022/10/Gift-Voucher-Advertisement-Website_B.I.G-1945x720-V2.png"
+                    alt="unsplash img"
+                    sx={{
+                      height: '30vw',
+                      objectFit: 'fill',
+                    }}
+                  />
+                  <CardMedia
+                    component="img"
+                    image="https://images.bloggiamgia.vn/full/10-02-2023/Shopee-sale-25-1676013217981.png"
+                    alt="unsplash img"
+                    sx={{
+                      height: '30vw',
+                      objectFit: 'fill',
+                    }}
+                  />
+                  <CardMedia
+                    component="img"
+                    image="https://s3.envato.com/files/212168049/Preview%20Images%20Set/02.%20Fashion%20Gift%20Voucher%20Vol.01%20-%20Front-01.jpg"
+                    alt="unsplash img"
+                    sx={{
+                      height: '30vw',
+                      objectFit: 'fill',
+                    }}
+                  />
+                  <CardMedia
+                    component="img"
+                    image="https://img.freepik.com/premium-vector/best-season-sale-banner-design-template_2239-1175.jpg?w=2000"
+                    alt="unsplash img"
+                    sx={{
+                      height: '30vw',
+                      objectFit: 'fill',
+                    }}
+                  />
+                </Carousel>
               </Card>
             </Box>
           </Box>
@@ -215,6 +253,7 @@ export const HomePage = ({ setLoggedIn }) => {
             display="flex"
             justifyContent="center"
             alignItems="center"
+            className="homepage_main-component"
             sx={{ mt: 15 }}>
             <Box sx={{ width: '80%' }}>
               <Typography
@@ -232,7 +271,9 @@ export const HomePage = ({ setLoggedIn }) => {
                   justifyContent: 'space-between',
                   alignItems: 'center',
                   flexWrap: 'wrap',
-                }}>
+                }}
+                className="homepage_best-seller"
+              >
                 <RenderBestSeller />
               </Stack>
             </Box>
@@ -243,6 +284,7 @@ export const HomePage = ({ setLoggedIn }) => {
               display="flex"
               justifyContent="space-between"
               alignItems="center"
+              className="homepage_main-component"
               sx={{ width: '80%', mt: 10 }}>
               <Card elevation={0} sx={{ width: '49%' }}>
                 <CardMedia
@@ -270,6 +312,7 @@ export const HomePage = ({ setLoggedIn }) => {
             display="flex"
             justifyContent="center"
             alignItems="center"
+            className="homepage_main-component"
             sx={{ mt: 15 }}>
             <Box sx={{ width: '80%' }}>
               <Typography
@@ -287,7 +330,9 @@ export const HomePage = ({ setLoggedIn }) => {
                   justifyContent: 'space-between',
                   alignItems: 'center',
                   flexWrap: 'wrap',
-                }}>
+                }}
+                className="homepage_best-seller"
+              >
                 <RenderBestSeller />
               </Stack>
             </Box>
@@ -296,7 +341,9 @@ export const HomePage = ({ setLoggedIn }) => {
             display="flex"
             justifyContent="center"
             alignItems="center"
-            sx={{ mt: 15 }}>
+            sx={{ mt: 15 }}
+            className="homepage_main-component"
+          >
             <Box sx={{ width: '80%' }}>
               <Typography
                 gutterBottom
@@ -305,19 +352,29 @@ export const HomePage = ({ setLoggedIn }) => {
                 sx={{ fontSize: 40, fontWeight: 700 }}>
                 Explore Our Brand
               </Typography>
-              <Grid container spacing={2}>
+              <Grid 
+                container 
+                spacing={2}
+                justifyContent="center"
+              >
                 <RenderGrid />
               </Grid>
             </Box>
           </Box>
-          <Box sx={{ width: '100%', mt: 10 }}>
+          <Box 
+            sx={{ 
+              width: '100%', 
+              mt: 10 
+            }}
+            className="homepage_main-component"
+          >
             <Card elevation={0}>
               <CardMedia
                 component="img"
                 image="https://raw.githubusercontent.com/anduckhmt146/resource/master/public/342507301_9245703945471694_8487561683018262835_n.png"
                 alt="unsplash img"
                 sx={{
-                  height: '100vh',
+                  height: '45vw',
                   border: '1px solid #f3f4f6',
                 }}
               />
@@ -329,14 +386,24 @@ export const HomePage = ({ setLoggedIn }) => {
             display="flex"
             justifyContent="center"
             alignItems="center"
-            flexDirection="column">
+            flexDirection="column"
+            className="homepage_main-component"
+          >
             <Typography mb={2}>Follow Us</Typography>
-            <Stack direction="row">
+            <Stack 
+              direction="row"
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexWrap: 'wrap'
+              }}
+            >
               <RenderFollowBtn />
             </Stack>
           </Box>
-        </div>
-      )}
+        </div>)
+      }
     </React.Fragment>
   );
 };

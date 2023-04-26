@@ -54,23 +54,22 @@ export const MyOrderPage = () => {
           </Stack>
         </Stack>
         <Stack className="my-order_item-detail">
-          <Stack direction="row" className="item-detail">
-            <Box></Box>
+          <Stack className="item-detail">
             <Stack>
               <Typography>
                 <b>Customer: {order.NAME}</b>
               </Typography>
               <Typography>
-                <b>Phone: {order.RECEIVE_PHONE}</b>
+                <b>Phone:</b> {order.RECEIVE_PHONE}
               </Typography>
               <Typography>
-                <b>Address: {order.RECEIVE_ADDRESS}</b>
+                <b>Address:</b> {order.RECEIVE_ADDRESS}
               </Typography>
               <Typography>
-                <b>Total Product: {order.TOTAL_PRODUCT} </b>
+                <b>Total Product:</b> {order.TOTAL_PRODUCT}
               </Typography>
               <Typography>
-                <b>Price: $ {order.TOTAL_COST} </b>
+                <b>Price:</b> $ {order.TOTAL_COST}
               </Typography>
             </Stack>
             <Button

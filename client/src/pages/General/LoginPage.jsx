@@ -15,6 +15,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
+import '../../styles/LoginPage.css';
 
 export const LoginPage = ({ setLoggedIn }) => {
   const navigate = useNavigate();
@@ -68,8 +69,10 @@ export const LoginPage = ({ setLoggedIn }) => {
         display="flex"
         justifyContent="center"
         alignItems="center"
-        mt={30}
-        mb={10}>
+        mt={20}
+        mb={10}
+        className="login_ctn"
+      >
         <Box direction="column">
           <Typography
             gutterBottom
@@ -83,7 +86,8 @@ export const LoginPage = ({ setLoggedIn }) => {
             variant="h6"
             component="div"
             sx={{ fontSize: 20, textAlign: 'center' }}>
-            Don't have an account yet?
+            Don't have an account yet? 
+            <br className='login_break-page'/>
             <Typography
               component="span"
               sx={{ fontSize: 20, fontWeight: 700, pl: 1, cursor: 'pointer' }}
@@ -91,7 +95,15 @@ export const LoginPage = ({ setLoggedIn }) => {
               Create an account
             </Typography>
           </Typography>
-          <Stack sx={{ width: '450px', boxShadow: 3, p: 5, mt: 3 }}>
+          <Stack 
+            sx={{ 
+              width: '450px', 
+              boxShadow: 3, 
+              p: 5, 
+              mt: 3 
+            }}
+            className="login_form"
+          >
             <TextField
               placeholder="Username"
               sx={{ backgroundColor: '#f7f8fa' }}

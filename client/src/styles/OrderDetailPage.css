@@ -27,26 +27,25 @@
   margin-bottom: 20px;
 }
 
-.order-status_detail {
-  width: 100%;
-  height: 100px;
-  background-color: #f7f8fa;
+.order-status_content > .MuiBox-root:nth-child(1) > .MuiButton-root {
+  max-height: 50px;
 }
 
 .order-status_detail {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  height: 100px;
   background-color: #f7f8fa;
   padding: 20px;
   box-sizing: border-box;
+  flex-wrap: wrap;
 }
 
 .order-status_detail > .MuiStack-root {
   display: flex;
   align-items: left;
   justify-content: center;
+  min-width: 153px;
 }
 
 .order-status_detail > .MuiStack-root:nth-child(1) .MuiTypography-root:nth-child(1) {
@@ -60,6 +59,7 @@
 }
 
 .order-status_timeline-ctn {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -104,9 +104,12 @@
 
 .timeline-items > .MuiStack-root {
   width: 100%;
-  height: 120px;
+  /* max-eight: 120px; */
   padding: 20px 0;
   border-bottom: 1px solid #e3eaf2;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 #last-item {
@@ -115,25 +118,82 @@
 
 .timeline-items .MuiCardMedia-root {
   width: 120px;
+  margin-right: 20px;
 }
 
-.timeline-item .MuiStack-root:nth-child(2) {
-  margin-left: 20px;
-  max-height: 100px;
-  max-width: 40%;
+.timeline-item > .MuiTypography-root:nth-child(2) {
+  padding: 0 20px;
+  box-sizing: border-box;
 }
 
-.timeline-item .MuiStack-root:nth-child(2) .MuiTypography-root:nth-child(1) {
-  font-size: 18px;
-  font-weight: 600;
+.timeline-item > .MuiTypography-root:nth-child(3) {
+  padding: 0 20px;
+  box-sizing: border-box;
 }
 
-.timeline-item .MuiTypography-root:nth-child(3) {
-  padding-top: 4px;
-  margin-left: 13vw;
+@media only screen and (max-width: 839px) {
+  .timeline-item > .MuiTypography-root:nth-child(3) {
+    margin-top: 20px;
+    width: 300px;
+    padding-left: 0;
+  }
 }
 
-.timeline-item .MuiTypography-root:nth-child(4) {
-  font-size: 20px;
-  margin-left: 19vw;
+@media only screen and (max-width: 579px) {
+  .timeline-item > .MuiTypography-root:nth-child(2) {
+    margin-top: 20px;
+    width: 200px;
+    padding-left: 0;
+  }
+  .timeline-item > .MuiTypography-root:nth-child(3) {
+    margin-top: 10px;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .order-status_timeline {
+    rotate: -180deg;
+  }
+  .timeline-content {
+    margin-left: 80px;
+    text-align: left;
+    rotate: -180deg;
+  }
+  .order-status_timeline-ctn {
+    padding-top: 50px;
+    height: 500px;
+  }
+  .order-status_timeline {
+    position: absolute;
+    right: 15vw;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .order-status_wrapper {
+    margin-top: 90px;
+  }
+}
+
+@media only screen and (max-width: 660px) {
+  .order-status_wrapper {
+    margin-top: 130px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .order-status_timeline {
+    right: -15px;
+  }
+  .order-status_timeline-ctn {
+    padding-top: 0px;
+    height: 450px;
+  }
+  .timeline-items {
+    margin-top: 20px;
+  }
+  .order-status_content > .MuiBox-root:nth-child(1) {
+    display: flex;
+    align-items: center;
+  }  
 }

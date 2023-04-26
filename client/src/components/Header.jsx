@@ -12,21 +12,34 @@ import {
   InputAdornment,
   Box,
   CardMedia,
+  IconButton,
+  Drawer,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary
 } from '@mui/material';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import LogoutIcon from '@mui/icons-material/Logout';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import PersonIcon from '@mui/icons-material/Person';
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import SearchIcon from '@mui/icons-material/Search';
+import './../styles/Header.css'
 import axios from 'axios';
 
 export const Header = ({ loggedIn, setLoggedIn }) => {
   const navigate = useNavigate();
+
   const [cateState, setCateState] = useState(false);
   const [colState, setColState] = useState(false);
+  const [openDrawer, setOpenDrawer] = useState(false);
   const [categories, setCategories] = useState([]);
   const [collections, setCollections] = useState([]);
   const [cartNumber, setCartNumber] = useState(0);
+
   const getCategories = async () => {
     return axios
       .get('http://localhost:8080/api/products/categories')
@@ -76,10 +89,137 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
     navigate('/login');
   };
 
+  const RenderSideButton = () => {
+    return (
+      <React.Fragment>
+        <Typography
+          onClick={() => {navigate('/home'); setOpenDrawer(false)}}
+          sx={{
+            py: 2,
+            px: 3.2,
+            fontWeight: 600,
+            cursor: 'pointer',
+            '&:hover': {
+              color: '#4bc1f4',
+            },
+            borderBottom: '1px solid #dcdcdc'
+          }}
+        >
+          TRANG CHỦ
+        </Typography>
+        <Typography
+          onClick={() => {navigate('/aboutus'); setOpenDrawer(false)}}
+          sx={{
+            py: 2,
+            px: 3.2,
+            fontWeight: 600,
+            cursor: 'pointer',
+            '&:hover': {
+              color: '#4bc1f4',
+            },
+            borderBottom: '1px solid #dcdcdc'
+          }}
+        >
+          GIỚI THIỆU
+        </Typography>
+        <Typography
+          onClick={() => {navigate('/product'); setOpenDrawer(false)}}
+          sx={{
+            py: 2,
+            px: 3.2,
+            fontWeight: 600,
+            cursor: 'pointer',
+            '&:hover': {
+              color: '#4bc1f4',
+            },
+            borderBottom: '1px solid #dcdcdc'
+          }}
+        >
+          SẢN PHẨM
+        </Typography>
+        <Accordion sx={{ px: '10px', py: '5px' }}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel2a-content"
+            id="panel2a-header"
+          >
+            <Typography 
+              sx={{
+                fontWeight: 600,
+                cursor: 'pointer',
+                '&:hover': {
+                  color: '#4bc1f4',
+                }
+              }}
+            >
+              PHÂN LOẠI
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            {categories.map((text, index) => (
+              <Typography
+                onClick={() => {navigate('/product'); setOpenDrawer(false)}}
+                key={index}
+                sx={{
+                  p: '10px',
+                  cursor: 'pointer',
+                  '&:hover': {
+                    color: '#4bc1f4',
+                  }
+                }}
+              >
+                {text}
+              </Typography>
+            ))}
+          </AccordionDetails>
+        </Accordion>
+        <Accordion sx={{ px: '10px', py: '5px' }}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel2a-content"
+            id="panel2a-header"
+          >
+            <Typography
+              sx={{
+                fontWeight: 600,
+                cursor: 'pointer',
+                '&:hover': {
+                  color: '#4bc1f4',
+                }
+              }}
+            >
+              BỘ SƯU TẬP
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            {collections.map((text, index) => (
+              <Typography
+                onClick={() => {navigate('/product'); setOpenDrawer(false)}}
+                key={index}
+                sx={{
+                  p: '10px',
+                  cursor: 'pointer',
+                  '&:hover': {
+                    color: '#4bc1f4',
+                  }
+                }}
+              >
+                {text}
+              </Typography>
+            ))}
+          </AccordionDetails>
+        </Accordion>
+      </React.Fragment>
+    )
+  }
+
   return (
     <React.Fragment>
-      <AppBar sx={{ background: '#fff', pt: 2 }}>
-        <Toolbar>
+      <AppBar sx={{ background: '#fff', pt: 2 }} className="header_ctn">
+        <Toolbar sx={{ position: 'relative' }}>
+          <IconButton sx={{ position: 'absolute', top: '10px', left: '20px' }} onClick={() => setOpenDrawer(true)}>
+            <MenuIcon sx={{fontSize: '30px'}} />
+          </IconButton>
           <Typography
             variant="h6"
             noWrap
@@ -91,6 +231,7 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
               color: '#000',
               fontStyle: 'italic',
               fontWeight: 800,
+              minWidth: '200px'
             }}>
             SHOPIFY
           </Typography>
@@ -112,10 +253,23 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
                 backgroundColor: '#f6f6f6',
                 mr: 2,
               }}
+              className='header_search-field'
             />
           )}
           {sessionStorage.getItem('user') && (
-            <Stack direction="row" sx={{ mr: 10 }}>
+            <Stack className='header_user-icons' direction="row" sx={{ mr: 10 }}>
+              <IconButton
+                disableFocusRipple
+                disableRipple
+                className='header_search-btn header_user-btn'
+                sx={{
+                  color: "#000",
+                  pr: 3.5,
+                  mt: 1.3
+                }}
+              >
+                <SearchIcon />
+              </IconButton>
               <Button
                 variant="contained"
                 startIcon={
@@ -132,12 +286,20 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
                   '&:hover': {
                     color: '#fff',
                   },
-                }}>
-                Giỏ hàng
+                }}
+                className="header_user-btn"
+                disableFocusRipple
+                disableRipple
+              >
+                <p className="header_user-txt">Giỏ hàng</p>
               </Button>
               <Button
                 variant="contained"
-                startIcon={<ShoppingBagOutlinedIcon />}
+                startIcon={
+                  <Badge badgeContent={cartNumber} color="error">
+                    <ShoppingBagOutlinedIcon />
+                  </Badge>
+                }
                 disableElevation
                 onClick={() => navigate('/order')}
                 sx={{
@@ -147,8 +309,12 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
                   '&:hover': {
                     color: '#fff',
                   },
-                }}>
-                Đơn hàng
+                }}
+                className="header_user-btn"
+                disableFocusRipple
+                disableRipple
+              >
+                <p className="header_user-txt">Đơn hàng</p>
               </Button>
               <Button
                 variant="contained"
@@ -162,11 +328,16 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
                   '&:hover': {
                     color: '#fff',
                   },
-                }}>
-                Đăng xuất
+                }}
+                className="header_user-btn"
+                disableFocusRipple
+                disableRipple
+              >
+                <p className="header_user-txt">Đăng xuất</p>
               </Button>
               <Button
                 variant="contained"
+                startIcon={<PersonIcon className='header_person-icon' />}
                 disableElevation
                 sx={{
                   background: 'inherit',
@@ -175,14 +346,20 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
                   '&:hover': {
                     color: '#fff',
                   },
-                }}>
-                {JSON.parse(sessionStorage.getItem('user')).name} -{' '}
-                {JSON.parse(sessionStorage.getItem('user')).role.toUpperCase()}
+                }}
+                className="header_user-btn"
+                disableFocusRipple
+                disableRipple
+              >
+                <p className="header_user-txt">
+                  {JSON.parse(sessionStorage.getItem('user')).name} -{' '}
+                  {JSON.parse(sessionStorage.getItem('user')).role.toUpperCase()}
+                </p>
               </Button>
             </Stack>
           )}
           {!sessionStorage.getItem('user') && (
-            <Stack direction="row" sx={{ mr: 10 }}>
+            <Stack className="header_not-login" direction="row" sx={{ mr: 10 }}>
               <Button
                 variant="contained"
                 startIcon={<PersonIcon />}
@@ -216,7 +393,7 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
             </Stack>
           )}
         </Toolbar>
-        <Toolbar>
+        <Toolbar className="header_navigation-bar">
           <Button
             disableElevation
             variant="contained"
@@ -440,6 +617,51 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
           </Box>
         )}
       </AppBar>
+      <Drawer
+        sx={{
+          width: '250px',
+          backgroundColor: '#fff',
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: '250px',
+            boxSizing: 'border-box',
+          },
+          position: 'relative',
+          transition: 'ease-out 0.3s !important'
+        }}
+        variant="persistent"
+        open={openDrawer}
+        className='header_drawer'
+      >
+        <IconButton
+          sx={{
+            position: 'absolute',
+            top: '5px',
+            right: '5px'
+          }}
+          onClick={() => setOpenDrawer(false)}
+        >
+          <CloseIcon />
+        </IconButton>
+        <Typography
+          display='flex'
+          alignItems='center'
+          sx={{
+            height: '60px',
+            fontSize: '35px',
+            pl: '25px',
+            py: '10px',
+            fontStyle: 'italic',
+            fontWeight: '800',
+            borderBottom: (openDrawer && '1px solid #000')
+          }}
+        >
+          SHOPIFY
+        </Typography>
+        <Stack>
+          <RenderSideButton />
+        </Stack>
+      </Drawer>
     </React.Fragment>
   );
 };
