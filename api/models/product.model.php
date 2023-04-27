@@ -27,7 +27,7 @@ class Product
     public function getProduct($id)
     {
         try {
-            $query = "SELECT CODE, NAME, MATERIAL, DESCRIPTION,PRICE, SALEOFF,IMG1,IMG2,IMG3,IMG4, GROUP_CONCAT(distinct(SIZE)) AS SIZE, GROUP_CONCAT(distinct(COLOR)) AS COLOR 
+            $query = "SELECT CODE, NAME, MATERIAL, DESCRIPTION,PRICE, SALEOFF,IMG1,IMG2,IMG3,IMG4, GROUP_CONCAT(distinct(SIZE)) AS SIZE, GROUP_CONCAT(distinct(COLOR) SEPARATOR '/') AS COLOR 
             FROM ltw.product 
             WHERE CODE = '$id'
             GROUP BY CODE, NAME, MATERIAL, DESCRIPTION,PRICE, SALEOFF,IMG1,IMG2,IMG3,IMG4;";

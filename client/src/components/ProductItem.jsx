@@ -96,12 +96,12 @@ export const ProductItem = (props) => {
       });
   }, [quant]);
   const handleEdit = (index) => {
-    if (quant <= 1) {
-      setQuant(1);
-    }
     if (index == 0) {
       setQuant(quant + 1);
     } else {
+      if (quant <= 0) {
+        return;
+      }
       setQuant(quant - 1);
     }
   };
@@ -114,11 +114,10 @@ export const ProductItem = (props) => {
         marginRight: 20,
         marginBottom: 30,
       }}
-      className="product-item_ctn"
-    >
-      <ProductDetail className='product-item_detail'>
-        <Image src={thumbNail} className='product-item_image' />
-        <Details className='product-item_detail-product'>
+      className="product-item_ctn">
+      <ProductDetail className="product-item_detail">
+        <Image src={thumbNail} className="product-item_image" />
+        <Details className="product-item_detail-product">
           <ProductName>
             <b className="product-item_bold">Tên sản phẩm:</b> {title}
           </ProductName>
@@ -136,7 +135,8 @@ export const ProductItem = (props) => {
             <b className="product-item_bold">Số lượng:</b> {quant}
           </ProductSize>
           <ProductSize>
-            <b className="product-item_bold">Giảm giá:</b> {saleOff * 100}%
+            <b className="product-item_bold">Giảm giá:</b>{' '}
+            {Math.round(saleOff * 100)}%
           </ProductSize>
           <ProductSize>
             <b>
@@ -151,7 +151,7 @@ export const ProductItem = (props) => {
           </ProductSize>
         </Details>
       </ProductDetail>
-      <Stack direction='row'>
+      <Stack direction="row">
         <IconButton
           aria-label="remove"
           size="large"

@@ -25,7 +25,7 @@ import {
   Rating,
   Pagination,
   Drawer,
-  IconButton
+  IconButton,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -38,7 +38,6 @@ import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 
 export const ProductPage = () => {
-
   const [price, setPrice] = useState(0);
   const [size, setSize] = useState('');
   const [products, setProducts] = useState([]);
@@ -239,10 +238,7 @@ export const ProductPage = () => {
               onChange={handleSize}
               aria-label="size">
               {['S', 'M', 'L', 'XL', 'XXL'].map((text) => (
-                <ToggleButton
-                  value={text}
-                  aria-label={text}
-                  disableRipple>
+                <ToggleButton value={text} aria-label={text} disableRipple>
                   {text}
                 </ToggleButton>
               ))}
@@ -283,8 +279,8 @@ export const ProductPage = () => {
           Filter
         </Button>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   return (
     <React.Fragment>
@@ -299,13 +295,11 @@ export const ProductPage = () => {
           </Stack>
           <Box className="product_content">
             <IconButton onClick={() => setOpenDrawer(true)}>
-              <TuneIcon/>
-              <Typography>
-                Bộ lọc
-              </Typography>
+              <TuneIcon />
+              <Typography>Bộ lọc</Typography>
             </IconButton>
             <Stack className="product_sidebar">
-              <RenderProductSidebar/>
+              <RenderProductSidebar />
             </Stack>
             <Snackbar
               open={open}
@@ -320,38 +314,13 @@ export const ProductPage = () => {
               </Alert>
             </Snackbar>
             <Box className="product_display" component="main">
-              <Stack className="product_header">
-                {/* <Typography>Showing 1-16 of 96 products</Typography> */}
-                <Autocomplete
-                  options={top100Films.map((option) => option.title)}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      variant="outlined"
-                      defaultValue={[top100Films[0]]}
-                      placeholder="Sort options"
-                      InputProps={{
-                        ...params.InputProps,
-                        startAdornment: (
-                          <>
-                            <InputAdornment position="start">
-                              <Typography>Sort by:</Typography>
-                            </InputAdornment>
-                            {params.InputProps.startAdornment}
-                          </>
-                        ),
-                      }}
-                    />
-                  )}
-                />
-              </Stack>
+              <Stack className="product_header"></Stack>
               <Box>
-                {products.length > 0 ? 
-                  <RenderProduct /> : 
-                  <Typography>
-                    No Result Found
-                  </Typography>
-                }
+                {products.length > 0 ? (
+                  <RenderProduct />
+                ) : (
+                  <Typography>No Result Found</Typography>
+                )}
               </Box>
               <Stack spacing={2}>
                 <Pagination count={3} shape="rounded" />
@@ -360,33 +329,15 @@ export const ProductPage = () => {
           </Box>
         </Box>
       </Box>
-      <Drawer
-        variant="persistent"
-        open={openDrawer}
-        className='product_drawer'
-      >
-        <Typography>
-          Bộ lọc
-        </Typography>
-        <IconButton
-          onClick={() => setOpenDrawer(false)}
-        >
+      <Drawer variant="persistent" open={openDrawer} className="product_drawer">
+        <Typography>Bộ lọc</Typography>
+        <IconButton onClick={() => setOpenDrawer(false)}>
           <CloseIcon />
         </IconButton>
         <Stack className="product_sidebar">
-          <RenderProductSidebar/>
+          <RenderProductSidebar />
         </Stack>
       </Drawer>
     </React.Fragment>
   );
 };
-
-const top100Films = [
-  { title: 'The Shawshank Redemption', year: 1994 },
-  { title: 'The Godfather', year: 1972 },
-  { title: 'The Godfather: Part II', year: 1974 },
-  { title: 'The Dark Knight', year: 2008 },
-  { title: '12 Angry Men', year: 1957 },
-  { title: "Schindler's List", year: 1993 },
-  { title: 'Pulp Fiction', year: 1994 },
-];

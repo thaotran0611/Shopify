@@ -86,8 +86,8 @@ export const ProductDetailPage = () => {
     return await getProducts().then((res) => {
       setProducts(res);
       setMainImg(res[0].IMG1);
-      setColor(res[0].COLOR.split(','));
-      setColorSelected(res[0].COLOR.split(',')[0]);
+      setColor(res[0].COLOR.split('/'));
+      setColorSelected(res[0].COLOR.split('/')[0]);
       setSize(res[0].SIZE.split(',')[0]);
     });
   };
@@ -95,14 +95,16 @@ export const ProductDetailPage = () => {
     getData();
   }, [code]);
   const handleQuantity = (index) => {
-    if (quantity <= 1) setQuantity(1);
-    if (quantity >= inStock) setQuantity(inStock);
-    else {
-      if (index == 0) {
-        setQuantity(quantity - 1);
-      } else {
-        setQuantity(quantity + 1);
+    if (index == 0) {
+      if (quantity <= 1) {
+        return;
       }
+      setQuantity(quantity - 1);
+    } else {
+      if (quantity >= inStock) {
+        return;
+      }
+      setQuantity(quantity + 1);
     }
   };
   const handleClickAdd = () => {
@@ -252,7 +254,10 @@ export const ProductDetailPage = () => {
       <Stack className="product-detail_comment-content">
         <Stack direction="row">
           <TextField id="standard-name" placeholder="Ask seller a question" />
-          <Button variant="contained" disableElevation  sx={{ maxHeight: '56px' }}>
+          <Button
+            variant="contained"
+            disableElevation
+            sx={{ maxHeight: '56px' }}>
             Ask Question
           </Button>
         </Stack>

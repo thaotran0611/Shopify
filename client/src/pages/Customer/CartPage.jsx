@@ -135,7 +135,9 @@ const PaymentForm = ({ cost, totalProduct }) => {
             }}>
             Thanh toán
           </Typography>
-          <Box style={{ width: '80%', margin: '20px auto' }} className="cart-page_textfield-ctn">
+          <Box
+            style={{ width: '80%', margin: '20px auto' }}
+            className="cart-page_textfield-ctn">
             <TextField
               id="outlined-basic"
               label="Họ tên"
@@ -245,32 +247,36 @@ const CartPage = () => {
   };
   const navigate = useNavigate();
   return (
-    <Container style={{ marginTop: 180 }} className='cart-page_wrapper'>
+    <Container style={{ marginTop: 180 }} className="cart-page_wrapper">
       <Wrapper>
         <Title style={{ fontSize: 30, fontWeight: 'bold' }}>
           ĐƠN HÀNG CỦA TÔI
         </Title>
         {!productData && <div></div>}
         {productData && (
-          <Bottom style={{ width: '80%', margin: '50px auto' }} className='cart-page_ctn'>
+          <Bottom
+            style={{ width: '80%', margin: '50px auto' }}
+            className="cart-page_ctn">
             <Info>
               {productData &&
                 productData.map((product) => (
                   <ProductItem
-                    id="CODE"
-                    thumbNail="IMG1"
-                    title="NAME"
-                    size="SIZE"
-                    color="COLOR"
-                    saleOff="SALEOFF"
-                    quantity="NUMBER"
-                    price="PRICE"
+                    id={product.CODE}
+                    thumbNail={product.IMG1}
+                    title={product.NAME}
+                    size={product.SIZE}
+                    color={product.COLOR}
+                    saleOff={product.SALEOFF}
+                    quantity={product.NUMBER}
+                    price={product.PRICE}
                   />
                 ))}
             </Info>
             {!productData && <div></div>}
             {productData && bill.length > 0 && (
-              <Box sx={{ width: '40%', margin: '0 auto', minWidth: '350px' }} className="cart-page_summary">
+              <Box
+                sx={{ width: '40%', margin: '0 auto', minWidth: '350px' }}
+                className="cart-page_summary">
                 <Summary>
                   <SummaryTitle>ORDER SUMMARY</SummaryTitle>
                   <SummaryItem>
