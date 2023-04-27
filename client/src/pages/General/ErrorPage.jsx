@@ -19,7 +19,7 @@ export const ErrorPage = () => {
         }}>
         <Container maxWidth="md">
           <Grid container spacing={2}>
-            <Grid item xs={6}>
+            <Grid item lg={6} xs={12}>
               <Typography variant="h1">404</Typography>
               <Typography variant="h6" sx={{ fontSize: 30, fontWeight: 600 }}>
                 Oops! Page not found
@@ -41,11 +41,11 @@ export const ErrorPage = () => {
                 Back to Homepage
               </Button>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item lg={6} xs={12}>
               <img
                 src="https://cdn.pixabay.com/photo/2017/03/09/12/31/error-2129569__340.jpg"
                 alt=""
-                width={500}
+                width="100%"
                 height={250}
               />
             </Grid>

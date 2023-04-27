@@ -11,6 +11,7 @@ import Alert from '@mui/material/Alert';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
+import '../../styles/CartPage.css';
 
 const Container = styled.div``;
 
@@ -122,7 +123,7 @@ const PaymentForm = ({ cost, totalProduct }) => {
         style={{
           boxShadow: 'rgba(0, 0, 0, 0.16) 0px 1px 4px',
           borderRadius: 5,
-          height: '65vh',
+          // height: '65vh',
         }}>
         <Box>
           <Typography
@@ -134,7 +135,7 @@ const PaymentForm = ({ cost, totalProduct }) => {
             }}>
             Thanh toán
           </Typography>
-          <Box style={{ width: '80%', margin: '20px auto' }}>
+          <Box style={{ width: '80%', margin: '20px auto' }} className="cart-page_textfield-ctn">
             <TextField
               id="outlined-basic"
               label="Họ tên"
@@ -142,7 +143,7 @@ const PaymentForm = ({ cost, totalProduct }) => {
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              style={{ width: 400, marginBottom: 20 }}
+              style={{ width: '100%', marginBottom: 20 }}
             />
             <TextField
               id="outlined-basic"
@@ -151,7 +152,7 @@ const PaymentForm = ({ cost, totalProduct }) => {
               required
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              style={{ width: 400, marginBottom: 20 }}
+              style={{ width: '100%', marginBottom: 20 }}
             />
             <TextField
               id="outlined-basic"
@@ -160,14 +161,14 @@ const PaymentForm = ({ cost, totalProduct }) => {
               required
               value={add}
               onChange={(e) => setAdd(e.target.value)}
-              style={{ width: 400, marginBottom: 20 }}
+              style={{ width: '100%', marginBottom: 20 }}
             />
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               value={payment}
               label="Payment"
-              style={{ width: 400, marginBottom: 20 }}
+              style={{ width: '100%', marginBottom: 20 }}
               onChange={(e) => setPayment(e.target.value)}>
               <MenuItem value={'cash'}>Cash</MenuItem>
               <MenuItem value={'momo'}>Momo</MenuItem>
@@ -176,7 +177,7 @@ const PaymentForm = ({ cost, totalProduct }) => {
               id="outlined-basic"
               label="Ghi chú"
               variant="outlined"
-              style={{ width: 400, marginBottom: 20 }}
+              style={{ width: '100%', marginBottom: 20 }}
               value={note}
               onChange={(e) => setNote(e.target.value)}
             />
@@ -184,7 +185,7 @@ const PaymentForm = ({ cost, totalProduct }) => {
               variant="contained"
               size="large"
               onClick={() => handleConfirmPayment()}
-              style={{ width: 400, marginBottom: 30 }}>
+              style={{ width: '100%', marginBottom: 30 }}>
               Xác nhận thanh toán
             </Button>
             <Snackbar
@@ -244,32 +245,32 @@ const CartPage = () => {
   };
   const navigate = useNavigate();
   return (
-    <Container style={{ marginTop: 180 }}>
+    <Container style={{ marginTop: 180 }} className='cart-page_wrapper'>
       <Wrapper>
         <Title style={{ fontSize: 30, fontWeight: 'bold' }}>
           ĐƠN HÀNG CỦA TÔI
         </Title>
         {!productData && <div></div>}
         {productData && (
-          <Bottom style={{ width: '80%', margin: '50px auto' }}>
+          <Bottom style={{ width: '80%', margin: '50px auto' }} className='cart-page_ctn'>
             <Info>
               {productData &&
                 productData.map((product) => (
                   <ProductItem
-                    id={product.CODE}
-                    thumbNail={product.IMG1}
-                    title={product.NAME}
-                    size={product.SIZE}
-                    color={product.COLOR}
-                    saleOff={product.SALEOFF}
-                    quantity={product.NUMBER}
-                    price={product.PRICE}
+                    id="CODE"
+                    thumbNail="IMG1"
+                    title="NAME"
+                    size="SIZE"
+                    color="COLOR"
+                    saleOff="SALEOFF"
+                    quantity="NUMBER"
+                    price="PRICE"
                   />
                 ))}
             </Info>
             {!productData && <div></div>}
             {productData && bill.length > 0 && (
-              <Box sx={{ width: '40%', margin: '0 auto' }}>
+              <Box sx={{ width: '40%', margin: '0 auto', minWidth: '350px' }} className="cart-page_summary">
                 <Summary>
                   <SummaryTitle>ORDER SUMMARY</SummaryTitle>
                   <SummaryItem>

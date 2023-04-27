@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material';
+import { Typography, Stack } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
@@ -8,6 +8,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import RemoveIcon from '@mui/icons-material/Remove';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import './../styles/ProductItem.css';
 
 const Product = styled.div`
   display: flex;
@@ -17,9 +18,12 @@ const Product = styled.div`
 const ProductDetail = styled.div`
   flex: 2;
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 `;
 
 const Image = styled.img`
+  min-height: 185px !important;
   width: 200px;
 `;
 
@@ -109,28 +113,30 @@ export const ProductItem = (props) => {
         borderRadius: 5,
         marginRight: 20,
         marginBottom: 30,
-      }}>
-      <ProductDetail>
-        <Image src={thumbNail} />
-        <Details>
+      }}
+      className="product-item_ctn"
+    >
+      <ProductDetail className='product-item_detail'>
+        <Image src={thumbNail} className='product-item_image' />
+        <Details className='product-item_detail-product'>
           <ProductName>
-            <b>Tên sản phẩm: {title}</b>
+            <b className="product-item_bold">Tên sản phẩm:</b> {title}
           </ProductName>
           <ProductId>
-            <b>Code: {id}</b>
+            <b className="product-item_bold">Code:</b> {id}
           </ProductId>
           <ProductId>
-            <b>Màu sắc: </b>
+            <b className="product-item_bold">Màu sắc:</b>
             <ProductColor color={color} />
           </ProductId>
           <ProductSize>
-            <b>Kích cỡ: {size}</b>
+            <b className="product-item_bold">Kích cỡ:</b> {size}
           </ProductSize>
           <ProductSize>
-            <b>Số lượng: {quant}</b>
+            <b className="product-item_bold">Số lượng:</b> {quant}
           </ProductSize>
           <ProductSize>
-            <b>Giảm giá: {saleOff * 100}%</b>
+            <b className="product-item_bold">Giảm giá:</b> {saleOff * 100}%
           </ProductSize>
           <ProductSize>
             <b>
@@ -145,29 +151,31 @@ export const ProductItem = (props) => {
           </ProductSize>
         </Details>
       </ProductDetail>
-      <IconButton
-        aria-label="remove"
-        size="large"
-        onClick={() => handleEdit(1)}>
-        <RemoveIcon fontSize="inherit" />
-      </IconButton>
-      <Typography
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        {quant}
-      </Typography>
-      <IconButton aria-label="add" size="large" onClick={() => handleEdit(0)}>
-        <AddIcon />
-      </IconButton>
-      <IconButton
-        aria-label="delete"
-        size="large"
-        onClick={() => handleDelete()}>
-        <DeleteIcon fontSize="inherit" />
-      </IconButton>
+      <Stack direction='row'>
+        <IconButton
+          aria-label="remove"
+          size="large"
+          onClick={() => handleEdit(1)}>
+          <RemoveIcon fontSize="inherit" />
+        </IconButton>
+        <Typography
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          {quant}
+        </Typography>
+        <IconButton aria-label="add" size="large" onClick={() => handleEdit(0)}>
+          <AddIcon />
+        </IconButton>
+        <IconButton
+          aria-label="delete"
+          size="large"
+          onClick={() => handleDelete()}>
+          <DeleteIcon fontSize="inherit" />
+        </IconButton>
+      </Stack>
     </Product>
   );
 };

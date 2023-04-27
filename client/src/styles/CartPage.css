@@ -1,0 +1,31 @@
+.cart-page_ctn {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+@media only screen and (max-width: 1034px) {
+  .cart-page_ctn > .MuiBox-root:nth-child(2) {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 580px) {
+  .cart-page_textfield-ctn {
+    margin: 0;
+  }
+  .cart-page_summary {
+    min-width: 200px !important;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .cart-page_wrapper {
+    margin-top: 110px !important;
+  }
+}
+
+@media only screen and (max-width: 643px) {
+  .cart-page_wrapper {
+    margin-top: 140px !important;
+  }
+}
