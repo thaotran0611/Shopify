@@ -16,7 +16,7 @@ import {
   Drawer,
   Accordion,
   AccordionDetails,
-  AccordionSummary
+  AccordionSummary,
 } from '@mui/material';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
@@ -27,7 +27,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SearchIcon from '@mui/icons-material/Search';
-import './../styles/Header.css'
+import './../styles/Header.css';
 import axios from 'axios';
 
 export const Header = ({ loggedIn, setLoggedIn }) => {
@@ -93,7 +93,10 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
     return (
       <React.Fragment>
         <Typography
-          onClick={() => {navigate('/home'); setOpenDrawer(false)}}
+          onClick={() => {
+            navigate('/home');
+            setOpenDrawer(false);
+          }}
           sx={{
             py: 2,
             px: 3.2,
@@ -102,13 +105,15 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
             '&:hover': {
               color: '#4bc1f4',
             },
-            borderBottom: '1px solid #dcdcdc'
-          }}
-        >
+            borderBottom: '1px solid #dcdcdc',
+          }}>
           TRANG CHỦ
         </Typography>
         <Typography
-          onClick={() => {navigate('/aboutus'); setOpenDrawer(false)}}
+          onClick={() => {
+            navigate('/aboutus');
+            setOpenDrawer(false);
+          }}
           sx={{
             py: 2,
             px: 3.2,
@@ -117,13 +122,15 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
             '&:hover': {
               color: '#4bc1f4',
             },
-            borderBottom: '1px solid #dcdcdc'
-          }}
-        >
+            borderBottom: '1px solid #dcdcdc',
+          }}>
           GIỚI THIỆU
         </Typography>
         <Typography
-          onClick={() => {navigate('/product'); setOpenDrawer(false)}}
+          onClick={() => {
+            navigate('/product');
+            setOpenDrawer(false);
+          }}
           sx={{
             py: 2,
             px: 3.2,
@@ -132,42 +139,41 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
             '&:hover': {
               color: '#4bc1f4',
             },
-            borderBottom: '1px solid #dcdcdc'
-          }}
-        >
+            borderBottom: '1px solid #dcdcdc',
+          }}>
           SẢN PHẨM
         </Typography>
         <Accordion sx={{ px: '10px', py: '5px' }}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel2a-content"
-            id="panel2a-header"
-          >
-            <Typography 
+            id="panel2a-header">
+            <Typography
               sx={{
                 fontWeight: 600,
                 cursor: 'pointer',
                 '&:hover': {
                   color: '#4bc1f4',
-                }
-              }}
-            >
+                },
+              }}>
               PHÂN LOẠI
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
             {categories.map((text, index) => (
               <Typography
-                onClick={() => {navigate('/product'); setOpenDrawer(false)}}
+                onClick={() => {
+                  navigate('/product');
+                  setOpenDrawer(false);
+                }}
                 key={index}
                 sx={{
                   p: '10px',
                   cursor: 'pointer',
                   '&:hover': {
                     color: '#4bc1f4',
-                  }
-                }}
-              >
+                  },
+                }}>
                 {text}
               </Typography>
             ))}
@@ -177,48 +183,50 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel2a-content"
-            id="panel2a-header"
-          >
+            id="panel2a-header">
             <Typography
               sx={{
                 fontWeight: 600,
                 cursor: 'pointer',
                 '&:hover': {
                   color: '#4bc1f4',
-                }
-              }}
-            >
+                },
+              }}>
               BỘ SƯU TẬP
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
             {collections.map((text, index) => (
               <Typography
-                onClick={() => {navigate('/product'); setOpenDrawer(false)}}
+                onClick={() => {
+                  navigate('/product');
+                  setOpenDrawer(false);
+                }}
                 key={index}
                 sx={{
                   p: '10px',
                   cursor: 'pointer',
                   '&:hover': {
                     color: '#4bc1f4',
-                  }
-                }}
-              >
+                  },
+                }}>
                 {text}
               </Typography>
             ))}
           </AccordionDetails>
         </Accordion>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   return (
     <React.Fragment>
       <AppBar sx={{ background: '#fff', pt: 2 }} className="header_ctn">
         <Toolbar sx={{ position: 'relative' }}>
-          <IconButton sx={{ position: 'absolute', top: '10px', left: '20px' }} onClick={() => setOpenDrawer(true)}>
-            <MenuIcon sx={{fontSize: '30px'}} />
+          <IconButton
+            sx={{ position: 'absolute', top: '10px', left: '20px' }}
+            onClick={() => setOpenDrawer(true)}>
+            <MenuIcon sx={{ fontSize: '30px' }} />
           </IconButton>
           <Typography
             variant="h6"
@@ -231,7 +239,7 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
               color: '#000',
               fontStyle: 'italic',
               fontWeight: 800,
-              minWidth: '200px'
+              minWidth: '200px',
             }}>
             SHOPIFY
           </Typography>
@@ -253,21 +261,23 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
                 backgroundColor: '#f6f6f6',
                 mr: 2,
               }}
-              className='header_search-field'
+              className="header_search-field"
             />
           )}
           {sessionStorage.getItem('user') && (
-            <Stack className='header_user-icons' direction="row" sx={{ mr: 10 }}>
+            <Stack
+              className="header_user-icons"
+              direction="row"
+              sx={{ mr: 10 }}>
               <IconButton
                 disableFocusRipple
                 disableRipple
-                className='header_search-btn header_user-btn'
+                className="header_search-btn header_user-btn"
                 sx={{
-                  color: "#000",
+                  color: '#000',
                   pr: 3.5,
-                  mt: 1.3
-                }}
-              >
+                  mt: 1.3,
+                }}>
                 <SearchIcon />
               </IconButton>
               <Button
@@ -289,14 +299,13 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
                 }}
                 className="header_user-btn"
                 disableFocusRipple
-                disableRipple
-              >
+                disableRipple>
                 <p className="header_user-txt">Giỏ hàng</p>
               </Button>
               <Button
                 variant="contained"
                 startIcon={
-                  <Badge badgeContent={cartNumber} color="error">
+                  <Badge>
                     <ShoppingBagOutlinedIcon />
                   </Badge>
                 }
@@ -312,8 +321,7 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
                 }}
                 className="header_user-btn"
                 disableFocusRipple
-                disableRipple
-              >
+                disableRipple>
                 <p className="header_user-txt">Đơn hàng</p>
               </Button>
               <Button
@@ -331,13 +339,12 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
                 }}
                 className="header_user-btn"
                 disableFocusRipple
-                disableRipple
-              >
+                disableRipple>
                 <p className="header_user-txt">Đăng xuất</p>
               </Button>
               <Button
                 variant="contained"
-                startIcon={<PersonIcon className='header_person-icon' />}
+                startIcon={<PersonIcon className="header_person-icon" />}
                 disableElevation
                 sx={{
                   background: 'inherit',
@@ -349,11 +356,12 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
                 }}
                 className="header_user-btn"
                 disableFocusRipple
-                disableRipple
-              >
+                disableRipple>
                 <p className="header_user-txt">
                   {JSON.parse(sessionStorage.getItem('user')).name} -{' '}
-                  {JSON.parse(sessionStorage.getItem('user')).role.toUpperCase()}
+                  {JSON.parse(
+                    sessionStorage.getItem('user')
+                  ).role.toUpperCase()}
                 </p>
               </Button>
             </Stack>
@@ -627,25 +635,23 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
             boxSizing: 'border-box',
           },
           position: 'relative',
-          transition: 'ease-out 0.3s !important'
+          transition: 'ease-out 0.3s !important',
         }}
         variant="persistent"
         open={openDrawer}
-        className='header_drawer'
-      >
+        className="header_drawer">
         <IconButton
           sx={{
             position: 'absolute',
             top: '5px',
-            right: '5px'
+            right: '5px',
           }}
-          onClick={() => setOpenDrawer(false)}
-        >
+          onClick={() => setOpenDrawer(false)}>
           <CloseIcon />
         </IconButton>
         <Typography
-          display='flex'
-          alignItems='center'
+          display="flex"
+          alignItems="center"
           sx={{
             height: '60px',
             fontSize: '35px',
@@ -653,9 +659,8 @@ export const Header = ({ loggedIn, setLoggedIn }) => {
             py: '10px',
             fontStyle: 'italic',
             fontWeight: '800',
-            borderBottom: (openDrawer && '1px solid #000')
-          }}
-        >
+            borderBottom: openDrawer && '1px solid #000',
+          }}>
           SHOPIFY
         </Typography>
         <Stack>
